@@ -62,8 +62,8 @@ csas_kable(
   align = c("l", "l"),
   caption = "Downgrade criteria codes used by the classification key."
 ) |>
-  kableExtra::column_spec(1, width = "4.0cm") |>
-  kableExtra::column_spec(2, width = "11.0cm")
+  csas_colspec(1, width = "4.0cm") |>
+  csas_colspec(2, width = "11.0cm")
 ```
 
 `r if (knitr::is_latex_output()) "\\\\clearpage"`
@@ -113,8 +113,8 @@ csas_kable(
   align = c("l", "l"),
   caption = "Glossary of key terms used in the updated estimate-type guidance."
 ) |>
-  kableExtra::column_spec(1, width = "4.0cm") |>
-  kableExtra::column_spec(2, width = "11.0cm")
+  csas_colspec(1, width = "4.0cm") |>
+  csas_colspec(2, width = "11.0cm")
 ```
 
 `r if (knitr::is_latex_output()) "\\\\clearpage"`
@@ -206,9 +206,9 @@ csas_kable(
   align = c("l", "c", "l"),
   caption = "Suggested mapping from NuSEDS enumeration method values to the updated key method families (FS, V, A, S, T, R, P, M)."
 ) |>
-  kableExtra::column_spec(1, width = "5.0cm") |>
-  kableExtra::column_spec(2, width = "1.5cm") |>
-  kableExtra::column_spec(3, width = "8.0cm")
+  csas_colspec(1, width = "5.0cm") |>
+  csas_colspec(2, width = "1.5cm") |>
+  csas_colspec(3, width = "8.0cm")
 }
 ```
 
@@ -335,10 +335,10 @@ csas_kable(
   align = c("l", "l", "c", "l"),
   caption = "Suggested interpretation of NuSEDS estimate method values under the updated guidance. Where 'depends' appears, additional method metadata are required to apply the key cleanly."
 ) |>
-  kableExtra::column_spec(1, width = "3.5cm") |>
-  kableExtra::column_spec(2, width = "4.5cm") |>
-  kableExtra::column_spec(3, width = "1.2cm") |>
-  kableExtra::column_spec(4, width = "4.5cm")
+  csas_colspec(1, width = "3.5cm") |>
+  csas_colspec(2, width = "4.5cm") |>
+  csas_colspec(3, width = "1.2cm") |>
+  csas_colspec(4, width = "4.5cm")
 }
 ```
 

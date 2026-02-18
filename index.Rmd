@@ -120,6 +120,16 @@ csas_kable <- function(x,
     )
   }
 }
+
+# Apply column width styling only for HTML/LaTeX outputs.
+# For docx/officedown, keep tables plain to avoid HTML widget leakage.
+csas_colspec <- function(tbl, column, width) {
+  if (knitr::is_html_output() || knitr::is_latex_output()) {
+    kableExtra::column_spec(tbl, column, width = width)
+  } else {
+    tbl
+  }
+}
 ```
 
 ```{r load-libraries, cache=FALSE}

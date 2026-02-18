@@ -27,8 +27,8 @@ csas_kable(
   align = c("l", "l"),
   caption = "Mapping of Hyatt (1997) intent to the updated, property-first key implementation."
 ) |>
-  kableExtra::column_spec(1, width = "5.0cm") |>
-  kableExtra::column_spec(2, width = "10.0cm")
+  csas_colspec(1, width = "5.0cm") |>
+  csas_colspec(2, width = "10.0cm")
 ```
 ## Decision key design
 
@@ -80,9 +80,9 @@ csas_kable(
   align = c("l", "l", "c"),
   caption = "Cross-repo implementation dependencies used by this technical report draft (pinned to toolkit commit 8eda70f)."
 ) |>
-  kableExtra::column_spec(1, width = "4.0cm") |>
-  kableExtra::column_spec(2, width = "8.0cm") |>
-  kableExtra::column_spec(3, width = "2.0cm")
+  csas_colspec(1, width = "4.0cm") |>
+  csas_colspec(2, width = "8.0cm") |>
+  csas_colspec(3, width = "2.0cm")
 ```
 
 ## Handling common complications raised in meetings
@@ -199,9 +199,9 @@ csas_kable(
   align = c("l", "l", "l"),
   caption = "NuSEDS fields relevant to estimate-type classification and how they relate to the updated guidance (see the NuSEDS data dictionary in docs/context/ if present)."
 ) |>
-  kableExtra::column_spec(1, width = "2.5cm") |>
-  kableExtra::column_spec(2, width = "5.5cm") |>
-  kableExtra::column_spec(3, width = "6.5cm")
+  csas_colspec(1, width = "2.5cm") |>
+  csas_colspec(2, width = "5.5cm") |>
+  csas_colspec(3, width = "6.5cm")
 ```
 
 ## Implementation and verification
@@ -235,7 +235,7 @@ csas_kable(
   align = c("c", "l", "c"),
   caption = "Method families encoded in the property-first key and the best attainable type before downgrades."
 ) |>
-  kableExtra::column_spec(1, width = "1.2cm") |>
-  kableExtra::column_spec(2, width = "10.8cm") |>
-  kableExtra::column_spec(3, width = "2.5cm")
+  csas_colspec(1, width = "1.2cm") |>
+  csas_colspec(2, width = "10.8cm") |>
+  csas_colspec(3, width = "2.5cm")
 ```

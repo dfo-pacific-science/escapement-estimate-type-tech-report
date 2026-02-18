@@ -68,8 +68,8 @@ csas_kable(
   align = c("l", "l"),
   caption = "Summary of the main updates relative to the current NuSEDS estimate-type table usage."
 ) |>
-  kableExtra::column_spec(1, width = "7.0cm") |>
-  kableExtra::column_spec(2, width = "8.0cm")
+  csas_colspec(1, width = "7.0cm") |>
+  csas_colspec(2, width = "8.0cm")
 ```
 
 ## Illustrative outcomes
@@ -116,7 +116,7 @@ csas_kable(
   align = c("l", "l", "l"),
   caption = "Illustrative classification outcomes from the property-first key."
 ) |>
-  kableExtra::column_spec(1, width = "3.8cm") |>
-  kableExtra::column_spec(2, width = "7.2cm") |>
-  kableExtra::column_spec(3, width = "3.8cm")
+  csas_colspec(1, width = "3.8cm") |>
+  csas_colspec(2, width = "7.2cm") |>
+  csas_colspec(3, width = "3.8cm")
 ```

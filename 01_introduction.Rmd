@@ -48,9 +48,9 @@ csas_kable(
   align = c("c", "l", "l", "l"),
   caption = "High-level summary of estimate Types 1--6 as originally intended by Hyatt (1997), using short descriptors for orientation."
 ) |>
-  kableExtra::column_spec(2, width = "3.0cm") |>
-  kableExtra::column_spec(3, width = "3.0cm") |>
-  kableExtra::column_spec(4, width = "7.5cm")
+  csas_colspec(2, width = "3.0cm") |>
+  csas_colspec(3, width = "3.0cm") |>
+  csas_colspec(4, width = "7.5cm")
 ```
 
 ## Why an update is needed now
