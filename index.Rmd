@@ -61,7 +61,7 @@ if (is_latex_output()) {
 }
 fig_asp <- 0.618
 fig_width <- 9
-fig_out_width <- "6in"
+fig_out_width <- if (is_latex_output() || is_html_output()) "6in" else NULL
 fig_dpi <- 180
 fig_align <- "center"
 fig_pos <- "htb"
@@ -74,7 +74,6 @@ opts_chunk$set(
   cache.path = knitr_cache_dir,
   fig.asp = fig_asp,
   fig.width = fig_width,
-  out.width = fig_out_width,
   echo = FALSE,
   cache.comments = FALSE,
   dev = fig_out_type,
@@ -82,6 +81,9 @@ opts_chunk$set(
   fig.align = fig_align,
   fig.pos = fig_pos
 )
+if (!is.null(fig_out_width)) {
+  opts_chunk$set(out.width = fig_out_width)
+}
 
 csas_kable <- function(x,
                        caption = NULL,
