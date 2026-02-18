@@ -1,6 +1,6 @@
 # Results
 
-The updated, property-first key is encoded in `matrix_key/structured_dichotomous_key.yaml` and produces a final estimate Type alongside downgrade flags. The same key is executed by the R classification engine and the Shiny app, ensuring one canonical implementation and a consistent interpretation of estimate-type guidance.
+The updated, property-first key is encoded in the companion toolkit repository (`dfo-pacific-science/smn-escapement-estimates-toolkit`) at `matrix_key/structured_dichotomous_key.yaml` (aligned to commit `8eda70f` in this draft) and produces a final estimate Type alongside downgrade flags. The same key is executed by the toolkit R classification engine and Shiny app, ensuring one canonical implementation and a consistent interpretation of estimate-type guidance.
 
 ## Key overview
 

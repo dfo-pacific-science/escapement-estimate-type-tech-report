@@ -31,7 +31,26 @@ The NuSEDS data dictionary includes qualitative `ACCURACY` and `PRECISION` field
 
 ## Governance and change control
 
-This guidance is encoded as a single decision key in `matrix_key/structured_dichotomous_key.yaml`. Any changes to thresholds, method families, or downgrade rules should be accompanied by updates to the path-testing script (`R/comprehensive_path_testing.R`) so behavior changes are deliberate and reviewable.
+This guidance is encoded as a single decision key in the companion toolkit repository (`smn-escapement-estimates-toolkit`), in `matrix_key/structured_dichotomous_key.yaml`. Any changes to thresholds, method families, or downgrade rules should be accompanied by updates to the toolkit path-testing script (`R/comprehensive_path_testing.R`) so behavior changes are deliberate and reviewable.
+
+## Pragmatic adoption and evidence plan
+
+A full empirical validation program is outside current resourcing. A lightweight plan can still provide practical evidence and improve uptake.
+
+1. **Track usage in-app (low burden)**
+   - Use the toolkit feedback form to capture optional usage intent (e.g., status assessment, technical report, operations) and organization/team.
+   - Summarize counts quarterly to identify where guidance is being used and where support is needed.
+2. **Track repository and site signals**
+   - Capture monthly snapshots of repository traffic (views/clones), stars/forks/watchers, and GitHub Pages traffic where available.
+   - Use these as directional adoption indicators, not performance metrics.
+3. **Encourage explicit referencing**
+   - Provide machine-readable citation metadata (`CITATION.cff`) and a short “how to cite” block in toolkit and report docs.
+   - Ask users to reference both the toolkit repository and the technical report in downstream products.
+4. **Maintain consistency evidence already available**
+   - Continue running path/regression tests in the toolkit repository for each key update.
+   - Maintain a small set of worked examples in the technical report appendix to show expected key behavior on representative scenarios.
+
+This approach does not replace formal validation, but it gives an immediately actionable signal on usage, transparency, and implementation consistency.
 
 ## Next steps
 

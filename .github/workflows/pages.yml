@@ -35,6 +35,7 @@ jobs:
           extra-packages: |
             any::bookdown
             any::kableExtra
+            github::pbs-assess/csasdown
           needs: bookdown
 
       - name: Render book (HTML)

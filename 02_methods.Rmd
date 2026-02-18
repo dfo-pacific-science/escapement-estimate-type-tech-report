@@ -32,7 +32,7 @@ csas_kable(
 ```
 ## Decision key design
 
-The classification key follows a property-first sequence that matches the current implementation in `matrix_key/structured_dichotomous_key.yaml`:
+The classification key follows a property-first sequence that matches the current implementation in the companion toolkit repository (`dfo-pacific-science/smn-escapement-estimates-toolkit`) at `matrix_key/structured_dichotomous_key.yaml`:
 
 1. **Data format gate**: non-numeric presence/not-detected is classified as Type 6.
 2. **Method known gate**: if survey and analytical methods are not identified, the estimate is provisionally Type 5 and flagged as METHOD_UNKNOWN.
@@ -41,6 +41,49 @@ The classification key follows a property-first sequence that matches the curren
 5. **Flag enforcement and final checks**: recorded flags are applied, then documentation and precision/accuracy checks apply conservative downgrades where evidence is missing.
 
 This structure is intended to reduce subjective "table interpretation" by turning common qualifiers into explicit yes/no questions and recorded flags.
+
+## Cross-repo implementation dependencies
+
+The technical report text in this repository is linked to implementation artifacts maintained in the companion toolkit repository (`dfo-pacific-science/smn-escapement-estimates-toolkit`). For reproducibility, this draft is aligned to toolkit commit `8eda70f`.
+
+```{r cross-repo-dependencies-table}
+toolkit_commit <- "8eda70f7cbcf6b9bab20d5f4129e6bd5290b2437"
+repo_base <- paste0("https://github.com/dfo-pacific-science/smn-escapement-estimates-toolkit/blob/", toolkit_commit, "/")
+
+cross_repo_deps <- data.frame(
+  `Artifact` = c(
+    "Classification key (YAML)",
+    "Classification engine (R)",
+    "Shiny app implementation",
+    "Path/regression tester"
+  ),
+  `Repository path` = c(
+    "matrix_key/structured_dichotomous_key.yaml",
+    "R/classification_engine.R",
+    "app.R",
+    "R/comprehensive_path_testing.R"
+  ),
+  `Pinned link` = c(
+    paste0("[open](", repo_base, "matrix_key/structured_dichotomous_key.yaml)"),
+    paste0("[open](", repo_base, "R/classification_engine.R)"),
+    paste0("[open](", repo_base, "app.R)"),
+    paste0("[open](", repo_base, "R/comprehensive_path_testing.R)")
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  cross_repo_deps,
+  escape = FALSE,
+  bold_header = FALSE,
+  font_size = 9,
+  align = c("l", "l", "c"),
+  caption = "Cross-repo implementation dependencies used by this technical report draft (pinned to toolkit commit 8eda70f)."
+) |>
+  kableExtra::column_spec(1, width = "4.0cm") |>
+  kableExtra::column_spec(2, width = "8.0cm") |>
+  kableExtra::column_spec(3, width = "2.0cm")
+```
 
 ## Handling common complications raised in meetings
 
@@ -163,7 +206,7 @@ csas_kable(
 
 ## Implementation and verification
 
-The canonical decision key is stored in `matrix_key/structured_dichotomous_key.yaml`. The classification engine in `R/classification_engine.R` loads the YAML and evaluates answers to produce the final type and flags. The Shiny app in `app.R` surfaces the questions and exports classification results for review. The comprehensive path tester in `R/comprehensive_path_testing.R` exercises representative paths across all method families and checks expected outcomes.
+The canonical decision key and execution logic are maintained in the companion toolkit repository (`dfo-pacific-science/smn-escapement-estimates-toolkit`). The classification engine (`R/classification_engine.R`) loads the YAML key (`matrix_key/structured_dichotomous_key.yaml`) and evaluates answers to produce final types and downgrade flags. The Shiny app (`app.R`) surfaces the decision flow for analysts, and the comprehensive path tester (`R/comprehensive_path_testing.R`) checks representative pathways across method families.
 
 ## Method families
 

@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this technical report, please cite it using the metadata below."
+title: "Updated Escapement Estimate Type Classification Guidance"
+type: report
+authors:
+  - name: "NuSEDS Escapement Estimates Toolkit Working Group"
+year: 2025
+url: "https://dfo-pacific-science.github.io/escapement-estimate-type-tech-report/"
+repository-code: "https://github.com/dfo-pacific-science/escapement-estimate-type-tech-report"
+license: "CC-BY-4.0"
+references:
+  - type: software
+    title: "SMN Escapement Estimates Classification Toolkit"
+    authors:
+      - name: "NuSEDS Escapement Estimates Toolkit Working Group"
+    url: "https://github.com/dfo-pacific-science/smn-escapement-estimates-toolkit"
