@@ -1,0 +1,40 @@
+# Discussion
+
+## How this update should be used
+
+The updated guidance is intended to make estimate-type assignment:
+
+- **More consistent across producing groups**, by replacing implicit judgement calls with explicit questions and recorded downgrade flags.
+- **More interpretable to non-expert users**, by separating field enumeration from analytical estimation and making key qualifiers visible in metadata.
+- **More faithful to Hyatt (1997) intent**, by linking method properties, statistical properties, and documentation in a single, hierarchical key [@hyatt1997].
+
+Importantly, estimate types are not a binary "usable/unusable" label. Meeting discussions repeatedly emphasized that some lower-quality estimates may still be useful for specific purposes (e.g., presence/absence or local context), but are inappropriate for others (e.g., quantitative stock-recruit analysis without supporting documentation).
+
+## Implications for WSP rapid status assessments and filtering
+
+Because estimate types are used as data-quality filters and can influence pathway selection and confidence in WSP rapid status workflows [@holt2009_058; @dfo2005wsp], inconsistent assignment can create discontinuities at threshold boundaries (especially around the Type 4 cutoff). A reproducible, YAML-encoded key helps reduce this risk and makes the reasons for screening transparent (e.g., missing methods, insufficient timing/coverage evidence, or missing documentation).
+
+## Capturing the "full story" in metadata
+
+The central theme in task-team notes is that the current NuSEDS table does not capture the full story behind an estimate. The updated guidance partially addresses this by recording downgrade flags, but several high-value metadata needs remain:
+
+- **Breach/bypass severity and infilling details**: quantify the run fraction affected, timing relative to peak, and provide a description of the interpolation method.
+- **Observer reliability / observer efficiency**: capture whether observer efficiency was measured, how it was applied, and any systematic limitations affecting detectability.
+- **Combined-method workflows**: record the components (e.g., sonar + tributary visual apportionment) so the final classification cannot conceal a weaker component.
+- **Calibration and revision history**: record when a time series has been recalibrated, what reference series or method was used, and when values changed.
+
+Where some groups currently use internal categories (e.g., "Type 1B") to express nuance not supported by NuSEDS, the preferred approach in this update is to preserve Types 1--6 and represent nuance through flags and metadata rather than inventing new public types.
+
+More broadly, the shift toward open and more accessible Pacific salmon data products creates an incentive to make the rationale for estimate-type assignment legible to non-expert users (not just to the producing group) [@dfoPacificSalmonDataPortal; @openCanadaNuSEDS].
+
+The NuSEDS data dictionary includes qualitative `ACCURACY` and `PRECISION` fields and a legacy `RELIABILITY` field (historical/import), but it does not define standard quantitative uncertainty fields (e.g., CV or SE). This supports the meeting recommendation to capture uncertainty more consistently, while keeping the public estimate type as Types 1--6.
+
+## Governance and change control
+
+This guidance is encoded as a single decision key in `matrix_key/structured_dichotomous_key.yaml`. Any changes to thresholds, method families, or downgrade rules should be accompanied by updates to the path-testing script (`R/comprehensive_path_testing.R`) so behavior changes are deliberate and reviewable.
+
+## Next steps
+
+- Validate the key against representative NuSEDS records and compare outputs with historical assignments to identify systematic differences.
+- Define a minimal, public-facing metadata schema for NuSEDS and related Pacific salmon data products that supports the key (including uncertainty metrics where available).
+- Establish a lightweight review process for method vocabulary and threshold changes, supported by path testing and versioned YAML releases.

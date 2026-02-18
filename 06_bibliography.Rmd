@@ -1,0 +1,21 @@
+<!-- If you want to references to appear somewhere before the end, add: -->
+<!-- <div id="refs"></div> -->
+<!-- where you want it to appear -->
+
+<!-- You shouldn't need to edit this file -->
+
+```{r refs-latex, echo=FALSE, results='asis'}
+if (knitr::is_latex_output()) {
+  cat(
+    "\\\\clearpage\n\n",
+    "\\\\noindent\n",
+    "\\\\vspace{-2em}\n",
+    "\\\\setlength{\\\\parindent}{-0.2in}\n",
+    "\\\\setlength{\\\\leftskip}{0.2in}\n",
+    "\\\\setlength{\\\\parskip}{8pt}\n",
+    sep = ""
+  )
+}
+```
+
+# References

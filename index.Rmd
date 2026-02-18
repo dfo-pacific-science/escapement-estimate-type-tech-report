@@ -1,0 +1,141 @@
+---
+title: |
+  "Updated Escapement Estimate Type Classification Guidance"
+french_title: |
+  "Updated Escapement Estimate Type Classification Guidance (French translation pending)"
+year: 2025
+report_number: "draft"
+author: |
+  NuSEDS Escapement Estimates Toolkit Working Group^1^
+author_list: "NuSEDS Escapement Estimates Toolkit Working Group"
+region: Pacific Region
+french_region: "Region du Pacifique (French translation pending)"
+isbn: ""
+report_DOI: ""
+address: |
+  ^1^Pacific Biological Station\
+     Fisheries and Oceans Canada, 3190 Hammond Bay Road\
+     Nanaimo, British Columbia, V9T 6N7, Canada
+french_address: |
+  ^1^Pacific Biological Station\
+     Fisheries and Oceans Canada, 3190 Hammond Bay Road\
+     Nanaimo, British Columbia, V9T 6N7, Canada
+phone: ""
+author_footnote: "Email: brett.johnson\\@dfo-mpo.gc.ca"
+abstract: |
+  This technical report documents the updated NuSEDS escapement estimate type classification guidance and the property-first decision key used to assign estimate Types 1-6. The update is motivated by inconsistent application of the current table-only guidance across operational groups, downstream use of estimate types in Wild Salmon Policy rapid status workflows, and the need for clearer public-facing interpretation as Pacific salmon data transparency initiatives expand. The key separates enumeration and estimation methods, standardizes method families, and applies downgrade criteria for coverage, visibility, documentation, and precision. The classification logic is encoded in a structured YAML file and implemented in an R engine and Shiny application to support consistent use across programs. This draft summarizes the decision gates, method families, and implementation details, and provides illustrative classification outcomes.
+french_abstract: |
+  French translation pending.
+citation_french: "NuSEDS Escapement Estimates Toolkit Working Group. 2025. Updated Escapement Estimate Type Classification Guidance. Rapp. tech. can. sci. halieut. aquat. draft."
+show_continued_text: true
+output:
+  bookdown::gitbook:
+    config:
+      toc:
+        collapse: section
+  csasdown::techreport_pdf:
+    french: false
+    copy_sty: true
+    line_nums: true
+    line_nums_mod: 1
+    lot_lof: false
+    draft_watermark: false
+    highlight: tango
+type:
+  techreport
+site: bookdown::bookdown_site
+link-citations: true
+bibliography: bib/refs.bib
+header-includes:
+ - \usepackage{float}
+---
+
+```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
+library(knitr)
+if (is_latex_output()) {
+  knitr_figs_dir <- "knitr-figs-pdf/"
+  knitr_cache_dir <- "knitr-cache-pdf/"
+  fig_out_type <- "png"
+} else if (is_html_output()) {
+  knitr_figs_dir <- "knitr-figs-html/"
+  knitr_cache_dir <- "knitr-cache-html/"
+  fig_out_type <- "png"
+} else {
+  knitr_figs_dir <- "knitr-figs-docx/"
+  knitr_cache_dir <- "knitr-cache-docx/"
+  fig_out_type <- "png"
+}
+fig_asp <- 0.618
+fig_width <- 9
+fig_out_width <- "6in"
+fig_dpi <- 180
+fig_align <- "center"
+fig_pos <- "htb"
+opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  comment = "#>",
+  fig.path = knitr_figs_dir,
+  cache.path = knitr_cache_dir,
+  fig.asp = fig_asp,
+  fig.width = fig_width,
+  out.width = fig_out_width,
+  echo = FALSE,
+  cache.comments = FALSE,
+  dev = fig_out_type,
+  dpi = fig_dpi,
+  fig.align = fig_align,
+  fig.pos = fig_pos
+)
+
+csas_kable <- function(x,
+                       caption = NULL,
+                       align = NULL,
+                       ...) {
+  align_kable <- align
+  if (!is.null(align) && length(align) > 1) {
+    align_kable <- paste0(align, collapse = "")
+  }
+
+  if (knitr::is_latex_output()) {
+    csasdown::csas_table(
+      x,
+      format = "latex",
+      caption = caption,
+      align = align,
+      ...
+    )
+  } else if (knitr::is_html_output()) {
+    knitr::kable(
+      x,
+      format = "html",
+      caption = caption,
+      align = align_kable,
+      escape = TRUE
+    ) |>
+      kableExtra::kable_styling(full_width = FALSE)
+  } else {
+    knitr::kable(
+      x,
+      caption = caption,
+      align = align_kable,
+      escape = TRUE
+    )
+  }
+}
+```
+
+```{r load-libraries, cache=FALSE}
+library(kableExtra)
+
+if (knitr::is_latex_output()) {
+  library(csasdown)
+}
+```
+
+# Overview {-}
+
+This report documents the updated NuSEDS escapement estimate Type (1--6) classification guidance and the property-first decision key used to assign types consistently.
+
+`r if (knitr::is_latex_output()) "\\\\clearpage"`

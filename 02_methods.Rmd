@@ -1,0 +1,198 @@
+# Methods
+
+## Design principles (Hyatt-aligned)
+
+Hyatt (1997) intended estimate-type assignment to reflect (i) method properties, (ii) statistical properties, and (iii) documentation [@hyatt1997]. The updated key encodes these dimensions explicitly as decision gates, method-family checks, and final requirements.
+
+```{r hyatt-mapping-table}
+hyatt_mapping <- data.frame(
+  `Hyatt (1997) dimension` = c(
+    "Method properties (survey + analysis)",
+    "Statistical properties (units, accuracy, precision)",
+    "Documentation"
+  ),
+  `How the updated key encodes it` = c(
+    "Method families + property checks (coverage, effort, timing, visibility, cross-section coverage)",
+    "Type eligibility by method family and a final precision/accuracy gate (supports CV/SE where available)",
+    "DOC flagging + final documentation enforcement"
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  hyatt_mapping,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 9,
+  align = c("l", "l"),
+  caption = "Mapping of Hyatt (1997) intent to the updated, property-first key implementation."
+) |>
+  kableExtra::column_spec(1, width = "5.0cm") |>
+  kableExtra::column_spec(2, width = "10.0cm")
+```
+## Decision key design
+
+The classification key follows a property-first sequence that matches the current implementation in `matrix_key/structured_dichotomous_key.yaml`:
+
+1. **Data format gate**: non-numeric presence/not-detected is classified as Type 6.
+2. **Method known gate**: if survey and analytical methods are not identified, the estimate is provisionally Type 5 and flagged as METHOD_UNKNOWN.
+3. **Method family selection**: a primary method family scopes the applicable questions.
+4. **Method-family checks**: coverage, visit frequency, visibility, timing, and related criteria drive downgrades.
+5. **Flag enforcement and final checks**: recorded flags are applied, then documentation and precision/accuracy checks apply conservative downgrades where evidence is missing.
+
+This structure is intended to reduce subjective "table interpretation" by turning common qualifiers into explicit yes/no questions and recorded flags.
+
+## Handling common complications raised in meetings
+
+### Breaches/bypass and infilling
+
+Meeting notes repeatedly highlighted that breach extent, timing, and the infilling/interpolation method strongly affect how fixed-site and sonar estimates should be interpreted. In practice, these issues interact with core assumptions about coverage and closure (e.g., whether the monitored site captures the full run window) and can drive conservative type assignment when evidence is incomplete [@velezEspino2010atnarko; @holmes2005didson]. The updated key treats bypass/breach risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling was required (rather than leaving these issues implicit in a method label).
+
+### Survey timing relative to run timing
+
+Multiple contributors noted that visit count alone is not sufficient: surveys must bracket the period when fish are present. This aligns with published evaluations of visual survey programs where timing, visibility, and effort standardization can drive bias and comparability [@holtCox2008visual]. The updated key includes timing checks in method families where timing/visibility are primary drivers of comparability for relative-abundance series.
+
+### Combined-method estimates
+
+Several examples discussed combined-method workflows (e.g., system-wide sonar with tributary visual apportionment, or fences supplemented with visual counts during breach periods). The updated guidance retains Types 1--6 but recommends recording the contributing components explicitly and applying a conservative rule: where multiple components contribute to the final estimate, take the more conservative (higher-number) type implied by the weakest component unless a documented, defensible integration method supports a higher classification [@parsonsSkalski2010escTechniques].
+
+### Calibration and historical revisions
+
+Task-team discussions emphasized the need to communicate when historical values have been recalibrated or revised. The updated guidance treats calibration as an analysis layer that should be captured in metadata (calibration source, diagnostics, and revision history) rather than as a new estimate type. This supports public-facing interpretation and aligns with NuSEDS' intent to store both estimates and the method metadata required to interpret them [@openCanadaNuSEDS].
+
+### Precision metrics (CV/SE)
+
+Hyatt (1997) distinguishes Type 2 estimates in part by their qualified precision (variance estimate) [@hyatt1997]. Meeting notes similarly raised the value of reporting CV or standard error when available. Where time-series methods such as area-under-the-curve (AUC) are used, there is a literature on both AUC-based estimators and incorporating uncertainty through variance estimation and replication [@millar2012auc; @parken2003aucUncertainty]. The updated key includes a final precision/accuracy check and recommends capturing quantitative uncertainty (when available) rather than relying solely on qualitative labels.
+
+## Controlled vocabulary and metadata
+
+Enumeration methods and estimation methods are recorded separately. The minimal metadata expected by the key includes:
+
+- Data format (numeric vs presence/not-detected)
+- Primary method family (FS, V, A, S, T, R, P, M)
+- Coverage/uptime, reach coverage, cross-section coverage (as applicable)
+- Visit count/effort and timing relative to expected run timing (as applicable)
+- Visibility/conditions and any breach/bypass context (as applicable)
+- Documentation evidence (field logs, methods/QA writeups)
+- Analysis qualifiers (e.g., expansion factors, calibration metadata, uncertainty metrics) when available
+
+## NuSEDS data dictionary alignment
+
+The NuSEDS data dictionary defines the database fields used to store enumeration methods, estimate methods, estimate classification (Types 1--6), and supporting metadata such as the number of inspections and run timing fields. The updated guidance is designed to be expressible using existing NuSEDS fields where possible, and to clearly identify gaps where additional metadata would improve public interpretation and reproducibility.
+
+```{r nuseds-fields-table}
+dd_path <- file.path("docs", "context", "Data_Dictionary_NuSEDS_EN.csv")
+
+wanted_fields <- c(
+  "ESTIMATE_CLASSIFICATION",
+  "ENUMERATION_METHODS",
+  "ESTIMATE_METHOD",
+  "ADULT_PRESENCE",
+  "JACK_PRESENCE",
+  "NO_INSPECTIONS_USED",
+  "START_DTT",
+  "RUN_TYPE",
+  "INDEX_YN",
+  "ACCURACY",
+  "PRECISION",
+  "RELIABILITY",
+  "ESTIMATE_STAGE"
+)
+
+field_roles <- data.frame(
+  `Field Name` = wanted_fields,
+  `Role in updated guidance` = c(
+    "Stores Type 1--6 estimate classification (includes some legacy non-Type labels)",
+    "Primary field method (enumeration) used to scope method-family checks",
+    "Primary analysis method (estimation) and special cases (combined, calibrated, unknown)",
+    "Supports presence/not-detected pathways (Type 6 context)",
+    "Supports presence/not-detected pathways (Type 6 context)",
+    "Supports effort/visit thresholds (VISITS and related downgrades)",
+    "Supports timing/coverage interpretation (inspection start date)",
+    "Supports timing context when multiple runs occur in a season",
+    "Flags index (partial coverage) estimates (relative-abundance context)",
+    "Legacy qualitative field; not a substitute for quantified uncertainty metadata",
+    "Legacy qualitative field; not a substitute for quantified uncertainty metadata",
+    "Legacy/import field (historical); not consistently present",
+    "QA/workflow stage (preliminary/near final/final); not a type determinant"
+  ),
+  check.names = FALSE
+)
+
+if (file.exists(dd_path)) {
+  dd <- read.csv(
+    dd_path,
+    stringsAsFactors = FALSE,
+    check.names = FALSE,
+    fileEncoding = "latin1"
+  )
+
+  dd_small <- dd[dd[["Field Name"]] %in% wanted_fields, c("Field Name", "Field Definition")]
+  dd_small <- merge(dd_small, field_roles, by = "Field Name", all.x = TRUE)
+  dd_small <- dd_small[match(wanted_fields, dd_small[["Field Name"]]), ]
+
+  dd_small[["Field Definition"]] <- gsub("\\s+", " ", dd_small[["Field Definition"]])
+  dd_small[["Field Definition"]] <- ifelse(
+    nchar(dd_small[["Field Definition"]]) > 140,
+    paste0(substr(dd_small[["Field Definition"]], 1, 139), "…"),
+    dd_small[["Field Definition"]]
+  )
+} else {
+  dd_small <- data.frame(
+    `Field Name` = wanted_fields,
+    `Field Definition` = "(NuSEDS data dictionary CSV not present in this repo; add it at docs/context/Data_Dictionary_NuSEDS_EN.csv to populate definitions.)",
+    check.names = FALSE
+  )
+  dd_small <- merge(dd_small, field_roles, by = "Field Name", all.x = TRUE)
+  dd_small <- dd_small[match(wanted_fields, dd_small[["Field Name"]]), ]
+}
+
+csas_kable(
+  dd_small,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  col_names = c("Field", "Definition (truncated)", "Role in updated guidance"),
+  align = c("l", "l", "l"),
+  caption = "NuSEDS fields relevant to estimate-type classification and how they relate to the updated guidance (see the NuSEDS data dictionary in docs/context/ if present)."
+) |>
+  kableExtra::column_spec(1, width = "2.5cm") |>
+  kableExtra::column_spec(2, width = "5.5cm") |>
+  kableExtra::column_spec(3, width = "6.5cm")
+```
+
+## Implementation and verification
+
+The canonical decision key is stored in `matrix_key/structured_dichotomous_key.yaml`. The classification engine in `R/classification_engine.R` loads the YAML and evaluates answers to produce the final type and flags. The Shiny app in `app.R` surfaces the questions and exports classification results for review. The comprehensive path tester in `R/comprehensive_path_testing.R` exercises representative paths across all method families and checks expected outcomes.
+
+## Method families
+
+```{r method-family-table}
+method_families <- data.frame(
+  Code = c("FS", "V", "A", "S", "T", "R", "P", "M"),
+  `Method family` = c(
+    "Fixed site census (manual or electronic)",
+    "Visual ground or snorkel count",
+    "Aerial survey count",
+    "Hydroacoustic sonar count (modelled)",
+    "Trap model (non-spanning)",
+    "Redd survey",
+    "Electrofishing CPUE index",
+    "Mark-recapture program"
+  ),
+  `Best attainable type` = c("1", "2", "3", "2", "2", "2", "3", "2"),
+  check.names = FALSE
+)
+
+csas_kable(
+  method_families,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 9,
+  align = c("c", "l", "c"),
+  caption = "Method families encoded in the property-first key and the best attainable type before downgrades."
+) |>
+  kableExtra::column_spec(1, width = "1.2cm") |>
+  kableExtra::column_spec(2, width = "10.8cm") |>
+  kableExtra::column_spec(3, width = "2.5cm")
+```

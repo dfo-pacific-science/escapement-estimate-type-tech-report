@@ -1,0 +1,78 @@
+# Introduction {#sec:introduction}
+
+NuSEDS (National Salmon Escapement Database) stores salmon escapement survey records, spawner abundance estimates, and the linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. The NuSEDS estimate Types 1--6 are intended to communicate the statistical reliability and interpretability of those estimates, but the current table-only guidance is often applied inconsistently across operational groups, and it does not capture the full context needed for public interpretation.
+
+## Hyatt (1997) intent and foundation
+
+Hyatt (1997) developed a draft, hierarchical escapement classification key intended to be "unambiguous, easy to apply and reliable" for both field personnel and informed data users [@hyatt1997]. Hyatt framed classification around three linked dimensions: (i) properties of the survey and analytical methods used, (ii) statistical properties of the estimates (units of expression, accuracy, and precision), and (iii) the level of documentation supporting the estimate.
+
+The NuSEDS estimate type table is derived from this foundation, but the table-only representation can be read as a method lookup and leaves ambiguity about how to incorporate breaches/bypass, timing, infilling, combined methods, and other common real-world complications.
+
+## Estimate type summary (Types 1--6)
+
+```{r type-summary-table}
+type_summary <- data.frame(
+  Type = c(1, 2, 3, 4, 5, 6),
+  Label = c(
+    "True abundance (high resolution)",
+    "True abundance (medium resolution)",
+    "Relative abundance (high resolution)",
+    "Relative abundance (medium resolution)",
+    "Relative abundance (low resolution)",
+    "Presence or absence"
+  ),
+  Units = c(
+    "Absolute abundance",
+    "Absolute abundance (often with uncertainty)",
+    "Relative units (index, within-series)",
+    "Relative units (index, within-series)",
+    "Relative units (uncertain)",
+    "+ / -"
+  ),
+  Interpretation = c(
+    "Direct total count with negligible missed fish and minimal adjustment.",
+    "High-quality, standardized estimation with qualified accuracy and (where available) quantified precision.",
+    "Consistent, high-effort relative index; accuracy/precision not fully quantified but stable enough for within-series comparisons.",
+    "Lower-effort relative index; comparability limited and sensitive to conditions (timing/visibility/coverage).",
+    "Method unclear, inconsistent, or poorly documented; may still support presence/absence but weak for numeric comparisons.",
+    "Non-numeric confirmation of adults present/not detected with reliable species identification."
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  type_summary,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("c", "l", "l", "l"),
+  caption = "High-level summary of estimate Types 1--6 as originally intended by Hyatt (1997), using short descriptors for orientation."
+) |>
+  kableExtra::column_spec(2, width = "3.0cm") |>
+  kableExtra::column_spec(3, width = "3.0cm") |>
+  kableExtra::column_spec(4, width = "7.5cm")
+```
+
+## Why an update is needed now
+
+Meeting discussions and task-team notes highlight several recurring problems:
+
+- **Inconsistent application across groups**: the same nominal estimate type can be assigned to methodologically different estimates, leading to misinterpretation by public NuSEDS users and DFO staff outside the producing group.
+- **Modern method coverage**: imaging-sonar approaches have been used for escapement estimation (e.g., DIDSON deployments), but are not always clearly represented in legacy table-only guidance, encouraging ad hoc interpretation [@holmes2005didson].
+- **Threshold sensitivity in downstream use**: estimate types are used as data-quality filters in Wild Salmon Policy (WSP) rapid status assessments; estimates above the filtering threshold are screened out, affecting pathway selection and confidence rating [@holt2009_058].
+- **Metadata gaps**: key qualifiers discussed repeatedly in meetings (survey timing relative to run timing, breach extent and infilling approach, observer reliability, and calibration of historical estimates) are not consistently captured in public-facing metadata.
+- **Open-data and transparency initiatives**: the Pacific Salmon Data Portal and related Open Government releases provide an opportunity to clarify guidance and better encode expert knowledge directly in metadata, reducing reliance on informal, person-to-person interpretation [@dfoPacificSalmonDataPortal; @openCanadaNuSEDS].
+
+## What this report provides
+
+This report documents an updated, Hyatt-aligned guidance implementation that:
+
+- Preserves Hyatt's Types 1--6 while making eligibility rules explicit.
+- Separates **enumeration methods** (field data collection) from **estimation methods** (analysis and modelling).
+- Uses a property-first decision sequence that begins with a data-format gate and a method-known gate before method-family checks.
+- Records downgrade flags for common failure modes (e.g., breaches/bypass, coverage/uptime, visibility, documentation) and applies final documentation and precision/accuracy checks.
+- Encodes the key as machine-readable YAML and executes it consistently via an R engine and a Shiny application.
+
+## Scope
+
+This report documents classification logic, evidence expectations, and implementation wiring. It does not evaluate biological status or re-interpret escapement beyond assignment to Types 1--6 and associated downgrade flags.

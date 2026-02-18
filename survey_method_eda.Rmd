@@ -1,0 +1,424 @@
+---
+title: "NuSEDS survey + estimation metadata: exploratory analysis"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+date: "`r format(Sys.Date())`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE
+)
+
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(lubridate)
+  library(scales)
+})
+
+count_with_pct <- function(data, col) {
+  data |>
+    count({{ col }}, sort = TRUE) |>
+    mutate(pct = n / sum(n)) |>
+    mutate(pct = scales::percent(pct, accuracy = 0.1))
+}
+```
+
+# Data import
+
+This notebook is designed to analyze NuSEDS extract files (and similar Pacific salmon data extracts) that include (at minimum) the following fields:
+`ESTIMATE_METHOD`, `ENUMERATION_METHODS`, `ESTIMATE_CLASSIFICATION`, `PRECISION`, and `ACCURACY`.
+
+```{r data-import}
+path_xlsx_candidates <- c(
+  file.path("..", "..", "docs", "contextAll AREA SEN_Survey_method (1).xlsx"),
+  file.path("..", "..", "docs", "context", "All AREA SEN_Survey_method (1).xlsx")
+)
+
+path_csv <- file.path("..", "..", "docs", "context", "All AREA SEN_Survey_method (1).csv")
+
+input_path <- c(path_xlsx_candidates, path_csv) |>
+  keep(file.exists) |>
+  first()
+
+if (is.null(input_path)) {
+  stop(
+    "Could not find the input file. Looked for:\n",
+    paste(c(path_xlsx_candidates, path_csv), collapse = "\n")
+  )
+}
+
+input_path
+
+raw <- if (str_detect(str_to_lower(input_path), "\\.xlsx$")) {
+  if (!requireNamespace("readxl", quietly = TRUE)) {
+    stop("Input is an .xlsx file but package 'readxl' is not installed.")
+  }
+  readxl::read_excel(input_path) |>
+    mutate(across(everything(), as.character))
+} else {
+  readr::read_csv(
+    input_path,
+    show_col_types = FALSE,
+    col_types = readr::cols(.default = readr::col_character())
+  )
+}
+
+survey <- raw |>
+  mutate(across(everything(), \(x) na_if(str_squish(x), ""))) |>
+  rename(
+    area_name = `Area name`,
+    analysis_year = ANALYSIS_YR,
+    enumeration_methods = ENUMERATION_METHODS,
+    estimate_method = ESTIMATE_METHOD,
+    estimate_classification = ESTIMATE_CLASSIFICATION,
+    accuracy = ACCURACY,
+    precision = PRECISION
+  ) |>
+  mutate(
+    analysis_year = suppressWarnings(as.integer(analysis_year)),
+    start_dtt = suppressWarnings(as.Date(START_DTT)),
+    end_dtt = suppressWarnings(as.Date(END_DTT)),
+    no_inspections_used = readr::parse_number(NO_INSPECTIONS_USED),
+    natural_adult_spawners = readr::parse_number(NATURAL_ADULT_SPAWNERS),
+    natural_spawners_total = readr::parse_number(NATURAL_SPAWNERS_TOTAL),
+    total_return_to_river = readr::parse_number(TOTAL_RETURN_TO_RIVER),
+    estimate_type = estimate_classification |>
+      str_extract("TYPE-[0-9]+") |>
+      str_remove("TYPE-") |>
+      as.integer()
+  )
+```
+
+## Quick overview
+
+```{r overview}
+overview <- survey |>
+  summarise(
+    n_records = n(),
+    years_min = min(analysis_year, na.rm = TRUE),
+    years_max = max(analysis_year, na.rm = TRUE),
+    n_species = n_distinct(SPECIES),
+    n_area_names = n_distinct(area_name),
+    n_populations = n_distinct(POPULATION),
+    n_waterbodies = n_distinct(WATERBODY_ID)
+  )
+
+knitr::kable(overview, caption = "Dataset overview.")
+```
+
+```{r estimates-per-year}
+survey |>
+  count(analysis_year) |>
+  ggplot(aes(x = analysis_year, y = n)) +
+  geom_line(linewidth = 0.7) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    x = "Analysis year",
+    y = "Number of estimate records",
+    title = "Estimate records over time"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+# ESTIMATE_METHOD
+
+## Counts
+
+```{r estimate-method-counts}
+estimate_method_counts <- count_with_pct(survey, estimate_method)
+
+knitr::kable(
+  estimate_method_counts,
+  caption = "Counts of ESTIMATE_METHOD (as-recorded)."
+)
+```
+
+## Usage over time
+
+```{r estimate-method-by-year}
+top_estimate_methods <- estimate_method_counts |>
+  slice_head(n = 8) |>
+  pull(estimate_method)
+
+estimate_method_by_year <- survey |>
+  mutate(
+    estimate_method_plot = if_else(
+      estimate_method %in% top_estimate_methods,
+      estimate_method,
+      "Other"
+    )
+  ) |>
+  count(analysis_year, estimate_method_plot)
+
+estimate_method_by_year |>
+  filter(estimate_method_plot != "Other") |>
+  ggplot(aes(x = analysis_year, y = n)) +
+  geom_line(linewidth = 0.6) +
+  facet_wrap(vars(estimate_method_plot), scales = "free_y") +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    x = "Analysis year",
+    y = "Number of estimate records",
+    title = "Top ESTIMATE_METHOD usage over time (faceted)"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+# ENUMERATION_METHODS
+
+`ENUMERATION_METHODS` can contain multiple methods separated by commas. The analysis below splits these values into one row per method (e.g., `"Walk, Float"` becomes two rows: `Walk` and `Float`).
+
+```{r enumeration-methods-long}
+enum_long <- survey |>
+  filter(!is.na(enumeration_methods)) |>
+  mutate(enum_method = str_split(enumeration_methods, ",")) |>
+  unnest(enum_method) |>
+  mutate(enum_method = str_trim(enum_method)) |>
+  filter(enum_method != "")
+
+enum_counts <- count_with_pct(enum_long, enum_method)
+
+knitr::kable(
+  enum_counts,
+  caption = "Counts of enumeration methods (split on commas)."
+)
+```
+
+## Data completeness: are enumeration methods recorded?
+
+```{r enum-recorded-over-time}
+enum_recorded_by_year <- survey |>
+  mutate(enum_recorded = !is.na(enumeration_methods)) |>
+  count(analysis_year, enum_recorded) |>
+  group_by(analysis_year) |>
+  mutate(pct = n / sum(n)) |>
+  ungroup() |>
+  mutate(enum_recorded = if_else(enum_recorded, "Recorded", "Missing"))
+
+enum_recorded_by_year |>
+  ggplot(aes(x = analysis_year, y = pct, color = enum_recorded)) +
+  geom_line(linewidth = 0.7) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    x = "Analysis year",
+    y = "Share of records",
+    color = NULL,
+    title = "Share of records with ENUMERATION_METHODS populated"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+## Usage over time
+
+```{r enumeration-methods-by-year}
+top_enum_methods <- enum_counts |>
+  slice_head(n = 8) |>
+  pull(enum_method)
+
+enum_by_year <- enum_long |>
+  mutate(enum_method_plot = if_else(enum_method %in% top_enum_methods, enum_method, "Other")) |>
+  count(analysis_year, enum_method_plot)
+
+enum_by_year |>
+  filter(enum_method_plot != "Other") |>
+  ggplot(aes(x = analysis_year, y = n)) +
+  geom_line(linewidth = 0.6) +
+  facet_wrap(vars(enum_method_plot), scales = "free_y") +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    x = "Analysis year",
+    y = "Method-record instances",
+    title = "Top enumeration methods over time (faceted)"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+# ESTIMATE_CLASSIFICATION
+
+## Counts
+
+```{r estimate-classification-counts}
+estimate_classification_counts <- count_with_pct(survey, estimate_classification)
+
+knitr::kable(
+  estimate_classification_counts,
+  caption = "Counts of ESTIMATE_CLASSIFICATION (as-recorded)."
+)
+```
+
+## Type 1–6 distribution
+
+```{r estimate-type-counts}
+type_counts <- survey |>
+  filter(!is.na(estimate_type)) |>
+  mutate(estimate_type = factor(estimate_type, levels = 1:6)) |>
+  count(estimate_type, sort = TRUE) |>
+  mutate(pct = n / sum(n)) |>
+  mutate(pct = scales::percent(pct, accuracy = 0.1))
+
+knitr::kable(type_counts, caption = "Distribution of extracted Type 1–6 values (from ESTIMATE_CLASSIFICATION).")
+```
+
+```{r estimate-type-over-time}
+survey |>
+  filter(!is.na(estimate_type)) |>
+  mutate(estimate_type = factor(estimate_type, levels = 1:6)) |>
+  count(analysis_year, estimate_type) |>
+  ggplot(aes(x = analysis_year, y = n, fill = estimate_type)) +
+  geom_col() +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    x = "Analysis year",
+    y = "Number of records",
+    fill = "Type",
+    title = "Type 1–6 counts over time"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+## Mapping check: Type vs ESTIMATE_METHOD
+
+This helps flag unusual combinations (e.g., a method frequently mapping to multiple Types).
+
+```{r type-vs-estimate-method}
+survey |>
+  filter(!is.na(estimate_type)) |>
+  count(estimate_type, estimate_method, sort = TRUE) |>
+  group_by(estimate_type) |>
+  slice_head(n = 10) |>
+  ungroup() |>
+  arrange(estimate_type, desc(n)) |>
+  knitr::kable(caption = "Top ESTIMATE_METHOD values within each extracted Type (top 10 per Type).")
+```
+
+# PRECISION and ACCURACY
+
+## Values used
+
+```{r precision-values}
+knitr::kable(
+  count_with_pct(survey, precision),
+  caption = "Values used in PRECISION."
+)
+```
+
+```{r accuracy-values}
+knitr::kable(
+  count_with_pct(survey, accuracy),
+  caption = "Values used in ACCURACY."
+)
+```
+
+## By Type (1–6)
+
+```{r accuracy-by-type}
+survey |>
+  filter(!is.na(estimate_type)) |>
+  mutate(estimate_type = factor(estimate_type, levels = 1:6)) |>
+  count(estimate_type, accuracy) |>
+  group_by(estimate_type) |>
+  mutate(pct = n / sum(n)) |>
+  ungroup() |>
+  ggplot(aes(x = estimate_type, y = pct, fill = accuracy)) +
+  geom_col(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    x = "Type (extracted)",
+    y = "Share within Type",
+    fill = "ACCURACY",
+    title = "ACCURACY distribution within each Type"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+```{r precision-by-type}
+survey |>
+  filter(!is.na(estimate_type)) |>
+  mutate(estimate_type = factor(estimate_type, levels = 1:6)) |>
+  count(estimate_type, precision) |>
+  group_by(estimate_type) |>
+  mutate(pct = n / sum(n)) |>
+  ungroup() |>
+  ggplot(aes(x = estimate_type, y = pct, fill = precision)) +
+  geom_col(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    x = "Type (extracted)",
+    y = "Share within Type",
+    fill = "PRECISION",
+    title = "PRECISION distribution within each Type"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+# Additional EDA (report-oriented)
+
+## Completeness of key metadata fields
+
+```{r missingness}
+key_fields <- c(
+  "enumeration_methods",
+  "estimate_method",
+  "estimate_classification",
+  "accuracy",
+  "precision",
+  "INDEX_YN",
+  "RELIABILITY",
+  "ESTIMATE_STAGE",
+  "no_inspections_used",
+  "start_dtt",
+  "end_dtt"
+)
+
+missingness <- survey |>
+  summarise(across(all_of(key_fields), \(x) mean(is.na(x)))) |>
+  pivot_longer(everything(), names_to = "field", values_to = "pct_missing") |>
+  arrange(desc(pct_missing)) |>
+  mutate(pct_missing = scales::percent(pct_missing, accuracy = 0.1))
+
+knitr::kable(missingness, caption = "Share of missing values in selected metadata fields.")
+```
+
+## Species and area coverage
+
+```{r species-area-coverage}
+survey |>
+  count(area_name, SPECIES, sort = TRUE) |>
+  group_by(area_name) |>
+  slice_head(n = 8) |>
+  ungroup() |>
+  ggplot(aes(x = reorder(SPECIES, n), y = n, fill = area_name)) +
+  geom_col(show.legend = TRUE) +
+  coord_flip() +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    x = NULL,
+    y = "Number of records",
+    fill = "Area",
+    title = "Top species counts within each area (top 8 per area)"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+## Distribution of adult spawner estimates (where numeric)
+
+```{r spawner-distribution}
+survey |>
+  filter(!is.na(natural_adult_spawners), natural_adult_spawners > 0) |>
+  ggplot(aes(x = natural_adult_spawners)) +
+  geom_histogram(bins = 60, color = "white") +
+  scale_x_log10(labels = scales::comma) +
+  labs(
+    x = "Natural adult spawners (log scale)",
+    y = "Number of records",
+    title = "Distribution of NATURAL_ADULT_SPAWNERS (positive numeric values)"
+  ) +
+  theme_minimal(base_size = 12)
+```

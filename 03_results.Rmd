@@ -1,0 +1,122 @@
+# Results
+
+The updated, property-first key is encoded in `matrix_key/structured_dichotomous_key.yaml` and produces a final estimate Type alongside downgrade flags. The same key is executed by the R classification engine and the Shiny app, ensuring one canonical implementation and a consistent interpretation of estimate-type guidance.
+
+## Key overview
+
+(ref:key-overview-fig) Overview of the property-first gates and method-family checks in the updated key.
+
+```{r key-overview-fig, fig.cap="(ref:key-overview-fig)"}
+op <- par(no.readonly = TRUE)
+par(mar = c(0, 0, 0, 0))
+plot.new()
+plot.window(xlim = c(0, 1), ylim = c(0, 1))
+
+draw_box <- function(x0, y0, x1, y1, label) {
+  rect(x0, y0, x1, y1, border = "black")
+  text((x0 + x1) / 2, (y0 + y1) / 2, label, cex = 0.85)
+}
+
+draw_arrow <- function(x0, y0, x1, y1) {
+  arrows(x0, y0, x1, y1, length = 0.08)
+}
+
+draw_box(0.08, 0.86, 0.92, 0.96, "Data format gate\n(presence/not-detected -> Type 6)")
+draw_box(0.08, 0.71, 0.92, 0.81, "Method known gate\n(unknown -> Type 5 + METHOD_UNKNOWN)")
+draw_box(0.08, 0.56, 0.92, 0.66, "Method family selection\nFS, V, A, S, T, R, P, M")
+draw_box(0.08, 0.38, 0.92, 0.50, "Family-specific property checks\n(coverage, effort, timing, visibility, etc.)\n-> downgrade flags")
+draw_box(0.08, 0.20, 0.92, 0.30, "Final checks\n(documentation + precision/accuracy)")
+
+draw_arrow(0.50, 0.86, 0.50, 0.81)
+draw_arrow(0.50, 0.71, 0.50, 0.66)
+draw_arrow(0.50, 0.56, 0.50, 0.50)
+draw_arrow(0.50, 0.38, 0.50, 0.30)
+
+par(op)
+```
+
+## What is updated relative to the NuSEDS table
+
+```{r updates-table}
+updates <- data.frame(
+  `Gap in the current table-only guidance` = c(
+    "Methods not explicitly represented (e.g., hydroacoustic sonar)",
+    "Ambiguous handling of breaches/bypass, coverage gaps, and infilling",
+    "Timing relative to expected run timing not made explicit",
+    "Combined-method estimates treated as a single opaque category",
+    "Calibration/historical revisions not communicated to public users",
+    "Precision/accuracy criteria hard to apply without uncertainty metadata",
+    "Documentation expectations not enforceable as part of a reproducible workflow"
+  ),
+  `Update in this guidance` = c(
+    "Explicit method family coverage and definitions, with conservative eligibility rules aligned to Hyatt (1997)",
+    "Downgrade flags (e.g., BREACH_BYPASS, RUN_COVERAGE, UPTIME, INFILL_METHOD) plus final documentation enforcement",
+    "Timing/visibility questions within method families where they control comparability",
+    "Conservative approach for combined-method workflows: record components and do not hide the weakest component",
+    "Recommend calibration metadata and revision history as part of the record (rather than inventing new types)",
+    "Final precision/accuracy gate plus recommendation to capture CV/SE when available",
+    "Single source of truth (YAML) executed in code plus path testing to keep behavior stable"
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  updates,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "l"),
+  caption = "Summary of the main updates relative to the current NuSEDS estimate-type table usage."
+) |>
+  kableExtra::column_spec(1, width = "7.0cm") |>
+  kableExtra::column_spec(2, width = "8.0cm")
+```
+
+## Illustrative outcomes
+
+The scenarios below illustrate representative outcomes from the current key.
+
+```{r illustrative-outcomes}
+examples <- data.frame(
+  Scenario = c(
+    "Fixed site, constrained opening",
+    "Fixed site with bypass risk",
+    "Hydroacoustic sonar, fully documented",
+    "Hydroacoustic sonar, partial coverage",
+    "Visual ground/snorkel, high-effort program",
+    "Visual ground/snorkel, sparse visits",
+    "Presence or not-detected"
+  ),
+  `Key conditions` = c(
+    "Full coverage, QA review, documentation",
+    "Bypass not monitored",
+    "Classification documented, within spec, uptime sufficient, documentation present",
+    "Partial cross-section coverage",
+    ">=5 visits, reach coverage adequate, timing brackets peak",
+    "1-2 visits or visits miss the run window",
+    "Non-numeric data format"
+  ),
+  Outcome = c(
+    "Type 1, no flags",
+    "Type 2 + BREACH_BYPASS",
+    "Type 2",
+    "Type 3 + XSEC_COVERAGE",
+    "Type 2 (AUC pathway) or Type 3 (index pathway)",
+    "Type 4 + VISITS/TIMING",
+    "Type 6"
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  examples,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 9,
+  align = c("l", "l", "l"),
+  caption = "Illustrative classification outcomes from the property-first key."
+) |>
+  kableExtra::column_spec(1, width = "3.8cm") |>
+  kableExtra::column_spec(2, width = "7.2cm") |>
+  kableExtra::column_spec(3, width = "3.8cm")
+```
