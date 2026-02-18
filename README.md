@@ -11,24 +11,29 @@ From the repo root in R:
 install.packages(c("bookdown", "kableExtra", "remotes"))
 remotes::install_github("pbs-assess/csasdown")
 
-# HTML (for website / GitHub Pages)
+# Optional web version (secondary)
 bookdown::render_book("index.Rmd", output_format = "bookdown::gitbook")
 
-# PDF (CSAS tech report format)
+# CSAS technical report source document (DOCX)
 bookdown::render_book(
   "index.Rmd",
-  output_format = "csasdown::techreport_pdf"
+  output_format = "csasdown::techreport_docx"
 )
 ```
 
-- **HTML output**: `_book/`
-- **PDF output**: written to `_book/` and/or the repo root depending on `csasdown` settings and LaTeX.
+Then convert the generated DOCX to PDF locally (e.g., LibreOffice) if needed.
+
+- **Web output (secondary)**: `_book/`
+- **DOCX output (primary source artifact)**: `techreport.docx` (location may vary by render context)
+- **PDF output (primary published artifact)**: produced from DOCX conversion
 
 ## GitHub Pages
 
-This repo is set up to deploy the Bookdown HTML site to **GitHub Pages via GitHub Actions**.
+This repo deploys a **PDF-first GitHub Pages site** via GitHub Actions.
 
-- The workflow builds the site into `_book/` and publishes it using the GitHub Pages “Actions” source.
+- Primary artifact: CSAS-styled technical report PDF (generated from `csasdown::techreport_docx` output and converted to PDF).
+- Secondary artifact: optional Bookdown web version under `/web/`.
+- The Pages root (`/`) is a lightweight landing page with a PDF preview + links.
 
 ## Optional inputs (NuSEDS data dictionary)
 

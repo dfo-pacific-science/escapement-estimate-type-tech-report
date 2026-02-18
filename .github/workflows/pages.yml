@@ -1,4 +1,4 @@
-name: Deploy Bookdown site to GitHub Pages
+name: Deploy CSAS technical report site to GitHub Pages
 
 on:
   push:
@@ -38,16 +38,90 @@ jobs:
             github::pbs-assess/csasdown
           needs: bookdown
 
-      - name: Render book (HTML)
-        run: Rscript -e "bookdown::render_book('index.Rmd', output_format = 'bookdown::gitbook')"
+      - name: Install LibreOffice (PDF conversion)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreoffice
+
+      - name: Render optional web version (secondary)
+        run: |
+          Rscript -e "bookdown::render_book('index.Rmd', output_format = 'bookdown::gitbook')"
+          mkdir -p site/web
+          cp -a _book/. site/web/
+
+      - name: Render CSAS technical report (DOCX primary source)
+        run: |
+          Rscript -e "bookdown::render_book('index.Rmd', output_format = 'csasdown::techreport_docx')"
+
+      - name: Convert DOCX to PDF (primary published artifact)
+        run: |
+          set -euo pipefail
+          mkdir -p site
+
+          DOCX_PATH=""
+          if [ -f "_book/techreport.docx" ]; then
+            DOCX_PATH="_book/techreport.docx"
+          elif [ -f "techreport.docx" ]; then
+            DOCX_PATH="techreport.docx"
+          fi
+
+          if [ -z "$DOCX_PATH" ]; then
+            echo "Unable to find rendered technical report DOCX." >&2
+            echo "Available DOCX files:" >&2
+            find . -maxdepth 3 -name '*.docx' -print >&2 || true
+            exit 1
+          fi
+
+          echo "Using DOCX source: $DOCX_PATH"
+          libreoffice --headless --convert-to pdf --outdir site "$DOCX_PATH"
+
+          PDF_PATH=$(ls -1 site/*.pdf | head -n 1)
+          if [ -z "$PDF_PATH" ]; then
+            echo "PDF conversion failed: no PDF found in site/." >&2
+            exit 1
+          fi
+
+          cp "$PDF_PATH" site/techreport.pdf
+
+      - name: Build PDF-first landing page
+        run: |
+          cat > site/index.html << 'HTML'
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Updated Escapement Estimate Type Classification Guidance</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 2rem auto; max-width: 980px; line-height: 1.5; padding: 0 1rem; }
+              .btn { display: inline-block; padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; margin-right: 0.5rem; }
+              .btn-primary { background: #005ea5; color: #fff; }
+              .btn-secondary { background: #ececec; color: #222; }
+              .muted { color: #666; }
+              iframe { width: 100%; height: 78vh; border: 1px solid #ddd; border-radius: 6px; margin-top: 1rem; }
+            </style>
+          </head>
+          <body>
+            <h1>Updated Escapement Estimate Type Classification Guidance</h1>
+            <p class="muted">Primary artifact: CSAS-styled technical report PDF. Optional secondary view: web/bookdown rendering.</p>
+
+            <p>
+              <a class="btn btn-primary" href="./techreport.pdf">Download PDF</a>
+              <a class="btn btn-secondary" href="./web/">Open optional web version</a>
+            </p>
+
+            <iframe src="./techreport.pdf" title="Technical report PDF preview"></iframe>
+          </body>
+          </html>
+          HTML
 
       - name: Disable Jekyll
-        run: touch _book/.nojekyll
+        run: touch site/.nojekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _book
+          path: site
 
   deploy:
     needs: build
