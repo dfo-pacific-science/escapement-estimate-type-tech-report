@@ -2,7 +2,7 @@
 
 This section summarizes the primary outputs of the updated, property-first estimate Type (1--6) guidance: a transparent decision sequence, explicit qualifier (downgrade) codes, and practical evidence expectations that can be used during New SEDS/NuSEDS data entry and review.
 
-A companion software implementation executes one canonical decision key and returns both (i) a final estimate Type and (ii) explicit qualifier codes explaining any conservative downgrades. In this report, the implementation details are intentionally minimized; the software should be referenced as **software available at** `dfo-pacific-science/smn-escapement-estimates-toolkit` (**release tag: v0.1.0**).
+A companion software implementation executes one canonical decision key and returns both (i) a final estimate Type and (ii) explicit qualifier codes explaining any conservative downgrades [@smnToolkitShiny]. In this report, the implementation details are intentionally minimized.
 
 ## Key overview
 

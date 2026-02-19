@@ -45,12 +45,9 @@ This structure is intended to reduce subjective table interpretation by turning 
 
 ## Software availability (implementation of the guidance)
 
-The decision key and execution logic are implemented in a companion toolkit repository:
+The guidance is implemented in the **SMN Escapement Estimates Toolkit** (R Shiny application) [@smnToolkitShiny]. The toolkit executes one canonical decision key and produces (i) a final estimate Type (1--6) and (ii) explicit qualifier codes explaining conservative downgrades.
 
-- Repository: `dfo-pacific-science/smn-escapement-estimates-toolkit`
-- Release/tag: **v0.1.0**
-
-For the purposes of this report, it is sufficient to note that the software executes one canonical decision key and produces (i) an estimate Type (1--6) and (ii) explicit qualifier codes explaining conservative downgrades.
+In this report, the software is treated as a companion implementation rather than a primary publication artifact. To avoid over-emphasizing engineering details for the intended audience, the implementation is referenced only at a high level.
 
 ## Handling common operational complications
 
