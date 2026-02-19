@@ -81,7 +81,12 @@ jobs:
             exit 1
           fi
 
-          cp "$PDF_PATH" site/techreport.pdf
+          TARGET_PDF="site/techreport.pdf"
+          if [ "$PDF_PATH" != "$TARGET_PDF" ]; then
+            cp "$PDF_PATH" "$TARGET_PDF"
+          else
+            echo "PDF already normalized at $TARGET_PDF"
+          fi
 
       - name: Build PDF-first landing page
         run: |
