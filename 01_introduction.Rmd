@@ -1,12 +1,14 @@
 # Introduction {#sec:introduction}
 
-NuSEDS (National Salmon Escapement Database) stores salmon escapement survey records, spawner abundance estimates, and the linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. The NuSEDS estimate Types 1--6 are intended to communicate the statistical reliability and interpretability of those estimates, but the current table-only guidance is often applied inconsistently across operational groups, and it does not capture the full context needed for public interpretation.
+NuSEDS (National Salmon Escapement Database) stores salmon spawner survey records, spawner abundance estimates, and linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. NuSEDS estimate Types 1--6 are intended to communicate the interpretability of annual escapement estimates for downstream uses such as stock assessment and status evaluation. However, the current table-only guidance is often applied inconsistently and does not explicitly encode common, operational complications that strongly influence interpretation (e.g., incomplete run coverage, breaches/bypass at counting sites, variable visibility, and incomplete documentation).
+
+This report documents an updated, Hyatt-aligned guidance implementation intended for biologists and analysts who upload escapement data to New SEDS/NuSEDS and require a consistent, transparent basis for assigning Types 1--6.
 
 ## Hyatt (1997) intent and foundation
 
 Hyatt (1997) developed a draft, hierarchical escapement classification key intended to be "unambiguous, easy to apply and reliable" for both field personnel and informed data users [@hyatt1997]. Hyatt framed classification around three linked dimensions: (i) properties of the survey and analytical methods used, (ii) statistical properties of the estimates (units of expression, accuracy, and precision), and (iii) the level of documentation supporting the estimate.
 
-The NuSEDS estimate type table is derived from this foundation, but the table-only representation can be read as a method lookup and leaves ambiguity about how to incorporate breaches/bypass, timing, infilling, combined methods, and other common real-world complications.
+The NuSEDS estimate type table is derived from this foundation, but the table-only representation can be read as a method lookup. This creates ambiguity about how to incorporate timing, partial coverage/uptime, breaches/bypass, infilling, combined-method workflows, and uncertainty evidence.
 
 ## Estimate type summary (Types 1--6)
 
@@ -14,12 +16,12 @@ The NuSEDS estimate type table is derived from this foundation, but the table-on
 type_summary <- data.frame(
   Type = c(1, 2, 3, 4, 5, 6),
   Label = c(
-    "True abundance (high resolution)",
-    "True abundance (medium resolution)",
-    "Relative abundance (high resolution)",
-    "Relative abundance (medium resolution)",
-    "Relative abundance (low resolution)",
-    "Presence or absence"
+    "Census / near-census (high resolution)",
+    "Absolute abundance estimate (qualified)",
+    "Relative abundance index (high resolution)",
+    "Relative abundance index (medium resolution)",
+    "Relative abundance / estimate (low evidence)",
+    "Presence / not detected"
   ),
   Units = c(
     "Absolute abundance",
@@ -30,12 +32,12 @@ type_summary <- data.frame(
     "+ / -"
   ),
   Interpretation = c(
-    "Direct total count with negligible missed fish and minimal adjustment.",
-    "High-quality, standardized estimation with qualified accuracy and (where available) quantified precision.",
-    "Consistent, high-effort relative index; accuracy/precision not fully quantified but stable enough for within-series comparisons.",
-    "Lower-effort relative index; comparability limited and sensitive to conditions (timing/visibility/coverage).",
-    "Method unclear, inconsistent, or poorly documented; may still support presence/absence but weak for numeric comparisons.",
-    "Non-numeric confirmation of adults present/not detected with reliable species identification."
+    "A direct count (or near-census) with high confidence that missed fish are negligible or well constrained.",
+    "A standardized estimation method producing absolute abundance with qualified accuracy and, where available, quantified precision.",
+    "A consistent, high-effort index that supports within-series comparisons; absolute abundance and uncertainty may not be fully quantified.",
+    "A lower-effort index where comparability is more sensitive to timing, visibility, and coverage.",
+    "A numeric estimate where method information, documentation, or key qualifiers are insufficient to support stronger interpretation.",
+    "A non-numeric record indicating adults present or not detected with reliable species identification."
   ),
   check.names = FALSE
 )
@@ -46,22 +48,33 @@ csas_kable(
   bold_header = FALSE,
   font_size = 8,
   align = c("c", "l", "l", "l"),
-  caption = "High-level summary of estimate Types 1--6 as originally intended by Hyatt (1997), using short descriptors for orientation."
+  caption = "High-level summary of estimate Types 1--6 for orientation. Types summarize interpretability given method properties, uncertainty evidence, and documentation; they do not guarantee unbiasedness."
 ) |>
-  csas_colspec(2, width = "3.0cm") |>
-  csas_colspec(3, width = "3.0cm") |>
-  csas_colspec(4, width = "7.5cm")
+  csas_colspec(2, width = "3.6cm") |>
+  csas_colspec(3, width = "3.3cm") |>
+  csas_colspec(4, width = "7.1cm")
 ```
 
-## Why an update is needed now
+## Why an update is needed
 
-Meeting discussions and task-team notes highlight several recurring problems:
+In operational datasets, the same nominal estimate Type can be assigned to methodologically different estimates, and the table-only guidance does not encode several recurring, decision-relevant qualifiers. Key drivers of interpretation include:
 
-- **Inconsistent application across groups**: the same nominal estimate type can be assigned to methodologically different estimates, leading to misinterpretation by public NuSEDS users and DFO staff outside the producing group.
-- **Modern method coverage**: imaging-sonar approaches have been used for escapement estimation (e.g., DIDSON deployments), but are not always clearly represented in legacy table-only guidance, encouraging ad hoc interpretation [@holmes2005didson].
-- **Threshold sensitivity in downstream use**: estimate types are used as data-quality filters in Wild Salmon Policy (WSP) rapid status assessments; estimates above the filtering threshold are screened out, affecting pathway selection and confidence rating [@holt2009_058].
-- **Metadata gaps**: key qualifiers discussed repeatedly in meetings (survey timing relative to run timing, breach extent and infilling approach, observer reliability, and calibration of historical estimates) are not consistently captured in public-facing metadata.
-- **Open-data and transparency initiatives**: the Pacific Salmon Data Portal and related Open Government releases provide an opportunity to clarify guidance and better encode expert knowledge directly in metadata, reducing reliance on informal, person-to-person interpretation [@dfoPacificSalmonDataPortal; @openCanadaNuSEDS].
+- **Modern method coverage**: hydroacoustic imaging sonar approaches (e.g., DIDSON/ARIS pipelines) are increasingly used for escapement estimation but are not always clearly represented in table-only guidance, encouraging ad hoc interpretation [@holmes2005didson].
+- **Incomplete coverage and breaches/bypass**: device outages, partial run-window coverage, and breach/bypass events can materially affect interpretability unless the magnitude and correction method are documented [@see2021stateSpace].
+- **Timing, visibility, and effort standardization**: for survey-based indices, timing relative to run timing, observer efficiency, and visibility conditions often govern comparability and potential bias [@holtCox2008visual; @jones1998observer; @korman2002observerEfficiency].
+- **Combined-method workflows**: multi-component estimates (e.g., sonar combined with tributary visual apportionment; fences supplemented during breach periods) require explicit component recording to avoid concealing a weaker component [@parsonsSkalski2010escTechniques].
+- **Downstream filtering sensitivity**: estimate Types are used as data-quality filters in Wild Salmon Policy (WSP) rapid status workflows; inconsistent assignment can create discontinuities near threshold cutoffs [@holt2009_058].
+
+## How this guidance should be used when uploading to New SEDS/NuSEDS
+
+This update is intended to support consistent type assignment during data entry and review by making key qualifiers explicit.
+
+In practice:
+
+- **Record methods explicitly** (enumeration and estimation). If methods are unknown, the guidance assigns a conservative Type 5 and records a method-unknown qualifier.
+- **Record key qualifiers that affect interpretation** (e.g., run-window coverage, device uptime, breach/bypass context, timing/visibility constraints, infilling/interpolation method).
+- **Provide documentation evidence** sufficient for independent interpretation (e.g., field logs, methods/QA notes). Where evidence is missing, the guidance applies conservative downgrades.
+- **Report quantitative uncertainty when available** (e.g., CV or SE) to support qualified precision for Type 2 where appropriate (e.g., AUC and mark--recapture uncertainty reporting) [@english1992auc; @hilborn1999periodic; @parken2003aucUncertainty; @schwarz1993markRecapture].
 
 ## What this report provides
 
@@ -69,10 +82,10 @@ This report documents an updated, Hyatt-aligned guidance implementation that:
 
 - Preserves Hyatt's Types 1--6 while making eligibility rules explicit.
 - Separates **enumeration methods** (field data collection) from **estimation methods** (analysis and modelling).
-- Uses a property-first decision sequence that begins with a data-format gate and a method-known gate before method-family checks.
-- Records downgrade flags for common failure modes (e.g., breaches/bypass, coverage/uptime, visibility, documentation) and applies final documentation and precision/accuracy checks.
-- Encodes the key as machine-readable YAML and executes it consistently via an R engine and a Shiny application.
+- Uses a property-first decision sequence (data format gate; method-known gate; method-family checks; final documentation and uncertainty checks).
+- Records qualifier codes for common downgrade causes (e.g., breaches/bypass, coverage/uptime, timing/visibility, documentation).
+- Identifies recommended metadata additions for New SEDS/NuSEDS and notes that these additions are implemented in supporting software (see Methods).
 
 ## Scope
 
-This report documents classification logic, evidence expectations, and implementation wiring. It does not evaluate biological status or re-interpret escapement beyond assignment to Types 1--6 and associated downgrade flags.
+This report documents classification logic, evidence expectations, and recommended metadata. It does not re-estimate escapement, evaluate biological status, or replace program-specific expert judgement.

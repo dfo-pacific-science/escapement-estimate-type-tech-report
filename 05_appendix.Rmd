@@ -323,7 +323,7 @@ est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Resistivity Counter"] <-
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Video Counter"] <-
   "Enumerated as a device/mode; ensure QA review rate and uptime/coverage metadata are captured."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Calibrated Time Series"] <-
-  "Meeting notes flagged this as important for public interpretation; record calibration source years and revision history."
+  "For interpretability, record calibration source years, diagnostics, and revision history."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Combined Methods"] <-
   "Decompose into components (e.g., sonar + visual apportionment; fence + visual during breach) and apply conservative classification."
 

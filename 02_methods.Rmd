@@ -2,7 +2,7 @@
 
 ## Design principles (Hyatt-aligned)
 
-Hyatt (1997) intended estimate-type assignment to reflect (i) method properties, (ii) statistical properties, and (iii) documentation [@hyatt1997]. The updated key encodes these dimensions explicitly as decision gates, method-family checks, and final requirements.
+Hyatt (1997) intended estimate-type assignment to reflect (i) method properties, (ii) statistical properties, and (iii) documentation [@hyatt1997]. The updated guidance encodes these dimensions explicitly as decision gates, method-family checks, and final evidence requirements.
 
 ```{r hyatt-mapping-table}
 hyatt_mapping <- data.frame(
@@ -11,10 +11,10 @@ hyatt_mapping <- data.frame(
     "Statistical properties (units, accuracy, precision)",
     "Documentation"
   ),
-  `How the updated key encodes it` = c(
+  `How the updated guidance encodes it` = c(
     "Method families + property checks (coverage, effort, timing, visibility, cross-section coverage)",
     "Type eligibility by method family and a final precision/accuracy gate (supports CV/SE where available)",
-    "DOC flagging + final documentation enforcement"
+    "Documentation qualifier + final documentation enforcement"
   ),
   check.names = FALSE
 )
@@ -25,103 +25,149 @@ csas_kable(
   bold_header = FALSE,
   font_size = 9,
   align = c("l", "l"),
-  caption = "Mapping of Hyatt (1997) intent to the updated, property-first key implementation."
+  caption = "Mapping of Hyatt (1997) intent to the updated, property-first guidance implementation."
 ) |>
   csas_colspec(1, width = "5.0cm") |>
   csas_colspec(2, width = "10.0cm")
 ```
+
 ## Decision key design
 
-The classification key follows a property-first sequence that matches the current implementation in the companion toolkit repository (`dfo-pacific-science/smn-escapement-estimates-toolkit`) at `matrix_key/structured_dichotomous_key.yaml`:
+The classification follows a property-first sequence:
 
 1. **Data format gate**: non-numeric presence/not-detected is classified as Type 6.
-2. **Method known gate**: if survey and analytical methods are not identified, the estimate is provisionally Type 5 and flagged as METHOD_UNKNOWN.
+2. **Method known gate**: if survey and analytical methods are not identified, the estimate is provisionally Type 5 and flagged as method-unknown.
 3. **Method family selection**: a primary method family scopes the applicable questions.
-4. **Method-family checks**: coverage, visit frequency, visibility, timing, and related criteria drive downgrades.
-5. **Flag enforcement and final checks**: recorded flags are applied, then documentation and precision/accuracy checks apply conservative downgrades where evidence is missing.
+4. **Method-family checks**: coverage, effort, visibility, timing, and related criteria drive conservative downgrades.
+5. **Final checks**: documentation and uncertainty evidence are evaluated; where evidence is missing, conservative downgrades apply.
 
-This structure is intended to reduce subjective "table interpretation" by turning common qualifiers into explicit yes/no questions and recorded flags.
+This structure is intended to reduce subjective table interpretation by turning common qualifiers into explicit questions and recorded qualifier codes.
 
-## Cross-repo implementation dependencies
+## Software availability (implementation of the guidance)
 
-The technical report text in this repository is linked to implementation artifacts maintained in the companion toolkit repository (`dfo-pacific-science/smn-escapement-estimates-toolkit`). For reproducibility, this draft is aligned to toolkit commit `8eda70f`.
+The decision key and execution logic are implemented in a companion toolkit repository:
 
-```{r cross-repo-dependencies-table}
-toolkit_commit <- "8eda70f7cbcf6b9bab20d5f4129e6bd5290b2437"
-repo_base <- paste0("https://github.com/dfo-pacific-science/smn-escapement-estimates-toolkit/blob/", toolkit_commit, "/")
+- Repository: `dfo-pacific-science/smn-escapement-estimates-toolkit`
+- Release/tag: **TBD**
 
-cross_repo_deps <- data.frame(
-  `Artifact` = c(
-    "Classification key (YAML)",
-    "Classification engine (R)",
-    "Shiny app implementation",
-    "Path/regression tester"
+For the purposes of this report, it is sufficient to note that the software executes one canonical decision key and produces (i) an estimate Type (1--6) and (ii) explicit qualifier codes explaining conservative downgrades.
+
+## Handling common operational complications
+
+The updated guidance treats several recurring complications as explicit qualifiers rather than implicit judgement calls.
+
+### Breaches/bypass and infilling
+
+Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect interpretability unless the magnitude and correction method are documented. The updated guidance treats bypass/breach risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace].
+
+### Survey timing relative to run timing
+
+For survey-based indices, visit count alone is not sufficient: surveys must bracket the period when fish are present, and visibility constraints and observer effects can govern bias and comparability [@holtCox2008visual; @jones1998observer; @korman2002observerEfficiency; @hill1997aerialFrequency]. The updated guidance includes timing and visibility checks within method families where these factors are primary drivers of interpretability.
+
+### Combined-method estimates
+
+Combined-method workflows (e.g., system-wide sonar with tributary visual apportionment, or fences supplemented during breach periods) should be recorded as explicit components. The updated guidance applies a conservative rule: where multiple components contribute to the final estimate, the assigned Type should not exceed that implied by the weakest component unless a documented integration method supports a higher classification [@parsonsSkalski2010escTechniques].
+
+### Calibration and historical revisions
+
+Where historical values have been recalibrated or revised, the updated guidance treats calibration as an analysis layer that should be captured in metadata (calibration source, diagnostics, and revision history) rather than as a new estimate Type. This supports interpretation of time-series values by downstream users.
+
+### Quantitative uncertainty (CV/SE)
+
+Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part by qualified precision (variance evidence) [@hyatt1997]. Where available, reporting quantitative uncertainty (e.g., CV or SE) improves interpretability for downstream use. For example, AUC and peak-count approaches have established approaches for incorporating uncertainty and evaluating sensitivity to survey timing and frequency [@english1992auc; @hilborn1999periodic; @hill1997aerialFrequency; @parken2003aucUncertainty; @millar2012auc]. The updated guidance includes a final precision/accuracy check and recommends capturing quantitative uncertainty when available.
+
+## Recommended metadata elements for New SEDS/NuSEDS
+
+The updated guidance can be expressed using existing NuSEDS fields in many cases, but several high-value metadata elements are needed to make estimate Types interpretable and reproducible for downstream users.
+
+**Note:** The field names below are illustrative. The key point is that these elements are (i) recorded by the guidance as explicit qualifier codes and (ii) recommended for storage in New SEDS/NuSEDS so that Type assignment is transparent to data users.
+
+```{r recommended-metadata-table}
+recommended_meta <- data.frame(
+  `Metadata element` = c(
+    "Enumeration method (field)",
+    "Estimation method (analysis)",
+    "Primary method family (FS/V/A/S/T/R/P/M)",
+    "Run-window coverage evidence",
+    "Device/site uptime evidence",
+    "Breach/bypass context",
+    "Infilling/interpolation method",
+    "Survey timing relative to run timing",
+    "Visibility/conditions",
+    "Documentation evidence",
+    "Quantitative uncertainty (CV/SE)",
+    "Combined-method components",
+    "Calibration source + diagnostics",
+    "Revision history (what changed/when)"
   ),
-  `Repository path` = c(
-    "matrix_key/structured_dichotomous_key.yaml",
-    "R/classification_engine.R",
-    "app.R",
-    "R/comprehensive_path_testing.R"
+  `Why it matters for interpretation` = c(
+    "Scopes which property checks apply.",
+    "Distinguishes analysis pathways (e.g., mark--recapture, AUC, modelling).",
+    "Controls eligibility rules and the set of required qualifiers.",
+    "Explains conservative downgrades due to missed start/end of run.",
+    "Explains conservative downgrades due to outages/unobserved intervals.",
+    "Explains conservative downgrades where missed fish are plausible.",
+    "Distinguishes defensible correction from undocumented gap-filling.",
+    "A core driver of bias and comparability for survey indices.",
+    "Affects detectability and comparability (especially for visual methods).",
+    "Determines whether a downstream user can independently interpret the estimate.",
+    "Supports qualified precision for Type 2 and more transparent uncertainty.",
+    "Prevents concealment of a weaker component within an overall estimate.",
+    "Supports interpretation of recalibrated time series.",
+    "Supports transparency when historical values have been revised."
   ),
-  `Pinned link` = c(
-    paste0("[open](", repo_base, "matrix_key/structured_dichotomous_key.yaml)"),
-    paste0("[open](", repo_base, "R/classification_engine.R)"),
-    paste0("[open](", repo_base, "app.R)"),
-    paste0("[open](", repo_base, "R/comprehensive_path_testing.R)")
+  `Typical qualifier code(s)` = c(
+    "METHOD_UNKNOWN (if missing)",
+    "METHOD_UNKNOWN (if missing)",
+    "METHOD_UNKNOWN (if missing)",
+    "RUN_COVERAGE",
+    "UPTIME",
+    "BREACH_BYPASS",
+    "INFILL_METHOD",
+    "TIMING",
+    "VISIBILITY / ENV_COND",
+    "DOC",
+    "PRECISION_ACCURACY",
+    "(varies; conservative component rule)",
+    "(varies)",
+    "(varies)"
+  ),
+  `Priority for upload` = c(
+    "Required",
+    "Required",
+    "Required",
+    "Recommended",
+    "Recommended",
+    "Recommended",
+    "Recommended",
+    "Recommended",
+    "Recommended",
+    "Required",
+    "Recommended",
+    "Recommended",
+    "Recommended",
+    "Recommended"
   ),
   check.names = FALSE
 )
 
 csas_kable(
-  cross_repo_deps,
-  escape = FALSE,
+  recommended_meta,
+  escape = TRUE,
   bold_header = FALSE,
-  font_size = 9,
-  align = c("l", "l", "c"),
-  caption = "Cross-repo implementation dependencies used by this technical report draft (pinned to toolkit commit 8eda70f)."
+  font_size = 8,
+  align = c("l", "l", "l", "c"),
+  caption = "Recommended metadata elements for New SEDS/NuSEDS uploads to support transparent Type 1--6 assignment and interpretation."
 ) |>
-  csas_colspec(1, width = "4.0cm") |>
-  csas_colspec(2, width = "8.0cm") |>
-  csas_colspec(3, width = "2.0cm")
+  csas_colspec(1, width = "3.7cm") |>
+  csas_colspec(2, width = "7.0cm") |>
+  csas_colspec(3, width = "3.0cm") |>
+  csas_colspec(4, width = "2.3cm")
 ```
-
-## Handling common complications raised in meetings
-
-### Breaches/bypass and infilling
-
-Meeting notes repeatedly highlighted that breach extent, timing, and the infilling/interpolation method strongly affect how fixed-site and sonar estimates should be interpreted. In practice, these issues interact with core assumptions about coverage and closure (e.g., whether the monitored site captures the full run window) and can drive conservative type assignment when evidence is incomplete [@velezEspino2010atnarko; @holmes2005didson]. The updated key treats bypass/breach risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling was required (rather than leaving these issues implicit in a method label).
-
-### Survey timing relative to run timing
-
-Multiple contributors noted that visit count alone is not sufficient: surveys must bracket the period when fish are present. This aligns with published evaluations of visual survey programs where timing, visibility, and effort standardization can drive bias and comparability [@holtCox2008visual]. The updated key includes timing checks in method families where timing/visibility are primary drivers of comparability for relative-abundance series.
-
-### Combined-method estimates
-
-Several examples discussed combined-method workflows (e.g., system-wide sonar with tributary visual apportionment, or fences supplemented with visual counts during breach periods). The updated guidance retains Types 1--6 but recommends recording the contributing components explicitly and applying a conservative rule: where multiple components contribute to the final estimate, take the more conservative (higher-number) type implied by the weakest component unless a documented, defensible integration method supports a higher classification [@parsonsSkalski2010escTechniques].
-
-### Calibration and historical revisions
-
-Task-team discussions emphasized the need to communicate when historical values have been recalibrated or revised. The updated guidance treats calibration as an analysis layer that should be captured in metadata (calibration source, diagnostics, and revision history) rather than as a new estimate type. This supports public-facing interpretation and aligns with NuSEDS' intent to store both estimates and the method metadata required to interpret them [@openCanadaNuSEDS].
-
-### Precision metrics (CV/SE)
-
-Hyatt (1997) distinguishes Type 2 estimates in part by their qualified precision (variance estimate) [@hyatt1997]. Meeting notes similarly raised the value of reporting CV or standard error when available. Where time-series methods such as area-under-the-curve (AUC) are used, there is a literature on both AUC-based estimators and incorporating uncertainty through variance estimation and replication [@millar2012auc; @parken2003aucUncertainty]. The updated key includes a final precision/accuracy check and recommends capturing quantitative uncertainty (when available) rather than relying solely on qualitative labels.
-
-## Controlled vocabulary and metadata
-
-Enumeration methods and estimation methods are recorded separately. The minimal metadata expected by the key includes:
-
-- Data format (numeric vs presence/not-detected)
-- Primary method family (FS, V, A, S, T, R, P, M)
-- Coverage/uptime, reach coverage, cross-section coverage (as applicable)
-- Visit count/effort and timing relative to expected run timing (as applicable)
-- Visibility/conditions and any breach/bypass context (as applicable)
-- Documentation evidence (field logs, methods/QA writeups)
-- Analysis qualifiers (e.g., expansion factors, calibration metadata, uncertainty metrics) when available
 
 ## NuSEDS data dictionary alignment
 
-The NuSEDS data dictionary defines the database fields used to store enumeration methods, estimate methods, estimate classification (Types 1--6), and supporting metadata such as the number of inspections and run timing fields. The updated guidance is designed to be expressible using existing NuSEDS fields where possible, and to clearly identify gaps where additional metadata would improve public interpretation and reproducibility.
+The NuSEDS data dictionary defines the database fields used to store enumeration methods, estimation methods, estimate classification (Types 1--6), and supporting metadata (e.g., inspections/effort and timing fields) [@openCanadaNuSEDSDataDictionary]. The updated guidance is designed to be expressible using existing NuSEDS fields where possible, and to clearly identify gaps where additional metadata would improve interpretation and reproducibility.
 
 ```{r nuseds-fields-table}
 dd_path <- file.path("docs", "context", "Data_Dictionary_NuSEDS_EN.csv")
@@ -183,7 +229,7 @@ if (file.exists(dd_path)) {
 } else {
   dd_small <- data.frame(
     `Field Name` = wanted_fields,
-    `Field Definition` = "(NuSEDS data dictionary CSV not present in this repo; add it at docs/context/Data_Dictionary_NuSEDS_EN.csv to populate definitions.)",
+    `Field Definition` = "(NuSEDS data dictionary CSV not present.)",
     check.names = FALSE
   )
   dd_small <- merge(dd_small, field_roles, by = "Field Name", all.x = TRUE)
@@ -197,16 +243,12 @@ csas_kable(
   font_size = 8,
   col_names = c("Field", "Definition (truncated)", "Role in updated guidance"),
   align = c("l", "l", "l"),
-  caption = "NuSEDS fields relevant to estimate-type classification and how they relate to the updated guidance (see the NuSEDS data dictionary in docs/context/ if present)."
+  caption = "NuSEDS fields relevant to estimate-type classification and how they relate to the updated guidance (see the NuSEDS data dictionary in docs/context/)."
 ) |>
   csas_colspec(1, width = "2.5cm") |>
   csas_colspec(2, width = "5.5cm") |>
   csas_colspec(3, width = "6.5cm")
 ```
-
-## Implementation and verification
-
-The canonical decision key and execution logic are maintained in the companion toolkit repository (`dfo-pacific-science/smn-escapement-estimates-toolkit`). The classification engine (`R/classification_engine.R`) loads the YAML key (`matrix_key/structured_dichotomous_key.yaml`) and evaluates answers to produce final types and downgrade flags. The Shiny app (`app.R`) surfaces the decision flow for analysts, and the comprehensive path tester (`R/comprehensive_path_testing.R`) checks representative pathways across method families.
 
 ## Method families
 
@@ -233,7 +275,7 @@ csas_kable(
   bold_header = FALSE,
   font_size = 9,
   align = c("c", "l", "c"),
-  caption = "Method families encoded in the property-first key and the best attainable type before downgrades."
+  caption = "Method families encoded in the property-first guidance and the best attainable Type before conservative downgrades."
 ) |>
   csas_colspec(1, width = "1.2cm") |>
   csas_colspec(2, width = "10.8cm") |>

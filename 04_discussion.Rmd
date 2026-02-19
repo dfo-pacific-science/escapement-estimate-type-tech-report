@@ -1,59 +1,62 @@
 # Discussion
 
-## How this update should be used
+## Intended use (New SEDS/NuSEDS data entry and review)
 
-The updated guidance is intended to make estimate-type assignment:
+The updated guidance is intended to support consistent estimate-type assignment during data entry and review by:
 
-- **More consistent across producing groups**, by replacing implicit judgement calls with explicit questions and recorded downgrade flags.
-- **More interpretable to non-expert users**, by separating field enumeration from analytical estimation and making key qualifiers visible in metadata.
-- **More faithful to Hyatt (1997) intent**, by linking method properties, statistical properties, and documentation in a single, hierarchical key [@hyatt1997].
+- Making method and evidence expectations explicit (rather than implicit in a table-only lookup).
+- Recording conservative qualifier codes that explain why a candidate Type cannot be supported.
+- Improving interpretability for downstream users by separating enumeration (field) methods from estimation (analysis) methods.
 
-Importantly, estimate types are not a binary "usable/unusable" label. Meeting discussions repeatedly emphasized that some lower-quality estimates may still be useful for specific purposes (e.g., presence/absence or local context), but are inappropriate for others (e.g., quantitative stock-recruit analysis without supporting documentation).
+Estimate Types are not a binary "usable/unusable" label. Lower Types may still be informative for specific purposes (e.g., presence/absence, qualitative local context, or within-program indices), but are not interchangeable with census-like or fully qualified absolute-abundance estimates.
 
-## Implications for WSP rapid status assessments and filtering
+## Implications for downstream assessments
 
-Because estimate types are used as data-quality filters and can influence pathway selection and confidence in WSP rapid status workflows [@holt2009_058; @dfo2005wsp], inconsistent assignment can create discontinuities at threshold boundaries (especially around the Type 4 cutoff). A reproducible, YAML-encoded key helps reduce this risk and makes the reasons for screening transparent (e.g., missing methods, insufficient timing/coverage evidence, or missing documentation).
+Estimate Types are commonly used as screening filters in downstream workflows (including WSP rapid status assessments) where method properties and evidence quality affect interpretation [@holt2009_058; @dfo2005wsp]. When Type assignment is inconsistent, threshold-based decisions can become sensitive to classification noise, particularly near cutoffs (e.g., around the Type 4 boundary). More broadly, measurement error in spawner abundance can distort stock--recruit inference and downstream decisions, reinforcing the need to record uncertainty and detectability-related metadata where available [@waltersLudwig1981measurementError].
 
-## Capturing the "full story" in metadata
+By producing explicit qualifier codes (e.g., missing method identification, timing/coverage gaps, insufficient documentation), the updated guidance makes the reasons for conservative classification transparent and enables targeted improvements in metadata capture.
 
-The central theme in task-team notes is that the current NuSEDS table does not capture the full story behind an estimate. The updated guidance partially addresses this by recording downgrade flags, but several high-value metadata needs remain:
+## Recommended metadata additions (schema) and implementation status
 
-- **Breach/bypass severity and infilling details**: quantify the run fraction affected, timing relative to peak, and provide a description of the interpolation method.
-- **Observer reliability / observer efficiency**: capture whether observer efficiency was measured, how it was applied, and any systematic limitations affecting detectability.
-- **Combined-method workflows**: record the components (e.g., sonar + tributary visual apportionment) so the final classification cannot conceal a weaker component.
-- **Calibration and revision history**: record when a time series has been recalibrated, what reference series or method was used, and when values changed.
+A central finding of this update is that the current Type table alone cannot communicate the information required for consistent interpretation of real-world escapement estimates. Several recurring qualifiers are better represented as explicit metadata elements rather than as new public estimate Types.
 
-Where some groups currently use internal categories (e.g., "Type 1B") to express nuance not supported by NuSEDS, the preferred approach in this update is to preserve Types 1--6 and represent nuance through flags and metadata rather than inventing new public types.
+This report therefore recommends (and the companion implementation supports) additional metadata elements for New SEDS/NuSEDS uploads, including:
 
-More broadly, the shift toward open and more accessible Pacific salmon data products creates an incentive to make the rationale for estimate-type assignment legible to non-expert users (not just to the producing group) [@dfoPacificSalmonDataPortal; @openCanadaNuSEDS].
+- Run-window coverage evidence (missed start/end of run).
+- Device/site uptime and unobserved intervals.
+- Breach/bypass context and severity.
+- Infilling/interpolation method and justification.
+- Timing relative to run timing (and visibility/conditions where relevant).
+- Combined-method components and an integration method summary.
+- Calibration source and diagnostics for calibrated time series.
+- Revision history (what changed and when).
+- Quantitative uncertainty when available (e.g., CV or SE).
 
-The NuSEDS data dictionary includes qualitative `ACCURACY` and `PRECISION` fields and a legacy `RELIABILITY` field (historical/import), but it does not define standard quantitative uncertainty fields (e.g., CV or SE). This supports the meeting recommendation to capture uncertainty more consistently, while keeping the public estimate type as Types 1--6.
+These elements are summarized in Methods (Table \@ref(tab:recommended-metadata-table)). In the companion software (software available at `dfo-pacific-science/smn-escapement-estimates-toolkit`, **release tag: TBD**), these elements are reflected in the returned qualifier codes so that Type assignment is transparent to data users.
+
+## Practical implementation monitoring (lightweight)
+
+A full empirical validation program is outside current resourcing. However, New SEDS/NuSEDS stakeholders can still track practical indicators of data completeness and interpretability that are directly tied to the guidance.
+
+Suggested monitoring metrics include:
+
+- Proportion of estimates with **METHOD_UNKNOWN**.
+- Proportion of estimates downgraded for **DOC** (insufficient documentation evidence).
+- Frequency of specific qualifiers (e.g., RUN_COVERAGE, UPTIME, BREACH_BYPASS, TIMING, VISIBILITY) by program or time period.
+- Distribution of Types (1--6) over time within programs, to detect abrupt changes driven by metadata practices rather than biology.
+
+These metrics support targeted improvements (e.g., documenting breach severity more consistently) without requiring a resource-intensive validation study.
+
+## Limitations
+
+This guidance summarizes interpretability given recorded methods and evidence. It does not correct biased inputs, replace program expertise, or guarantee biological accuracy. The most common practical limitation is incomplete metadata: when critical qualifiers are not recorded, the guidance applies conservative classification (often Type 5) to avoid overstating interpretability.
 
 ## Governance and change control
 
-This guidance is encoded as a single decision key in the companion toolkit repository (`smn-escapement-estimates-toolkit`), in `matrix_key/structured_dichotomous_key.yaml`. Any changes to thresholds, method families, or downgrade rules should be accompanied by updates to the toolkit path-testing script (`R/comprehensive_path_testing.R`) so behavior changes are deliberate and reviewable.
-
-## Pragmatic adoption and evidence plan
-
-A full empirical validation program is outside current resourcing. A lightweight plan can still provide practical evidence and improve uptake.
-
-1. **Track usage in-app (low burden)**
-   - Use the toolkit feedback form to capture optional usage intent (e.g., status assessment, technical report, operations) and organization/team.
-   - Summarize counts quarterly to identify where guidance is being used and where support is needed.
-2. **Track repository and site signals**
-   - Capture monthly snapshots of repository traffic (views/clones), stars/forks/watchers, and GitHub Pages traffic where available.
-   - Use these as directional adoption indicators, not performance metrics.
-3. **Encourage explicit referencing**
-   - Provide machine-readable citation metadata (`CITATION.cff`) and a short “how to cite” block in toolkit and report docs.
-   - Ask users to reference both the toolkit repository and the technical report in downstream products.
-4. **Maintain consistency evidence already available**
-   - Continue running path/regression tests in the toolkit repository for each key update.
-   - Maintain a small set of worked examples in the technical report appendix to show expected key behavior on representative scenarios.
-
-This approach does not replace formal validation, but it gives an immediately actionable signal on usage, transparency, and implementation consistency.
+Because estimate Types are used as screening tools and can influence downstream inference, any changes to method families, thresholds, or qualifier rules should be versioned and reviewed. Changes should be accompanied by an updated worked example set and regression/path tests in the companion implementation so that behavior changes are deliberate and transparent.
 
 ## Next steps
 
-- Validate the key against representative NuSEDS records and compare outputs with historical assignments to identify systematic differences.
-- Define a minimal, public-facing metadata schema for NuSEDS and related Pacific salmon data products that supports the key (including uncertainty metrics where available).
-- Establish a lightweight review process for method vocabulary and threshold changes, supported by path testing and versioned YAML releases.
+- Finalize a minimal, public-facing metadata schema for New SEDS/NuSEDS that supports the guidance (including quantitative uncertainty fields where available).
+- Maintain a small set of worked examples (anonymized as needed) to demonstrate expected behavior on representative cases.
+- Use implementation monitoring metrics (above) to prioritize metadata capture improvements that most strongly affect interpretability.

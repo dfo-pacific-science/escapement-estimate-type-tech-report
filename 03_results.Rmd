@@ -1,10 +1,12 @@
 # Results
 
-The updated, property-first key is encoded in the companion toolkit repository (`dfo-pacific-science/smn-escapement-estimates-toolkit`) at `matrix_key/structured_dichotomous_key.yaml` (aligned to commit `8eda70f` in this draft) and produces a final estimate Type alongside downgrade flags. The same key is executed by the toolkit R classification engine and Shiny app, ensuring one canonical implementation and a consistent interpretation of estimate-type guidance.
+This section summarizes the primary outputs of the updated, property-first estimate Type (1--6) guidance: a transparent decision sequence, explicit qualifier (downgrade) codes, and practical evidence expectations that can be used during New SEDS/NuSEDS data entry and review.
+
+A companion software implementation executes one canonical decision key and returns both (i) a final estimate Type and (ii) explicit qualifier codes explaining any conservative downgrades. In this report, the implementation details are intentionally minimized; the software should be referenced as **software available at** `dfo-pacific-science/smn-escapement-estimates-toolkit` (**release tag: TBD**).
 
 ## Key overview
 
-(ref:key-overview-fig) Overview of the property-first gates and method-family checks in the updated key.
+(ref:key-overview-fig) Overview of the property-first gates and method-family checks in the updated guidance.
 
 ```{r key-overview-fig, fig.cap="(ref:key-overview-fig)"}
 op <- par(no.readonly = TRUE)
@@ -24,7 +26,7 @@ draw_arrow <- function(x0, y0, x1, y1) {
 draw_box(0.08, 0.86, 0.92, 0.96, "Data format gate\n(presence/not-detected -> Type 6)")
 draw_box(0.08, 0.71, 0.92, 0.81, "Method known gate\n(unknown -> Type 5 + METHOD_UNKNOWN)")
 draw_box(0.08, 0.56, 0.92, 0.66, "Method family selection\nFS, V, A, S, T, R, P, M")
-draw_box(0.08, 0.38, 0.92, 0.50, "Family-specific property checks\n(coverage, effort, timing, visibility, etc.)\n-> downgrade flags")
+draw_box(0.08, 0.38, 0.92, 0.50, "Family-specific property checks\n(coverage, effort, timing, visibility, etc.)\n-> qualifier codes")
 draw_box(0.08, 0.20, 0.92, 0.30, "Final checks\n(documentation + precision/accuracy)")
 
 draw_arrow(0.50, 0.86, 0.50, 0.81)
@@ -35,7 +37,7 @@ draw_arrow(0.50, 0.38, 0.50, 0.30)
 par(op)
 ```
 
-## What is updated relative to the NuSEDS table
+## What is updated relative to the table-only guidance
 
 ```{r updates-table}
 updates <- data.frame(
@@ -44,18 +46,18 @@ updates <- data.frame(
     "Ambiguous handling of breaches/bypass, coverage gaps, and infilling",
     "Timing relative to expected run timing not made explicit",
     "Combined-method estimates treated as a single opaque category",
-    "Calibration/historical revisions not communicated to public users",
+    "Calibration/historical revisions not communicated to data users",
     "Precision/accuracy criteria hard to apply without uncertainty metadata",
-    "Documentation expectations not enforceable as part of a reproducible workflow"
+    "Documentation expectations not enforceable as part of a repeatable workflow"
   ),
   `Update in this guidance` = c(
-    "Explicit method family coverage and definitions, with conservative eligibility rules aligned to Hyatt (1997)",
-    "Downgrade flags (e.g., BREACH_BYPASS, RUN_COVERAGE, UPTIME, INFILL_METHOD) plus final documentation enforcement",
-    "Timing/visibility questions within method families where they control comparability",
-    "Conservative approach for combined-method workflows: record components and do not hide the weakest component",
-    "Recommend calibration metadata and revision history as part of the record (rather than inventing new types)",
-    "Final precision/accuracy gate plus recommendation to capture CV/SE when available",
-    "Single source of truth (YAML) executed in code plus path testing to keep behavior stable"
+    "Explicit method-family coverage and definitions, with conservative eligibility rules aligned to Hyatt (1997)",
+    "Explicit qualifier codes (e.g., BREACH_BYPASS, RUN_COVERAGE, UPTIME, INFILL_METHOD) plus final documentation enforcement",
+    "Timing and visibility checks within method families where these factors control comparability",
+    "Conservative approach for combined-method workflows: record components and do not conceal the weakest component",
+    "Recommend calibration metadata and revision history as part of the record (rather than inventing new public Types)",
+    "Final precision/accuracy check plus recommendation to capture quantitative uncertainty (CV/SE) when available",
+    "A single, published guidance implementation that produces explicit reasons for conservative classification"
   ),
   check.names = FALSE
 )
@@ -66,15 +68,61 @@ csas_kable(
   bold_header = FALSE,
   font_size = 8,
   align = c("l", "l"),
-  caption = "Summary of the main updates relative to the current NuSEDS estimate-type table usage."
+  caption = "Summary of the main updates relative to the current table-only estimate-type guidance."
 ) |>
   csas_colspec(1, width = "7.0cm") |>
   csas_colspec(2, width = "8.0cm")
 ```
 
-## Illustrative outcomes
+## Minimum evidence expectations by Type
 
-The scenarios below illustrate representative outcomes from the current key.
+The guidance is intended to help data providers record enough information that estimate Types can be interpreted consistently by downstream users. Table \@ref(tab:minimum-evidence-table) summarizes practical minimum evidence expectations and common conservative qualifiers.
+
+```{r minimum-evidence-table}
+minimum_evidence <- data.frame(
+  `Candidate Type` = c(
+    "Type 1 (census/near-census)",
+    "Type 2 (absolute abundance estimate)",
+    "Type 3 (high-resolution index)",
+    "Type 4 (medium-resolution index)",
+    "Type 5 (low evidence / method unknown)",
+    "Type 6 (presence/not-detected)"
+  ),
+  `Minimum evidence for interpretation` = c(
+    "Method explicitly identified; evidence that missed fish are negligible or well constrained (e.g., full coverage/uptime, bypass/breach context handled); documentation sufficient for independent review.",
+    "Method explicitly identified; estimation pathway documented; quantitative uncertainty (CV/SE) recorded when available; documentation sufficient for independent review.",
+    "Method explicitly identified; survey effort and reach/coverage recorded; timing brackets the run window or is otherwise justified; visibility constraints documented.",
+    "Method explicitly identified; at least minimal effort/coverage recorded; timing/visibility constraints explicitly recorded (Type 4 is sensitive to these qualifiers).",
+    "Method unknown or documentation insufficient for stronger inference; record method-unknown and other qualifiers so downstream users can interpret conservatively.",
+    "Non-numeric record (+/--); species identification credible; record observation basis and date context."
+  ),
+  `Common qualifiers when evidence is missing` = c(
+    "RUN_COVERAGE, UPTIME, BREACH_BYPASS, DOC",
+    "PRECISION_ACCURACY, DOC, METHOD_UNKNOWN",
+    "VISITS, TIMING, VISIBILITY, REACH_COVERAGE, DOC",
+    "VISITS, TIMING, VISIBILITY, DOC",
+    "METHOD_UNKNOWN, DOC",
+    "(context-dependent)"
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  minimum_evidence,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "l", "l"),
+  caption = "Practical minimum evidence expectations and common conservative qualifier codes by estimate Type."
+) |>
+  csas_colspec(1, width = "3.6cm") |>
+  csas_colspec(2, width = "8.2cm") |>
+  csas_colspec(3, width = "3.2cm")
+```
+
+## Illustrative outcomes (hypothetical examples)
+
+The scenarios below are hypothetical examples intended to illustrate representative outcomes from the key.
 
 ```{r illustrative-outcomes}
 examples <- data.frame(
@@ -89,20 +137,20 @@ examples <- data.frame(
   ),
   `Key conditions` = c(
     "Full coverage, QA review, documentation",
-    "Bypass not monitored",
+    "Bypass not monitored or breach severity unknown",
     "Classification documented, within spec, uptime sufficient, documentation present",
-    "Partial cross-section coverage",
+    "Partial cross-section coverage or outages",
     ">=5 visits, reach coverage adequate, timing brackets peak",
-    "1-2 visits or visits miss the run window",
+    "1--2 visits or visits miss the run window",
     "Non-numeric data format"
   ),
   Outcome = c(
-    "Type 1, no flags",
+    "Type 1 (no qualifiers)",
     "Type 2 + BREACH_BYPASS",
-    "Type 2",
-    "Type 3 + XSEC_COVERAGE",
+    "Type 2 (no qualifiers)",
+    "Type 3 + XSEC_COVERAGE and/or UPTIME",
     "Type 2 (AUC pathway) or Type 3 (index pathway)",
-    "Type 4 + VISITS/TIMING",
+    "Type 4 + VISITS and/or TIMING",
     "Type 6"
   ),
   check.names = FALSE
@@ -114,7 +162,7 @@ csas_kable(
   bold_header = FALSE,
   font_size = 9,
   align = c("l", "l", "l"),
-  caption = "Illustrative classification outcomes from the property-first key."
+  caption = "Hypothetical illustrative classification outcomes from the property-first guidance."
 ) |>
   csas_colspec(1, width = "3.8cm") |>
   csas_colspec(2, width = "7.2cm") |>
