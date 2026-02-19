@@ -51,7 +51,7 @@ jobs:
 
       - name: Render CSAS technical report (DOCX primary source)
         run: |
-          Rscript -e "bookdown::render_book('index.Rmd', output_format = 'csasdown::techreport_docx')"
+          Rscript -e "csasdown::render(output_format = 'csasdown::techreport_docx')"
 
       - name: Convert DOCX to PDF (primary published artifact)
         run: |

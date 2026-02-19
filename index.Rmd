@@ -1,18 +1,21 @@
 ---
 title: |
   "Updated Escapement Estimate Type Classification Guidance"
+english_title: |
+  Updated Escapement Estimate Type Classification Guidance
 french_title: |
-  "Updated Escapement Estimate Type Classification Guidance (French translation pending)"
+  Updated Escapement Estimate Type Classification Guidance (French translation pending)
+
 year: 2025
 report_number: "draft"
 author: |
   NuSEDS Escapement Estimates Toolkit Working Group^1^
 author_list: "NuSEDS Escapement Estimates Toolkit Working Group"
-region: Pacific Region
+
+english_region: Pacific Region
 french_region: "Region du Pacifique (French translation pending)"
-isbn: ""
-report_DOI: ""
-address: |
+
+english_address: |
   ^1^Pacific Biological Station\
      Fisheries and Oceans Canada, 3190 Hammond Bay Road\
      Nanaimo, British Columbia, V9T 6N7, Canada
@@ -20,21 +23,46 @@ french_address: |
   ^1^Pacific Biological Station\
      Fisheries and Oceans Canada, 3190 Hammond Bay Road\
      Nanaimo, British Columbia, V9T 6N7, Canada
+
+english_preamble_pages: "iv"
+french_preamble_pages: "iv"
+english_content_pages: "xx"
+french_content_pages: "xx"
+
+english_doi: "TBD"
+french_doi: "TBD"
+english_isbn: "TBD"
+french_isbn: "TBD"
+english_cat_no: "TBD"
+french_cat_no: "TBD"
+
+# Legacy aliases retained for compatibility with existing draft metadata usage.
+region: Pacific Region
+isbn: ""
+report_DOI: ""
+address: |
+  ^1^Pacific Biological Station\
+     Fisheries and Oceans Canada, 3190 Hammond Bay Road\
+     Nanaimo, British Columbia, V9T 6N7, Canada
 phone: ""
 author_footnote: "Email: brett.johnson\\@dfo-mpo.gc.ca"
+
 abstract: |
   This technical report documents the updated NuSEDS escapement estimate type classification guidance and the property-first decision key used to assign estimate Types 1-6. The update is motivated by inconsistent application of the current table-only guidance across operational groups, downstream use of estimate types in Wild Salmon Policy rapid status workflows, and the need for clearer public-facing interpretation as Pacific salmon data transparency initiatives expand. The key separates enumeration and estimation methods, standardizes method families, and applies downgrade criteria for coverage, visibility, documentation, and precision. The classification logic is encoded in a structured YAML file and implemented in an R engine and Shiny application to support consistent use across programs. This draft summarizes the decision gates, method families, and implementation details, and provides illustrative classification outcomes.
 french_abstract: |
   French translation pending.
 citation_french: "NuSEDS Escapement Estimates Toolkit Working Group. 2025. Updated Escapement Estimate Type Classification Guidance. Rapp. tech. can. sci. halieut. aquat. draft."
 show_continued_text: true
+
 output:
+  csasdown::techreport_docx:
+    french: false
   bookdown::gitbook:
     config:
       toc:
         collapse: section
-  csasdown::techreport_docx:
-    french: false
+knit: (function(input, ...) csasdown::render())
+
 type:
   techreport
 site: bookdown::bookdown_site

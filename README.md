@@ -14,17 +14,14 @@ remotes::install_github("pbs-assess/csasdown")
 # Optional web version (secondary)
 bookdown::render_book("index.Rmd", output_format = "bookdown::gitbook")
 
-# CSAS technical report source document (DOCX)
-bookdown::render_book(
-  "index.Rmd",
-  output_format = "csasdown::techreport_docx"
-)
+# CSAS technical report source document (DOCX + CSAS front matter)
+csasdown::render(output_format = "csasdown::techreport_docx")
 ```
 
 Then convert the generated DOCX to PDF locally (e.g., LibreOffice) if needed.
 
 - **Web output (secondary)**: `_book/`
-- **DOCX output (primary source artifact)**: `techreport.docx` (location may vary by render context)
+- **DOCX output (primary source artifact)**: `_book/techreport.docx`
 - **PDF output (primary published artifact)**: produced from DOCX conversion
 
 ## GitHub Pages
