@@ -48,7 +48,7 @@ This structure is intended to reduce subjective table interpretation by turning 
 The decision key and execution logic are implemented in a companion toolkit repository:
 
 - Repository: `dfo-pacific-science/smn-escapement-estimates-toolkit`
-- Release/tag: **TBD**
+- Release/tag: **v0.1.0**
 
 For the purposes of this report, it is sufficient to note that the software executes one canonical decision key and produces (i) an estimate Type (1--6) and (ii) explicit qualifier codes explaining conservative downgrades.
 
