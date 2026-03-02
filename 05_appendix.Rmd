@@ -73,6 +73,29 @@ csas_kable(
 # Appendix B: Downgrade criteria codes {#app:downgrade-codes}
 
 ```{r downgrade-codes}
+downgrade_code_terms <- c(
+  "RunCoverage",
+  "NumberOfVisits",
+  "BreachBypass",
+  "Uptime",
+  "ReviewQA",
+  "Visibility",
+  "ReachCoverage",
+  "Timing",
+  "EffortStandardization",
+  "CrossSectionCoverage",
+  "Classification",
+  "TrapEfficiency",
+  "Detectability",
+  "DeviceConfiguration",
+  "EnvironmentalConditions",
+  "MarkRecaptureAssumptions",
+  "InfillMethod",
+  "Documentation",
+  "PrecisionAccuracy",
+  "MethodUnknown"
+)
+
 downgrade_codes <- data.frame(
   Code = c(
     "RUN_COVERAGE",
@@ -118,6 +141,9 @@ downgrade_codes <- data.frame(
     "Precision or accuracy weaker than candidate Type.",
     "Survey or analysis method not identified."
   ),
+  `Ontology term` = paste0("gcdfo:", downgrade_code_terms),
+  `Ontology IRI` = paste0("https://w3id.org/gcdfo/salmon#", downgrade_code_terms),
+  `WIDOCO term page` = paste0("https://dfo-pacific-science.github.io/dfo-salmon-ontology/#", downgrade_code_terms),
   check.names = FALSE
 )
 
@@ -125,12 +151,15 @@ csas_kable(
   downgrade_codes,
   escape = TRUE,
   bold_header = FALSE,
-  font_size = 9,
-  align = c("l", "l"),
-  caption = "Downgrade criteria codes used by the classification key."
+  font_size = 8,
+  align = c("l", "l", "l", "l", "l"),
+  caption = "Downgrade criteria codes used by the classification key, with linkages to published DFO Salmon Ontology terms and WIDOCO pages."
 ) |>
-  csas_colspec(1, width = "4.0cm") |>
-  csas_colspec(2, width = "11.0cm")
+  csas_colspec(1, width = "2.6cm") |>
+  csas_colspec(2, width = "4.6cm") |>
+  csas_colspec(3, width = "2.8cm") |>
+  csas_colspec(4, width = "3.2cm") |>
+  csas_colspec(5, width = "3.2cm")
 ```
 
 `r if (knitr::is_latex_output()) "\\\\clearpage"`
@@ -216,6 +245,8 @@ if (!dd_available) {
 enum_crosswalk <- data.frame(
   `NuSEDS ENUMERATION_METHODS value` = enum_vals,
   `Suggested method family` = NA_character_,
+  `Ontology term` = NA_character_,
+  `WIDOCO term page` = NA_character_,
   Notes = "",
   check.names = FALSE
 )
@@ -252,6 +283,28 @@ enum_crosswalk[["Suggested method family"]][enum_crosswalk[[1]] %in% c(
   "Biologist/Working Group", "Other"
 )] <- "unknown"
 
+enum_widoco_base <- "https://dfo-pacific-science.github.io/dfo-salmon-ontology/#"
+
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c(
+  "Bank Walk", "Stream Walk", "Walk", "Boat", "Float", "Strip Counts", "Spot Checks", "Dead Pitch", "Peak Live and Dead Count"
+)] <- "gcdfo:VisualGroundCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Snorkel", "Snorkel Swim")] <- "gcdfo:VisualSnorkelCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c(
+  "Fence", "Enumeration by Hatchery", "Broodstock Removal"
+)] <- "gcdfo:FixedSiteCensusManual"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Electronic Counters")] <- "gcdfo:FixedSiteCensusElectronic"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Fixed Wing Aircraft", "Helicopter")] <- "gcdfo:AerialSurveyCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Hydroacoustic Station")] <- "gcdfo:HydroacousticSonarCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Trap")] <- "gcdfo:TrapCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Redd Counts")] <- "gcdfo:ReddCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Electroshocking")] <- "gcdfo:ElectrofishingCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Tag Recovery")] <- "gcdfo:MarkRecaptureFieldProgram"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Based on Angling Catch")] <- "gcdfo:EnumerationMethod"
+
+has_enum_term <- !is.na(enum_crosswalk[["Ontology term"]])
+enum_crosswalk[["WIDOCO term page"]][has_enum_term] <-
+  paste0(enum_widoco_base, sub("^gcdfo:", "", enum_crosswalk[["Ontology term"]][has_enum_term]))
+
 enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Peak Live and Dead Count"] <-
   "Value is analysis-like; prefer capturing peak/cumulative variants under ESTIMATE_METHOD."
 enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Dead Pitch"] <-
@@ -259,7 +312,7 @@ enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Dead Pitch"] <-
 enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Trap"] <-
   "If trap is non-spanning or efficiency-corrected, use T; fully constraining traps may behave more like fixed-site counting."
 enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Based on Angling Catch"] <-
-  "Catch-based index; treat as a CPUE-style index unless more detail is provided."
+  "Catch-based index; treat as a CPUE-style index unless more detail is provided; ontology linkage is provisional at scheme level."
 enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Biologist/Working Group"] <-
   "Not a method; treat as method-unknown unless a specific field/analysis method is documented elsewhere."
 enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Other"] <-
@@ -270,12 +323,14 @@ csas_kable(
   escape = TRUE,
   bold_header = FALSE,
   font_size = 8,
-  align = c("l", "c", "l"),
-  caption = "Suggested mapping from NuSEDS enumeration method values to the updated key method families (FS, V, A, S, T, R, P, M)."
+  align = c("l", "c", "l", "l", "l"),
+  caption = "Suggested mapping from NuSEDS enumeration method values to the updated key method families (FS, V, A, S, T, R, P, M), with ontology term and WIDOCO linkages."
 ) |>
-  csas_colspec(1, width = "5.0cm") |>
-  csas_colspec(2, width = "1.5cm") |>
-  csas_colspec(3, width = "8.0cm")
+  csas_colspec(1, width = "3.7cm") |>
+  csas_colspec(2, width = "1.2cm") |>
+  csas_colspec(3, width = "2.8cm") |>
+  csas_colspec(4, width = "4.0cm") |>
+  csas_colspec(5, width = "4.0cm")
 }
 ```
 
@@ -297,6 +352,8 @@ est_crosswalk <- data.frame(
   `NuSEDS ESTIMATE_METHOD value` = est_names,
   `Guidance interpretation` = NA_character_,
   `Suggested method family` = NA_character_,
+  `Ontology term` = NA_character_,
+  `WIDOCO term page` = NA_character_,
   Notes = "",
   check.names = FALSE
 )
@@ -387,6 +444,43 @@ est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
   "Cumulative New"
 )] <- "unknown"
 
+est_widoco_base <- "https://dfo-pacific-science.github.io/dfo-salmon-ontology/#"
+
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Fixed Site Census", "Resistivity Counter", "Video Counter"
+)] <- "gcdfo:FixedStationTally"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Sonar-ARIS", "Sonar-DIDSON"
+)] <- "gcdfo:HydroacousticModelling"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Mark & Recapture: Petersen",
+  "Mark & Recapture: Jolly-Seber",
+  "Mark & Recapture: Bayesian",
+  "Mark & Recapture: Open Model"
+)] <- "gcdfo:MarkRecaptureAnalysis"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Area Under the Curve"
+)] <- "gcdfo:AreaUnderTheCurve"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Peak Live + Dead", "Peak Live + Cumulative Dead", "Cumulative New"
+)] <- "gcdfo:PeakCountAnalysis"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "(Peak Live+Cum Dead)*Expansion", "Peak Live * Expansion", "Addition/Subtraction", "Multiplication/Division", "Lake Expansion"
+)] <- "gcdfo:ExpansionMathematicalOperations"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Redd Count"
+)] <- "gcdfo:ReddExpansionAnalysis"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Calibrated Time Series"
+)] <- "gcdfo:CalibratedTimeSeries"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Combined Methods", "Cumulative CPUE"
+)] <- "gcdfo:EstimateMethod"
+
+has_est_term <- !is.na(est_crosswalk[["Ontology term"]])
+est_crosswalk[["WIDOCO term page"]][has_est_term] <-
+  paste0(est_widoco_base, sub("^gcdfo:", "", est_crosswalk[["Ontology term"]][has_est_term]))
+
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Resistivity Counter"] <-
   "Enumerated as a device/mode; ensure bypass/coverage/QA metadata are captured to support Type 1/2 eligibility."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Video Counter"] <-
@@ -396,7 +490,9 @@ est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Calibrated Time Series"] <-
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Combined Methods"] <-
   "Decompose into components (e.g., sonar + visual apportionment; fence + visual during breach) and apply conservative classification."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Cumulative New"] <-
-  "Legacy dictionary label with no method definition in the source description; treat conservatively as method unknown unless program-specific documentation exists."
+  "Legacy dictionary label with no method definition in the source description; mapped to PeakCountAnalysis pending local confirmation."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Cumulative CPUE"] <-
+  "No specific CPUE estimate concept is currently defined in this scheme; linked at EstimateMethod scheme level."
 
 # Fail-safe: prevent blank crosswalk rows if new dictionary values appear.
 unmapped_est <- is.na(est_crosswalk[["Guidance interpretation"]]) |
@@ -414,13 +510,15 @@ csas_kable(
   escape = TRUE,
   bold_header = FALSE,
   font_size = 8,
-  align = c("l", "l", "c", "l"),
-  caption = "Suggested interpretation of NuSEDS estimate method values under the updated guidance. Where 'depends' appears, additional method metadata are required to apply the key cleanly."
+  align = c("l", "l", "c", "l", "l", "l"),
+  caption = "Suggested interpretation of NuSEDS estimate method values under the updated guidance, with ontology term and WIDOCO linkages. Where 'depends' appears, additional method metadata are required to apply the key cleanly."
 ) |>
-  csas_colspec(1, width = "3.5cm") |>
-  csas_colspec(2, width = "4.5cm") |>
-  csas_colspec(3, width = "1.2cm") |>
-  csas_colspec(4, width = "4.5cm")
+  csas_colspec(1, width = "2.8cm") |>
+  csas_colspec(2, width = "3.2cm") |>
+  csas_colspec(3, width = "1.0cm") |>
+  csas_colspec(4, width = "2.6cm") |>
+  csas_colspec(5, width = "3.0cm") |>
+  csas_colspec(6, width = "3.4cm")
 }
 ```
 

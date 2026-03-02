@@ -233,6 +233,54 @@ csas_kable(
   csas_colspec(4, width = "2.4cm")
 ```
 
+## Ontology linkages for methods and downgrade criteria
+
+To support interoperable interpretation, the SEN implementation fields are linked to the published DFO Salmon Ontology concept schemes and term pages (WIDOCO documentation):
+
+- ontology entrypoint: <https://w3id.org/gcdfo/salmon>
+- WIDOCO documentation (latest): <https://dfo-pacific-science.github.io/dfo-salmon-ontology/>
+
+```{r ontology-linkage-schemes-table}
+ontology_schemes <- data.frame(
+  `NuSEDS element` = c(
+    "ENUMERATION_METHODS",
+    "ESTIMATE_METHOD",
+    "DOWNGRADE_CRITERIA"
+  ),
+  `Ontology scheme term` = c(
+    "gcdfo:EnumerationMethodScheme",
+    "gcdfo:EstimateMethodScheme",
+    "gcdfo:DowngradeCriteriaScheme"
+  ),
+  `Ontology IRI` = c(
+    "https://w3id.org/gcdfo/salmon#EnumerationMethodScheme",
+    "https://w3id.org/gcdfo/salmon#EstimateMethodScheme",
+    "https://w3id.org/gcdfo/salmon#DowngradeCriteriaScheme"
+  ),
+  `WIDOCO term page` = c(
+    "https://dfo-pacific-science.github.io/dfo-salmon-ontology/#EnumerationMethodScheme",
+    "https://dfo-pacific-science.github.io/dfo-salmon-ontology/#EstimateMethodScheme",
+    "https://dfo-pacific-science.github.io/dfo-salmon-ontology/#DowngradeCriteriaScheme"
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  ontology_schemes,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "l", "l", "l"),
+  caption = "Ontology concept-scheme linkages for NuSEDS enumeration methods, estimate methods, and downgrade criteria."
+) |>
+  csas_colspec(1, width = "3.2cm") |>
+  csas_colspec(2, width = "3.8cm") |>
+  csas_colspec(3, width = "4.2cm") |>
+  csas_colspec(4, width = "4.2cm")
+```
+
+Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix D (enumeration and estimate methods).
+
 ## NuSEDS data dictionary alignment
 
 The NuSEDS data dictionary defines the database fields used to store enumeration methods, estimation methods, estimate classification (Types 1--6), and supporting metadata (e.g., inspections/effort and timing fields) [@openCanadaNuSEDSDataDictionary]. The updated guidance is designed to be expressible using existing NuSEDS fields where possible, and to clearly identify gaps where additional metadata would improve interpretation and reproducibility.
