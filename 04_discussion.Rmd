@@ -20,19 +20,39 @@ By producing explicit qualifier codes (e.g., missing method identification, timi
 
 A central finding of this update is that the current Type table alone cannot communicate the information required for consistent interpretation of real-world escapement estimates. Several recurring qualifiers are better represented as explicit metadata elements rather than as new public estimate Types.
 
-This report therefore recommends (and the companion implementation supports) additional metadata elements for NuSEDS uploads, including:
+Using the PSDCoP estimate-type presentation and the attached implementation correspondence, the near-term rollout is best framed as **SEN-first** with controlled vocabularies.
 
-- Run-window coverage evidence (missed start/end of run).
-- Device/site uptime and unobserved intervals.
-- Breach/bypass context and severity.
-- Infilling/interpolation method and justification.
-- Timing relative to run timing (and visibility/conditions where relevant).
-- Combined-method components and an integration method summary.
-- Calibration source and diagnostics for calibrated time series.
-- Revision history (what changed and when).
-- Quantitative uncertainty when available (e.g., CV or SE).
+### SEN fields prioritized for implementation
 
-These elements are summarized in Methods (Table \@ref(tab:recommended-metadata-table)). In the companion toolkit implementation, these elements are reflected in the returned qualifier codes so that Type assignment is transparent to data users [@smnToolkitShiny].
+The following SEN fields are the clearest implementation priorities for aligning NuSEDS uploads with the updated guidance:
+
+- `ESTIMATE_TYPE_CLASS_JUSTIFICATION`: records why a given Type assignment was made.
+- `DOWNGRADE_CRITERIA`: records which downgrade trigger(s) were applied.
+- `UNCERTAINTY_VALUE_TYPE`: records the uncertainty metric class (e.g., CV, SE, CI, SD).
+- `UNCERTAINTY_VALUE`: records the corresponding numeric uncertainty value.
+- `ANALYSIS_EXPLANATION`: records analysis details, including modified or combined methods.
+
+Collectively, these fields operationalize key qualifiers already used by the decision key (method clarity, downgrade rationale, and uncertainty transparency).
+
+### Supporting lookup tables and naming updates
+
+Implementation notes indicate the following supporting structures are already partway through rollout:
+
+- `DOWNGRADE_CRITERIA_BASE_TABLE`: controlled values for downgrade criteria.
+- `UNCERTAINTY_VALUE_TYPE_BASE_TABLE`: controlled values/definitions for uncertainty metric types.
+- `DOWNGRADE_CRITERIA_IMPACT` renamed to `DOWNGRADE_CRITERIA_COMMENT` to support broader explanatory context.
+
+These controls reduce ambiguity and help keep entries consistent across areas and programs.
+
+### Items still under discussion
+
+Several metadata items remain valuable but were not fully settled in the correspondence reviewed for this update:
+
+- `WSP_RAPID_STATUS_YN` (candidate SEN field): useful for screening workflows, but maintainability and interpretation details need clearer governance.
+- SIL additions: still less mature than SEN additions and require further prioritization.
+- `ENHANCEMENT_RANK`, `POP_CATEGORY`, and `CUMatchVerifiedYN`: discussed as follow-on site/CU context fields, especially for WSP-oriented interpretation.
+
+For this report, the implementation priority is therefore: finalize SEN metadata first, keep SIL/CU extensions explicit in backlog, and maintain transparent mapping from stored fields to decision-key qualifiers [@smnToolkitShiny].
 
 ## Practical implementation monitoring (lightweight)
 

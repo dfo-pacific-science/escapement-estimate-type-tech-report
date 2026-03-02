@@ -77,7 +77,7 @@ Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part b
 
 The updated guidance can be expressed using existing NuSEDS fields in many cases, but several high-value metadata elements are needed to make estimate Types interpretable and reproducible for downstream users.
 
-**Note:** The field names below are illustrative. The key point is that these elements are (i) recorded by the guidance as explicit qualifier codes and (ii) recommended for storage in NuSEDS so that Type assignment is transparent to data users.
+**Note:** This section distinguishes (i) guidance-level metadata elements and (ii) implementation-aligned NuSEDS fields currently prioritized for SEN uploads. The key point is that these elements are recorded by the guidance as explicit qualifier codes so Type assignment remains transparent to downstream data users.
 
 ```{r recommended-metadata-table}
 recommended_meta <- data.frame(
@@ -160,6 +160,77 @@ csas_kable(
   csas_colspec(2, width = "7.0cm") |>
   csas_colspec(3, width = "3.0cm") |>
   csas_colspec(4, width = "2.3cm")
+```
+
+## Implementation-aligned NuSEDS additions (SEN-first rollout)
+
+Task-team correspondence and implementation notes indicate a near-term SEN-first rollout. The table below captures the specific fields and supporting lookup tables discussed for implementation.
+
+```{r nuseds-additions-implementation-table}
+nuseds_additions <- data.frame(
+  `Field / table` = c(
+    "ESTIMATE_TYPE_CLASS_JUSTIFICATION",
+    "DOWNGRADE_CRITERIA",
+    "UNCERTAINTY_VALUE_TYPE",
+    "UNCERTAINTY_VALUE",
+    "ANALYSIS_EXPLANATION",
+    "DOWNGRADE_CRITERIA_BASE_TABLE",
+    "UNCERTAINTY_VALUE_TYPE_BASE_TABLE",
+    "DOWNGRADE_CRITERIA_COMMENT",
+    "WSP_RAPID_STATUS_YN",
+    "ENHANCEMENT_RANK / POP_CATEGORY / CUMatchVerifiedYN"
+  ),
+  `Scope` = c(
+    "SEN upload",
+    "SEN upload",
+    "SEN upload",
+    "SEN upload",
+    "SEN upload",
+    "Lookup / controlled values",
+    "Lookup / controlled values",
+    "Lookup table column",
+    "SEN upload (candidate)",
+    "Site/CU metadata (candidate)"
+  ),
+  `Role in guidance` = c(
+    "Documents why a Type was assigned.",
+    "Records explicit downgrade triggers used by the decision key.",
+    "Captures uncertainty metric class (e.g., CV, SE, CI, SD).",
+    "Stores numeric uncertainty value paired to uncertainty type.",
+    "Documents analytical workflow, including modified/combined methods.",
+    "Provides controlled downgrade criteria values for consistent entry.",
+    "Provides controlled uncertainty metric values and definitions.",
+    "Replaces prior IMPACT field with broader comment context.",
+    "Flags rapid-status use; discussed but not fully settled.",
+    "Supports WSP/CU interpretation context; discussed for follow-on integration."
+  ),
+  `Implementation status` = c(
+    "Prioritized for development",
+    "Prioritized for development",
+    "Prioritized for development",
+    "Prioritized for development",
+    "Prioritized for development",
+    "Created in Dev",
+    "Created in Dev",
+    "Renamed from DOWNGRADE_CRITERIA_IMPACT",
+    "Under discussion",
+    "Under discussion"
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  nuseds_additions,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "l", "l", "l"),
+  caption = "Implementation-aligned NuSEDS field additions discussed for estimate-type guidance rollout."
+) |>
+  csas_colspec(1, width = "3.8cm") |>
+  csas_colspec(2, width = "2.8cm") |>
+  csas_colspec(3, width = "6.0cm") |>
+  csas_colspec(4, width = "2.4cm")
 ```
 
 ## NuSEDS data dictionary alignment
