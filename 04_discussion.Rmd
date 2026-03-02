@@ -32,7 +32,7 @@ This report therefore recommends (and the companion implementation supports) add
 - Revision history (what changed and when).
 - Quantitative uncertainty when available (e.g., CV or SE).
 
-These elements are summarized in Methods (Table \@ref(tab:recommended-metadata-table)). In the companion toolkit implementation, these elements are reflected in the returned qualifier codes so that Type assignment is transparent to data users [@smnToolkitShiny].
+These elements are summarized in the recommended metadata table in Methods. In the companion toolkit implementation, these elements are reflected in the returned qualifier codes so that Type assignment is transparent to data users [@smnToolkitShiny].
 
 ## Practical implementation monitoring (lightweight)
 

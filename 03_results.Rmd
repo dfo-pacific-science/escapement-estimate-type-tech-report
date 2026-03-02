@@ -23,7 +23,7 @@ In practice, this means recording:
 - Documentation evidence sufficient for independent interpretation.
 - Quantitative uncertainty where available.
 
-A compact, single-table rule summary is provided in Appendix A (Table \@ref(tab:classification-rule-summary-table)).
+A compact, single-table rule summary is provided in Appendix A.
 
 ## Companion implementation
 
