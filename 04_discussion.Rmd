@@ -1,6 +1,6 @@
 # Discussion
 
-## Intended use (New SEDS/NuSEDS data entry and review)
+## Intended use (NuSEDS data entry and review)
 
 The updated guidance is intended to support consistent estimate-type assignment during data entry and review by:
 
@@ -20,7 +20,7 @@ By producing explicit qualifier codes (e.g., missing method identification, timi
 
 A central finding of this update is that the current Type table alone cannot communicate the information required for consistent interpretation of real-world escapement estimates. Several recurring qualifiers are better represented as explicit metadata elements rather than as new public estimate Types.
 
-This report therefore recommends (and the companion implementation supports) additional metadata elements for New SEDS/NuSEDS uploads, including:
+This report therefore recommends (and the companion implementation supports) additional metadata elements for NuSEDS uploads, including:
 
 - Run-window coverage evidence (missed start/end of run).
 - Device/site uptime and unobserved intervals.
@@ -36,7 +36,7 @@ These elements are summarized in Methods (Table \@ref(tab:recommended-metadata-t
 
 ## Practical implementation monitoring (lightweight)
 
-A full empirical validation program is outside current resourcing. However, New SEDS/NuSEDS stakeholders can still track practical indicators of data completeness and interpretability that are directly tied to the guidance.
+A full empirical validation program is outside current resourcing. However, NuSEDS stakeholders can still track practical indicators of data completeness and interpretability that are directly tied to the guidance.
 
 Suggested monitoring metrics include:
 
@@ -57,6 +57,6 @@ Because estimate Types are used as screening tools and can influence downstream 
 
 ## Next steps
 
-- Finalize a minimal, public-facing metadata schema for New SEDS/NuSEDS that supports the guidance (including quantitative uncertainty fields where available).
+- Finalize a minimal, public-facing metadata schema for NuSEDS that supports the guidance (including quantitative uncertainty fields where available).
 - Maintain a small set of worked examples (anonymized as needed) to demonstrate expected behavior on representative cases.
 - Use implementation monitoring metrics (above) to prioritize metadata capture improvements that most strongly affect interpretability.

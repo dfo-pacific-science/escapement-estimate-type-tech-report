@@ -1,0 +1,11 @@
+# Conclusion
+
+The updated guidance keeps the familiar Type 1--6 structure but replaces table-only interpretation with explicit, auditable decision logic grounded in Hyatt (1997): method properties, statistical properties, and documentation evidence [@hyatt1997].
+
+For NuSEDS users, the practical change is simple: record method details and key qualifiers at upload time so that estimate Types remain interpretable downstream. In particular, run-window coverage, uptime, breach/bypass context, timing/visibility constraints, documentation evidence, and (where available) quantitative uncertainty (CV/SE) materially affect how an estimate can be used.
+
+For downstream analysts, the main benefit is transparency. Conservative downgrades are accompanied by explicit qualifier codes, making it clear why a stronger Type is not supported and where metadata improvements would have the largest payoff.
+
+A full validation program can follow as resources allow; in the near term, implementation monitoring (e.g., METHOD_UNKNOWN, DOC, RUN_COVERAGE, UPTIME, BREACH_BYPASS frequencies) provides a practical way to track adoption quality and prioritize process improvements.
+
+Overall, this update improves consistency, reduces ambiguity, and supports more defensible use of escapement estimates in status and assessment workflows [@dfo2005wsp; @holt2009_058].

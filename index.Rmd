@@ -4,16 +4,16 @@ title: |
 english_title: |
   Updated Escapement Estimate Type Classification Guidance
 french_title: |
-  Updated Escapement Estimate Type Classification Guidance (French translation pending)
+  Updated Escapement Estimate Type Classification Guidance
 
 year: 2025
-report_number: "draft"
+report_number: "to be assigned"
 author: |
   NuSEDS Escapement Estimates Toolkit Working Group^1^
 author_list: "NuSEDS Escapement Estimates Toolkit Working Group"
 
 english_region: Pacific Region
-french_region: "Region du Pacifique (French translation pending)"
+french_region: "Pacific Region"
 
 english_address: |
   ^1^Pacific Biological Station\
@@ -29,14 +29,14 @@ french_preamble_pages: "iv"
 english_content_pages: "xx"
 french_content_pages: "xx"
 
-english_doi: "TBD"
-french_doi: "TBD"
-english_isbn: "TBD"
-french_isbn: "TBD"
-english_cat_no: "TBD"
-french_cat_no: "TBD"
+english_doi: "to be assigned"
+french_doi: "to be assigned"
+english_isbn: "to be assigned"
+french_isbn: "to be assigned"
+english_cat_no: "to be assigned"
+french_cat_no: "to be assigned"
 
-# Legacy aliases retained for compatibility with existing draft metadata usage.
+# Legacy aliases retained for compatibility with existing metadata usage.
 region: Pacific Region
 isbn: ""
 report_DOI: ""
@@ -48,10 +48,10 @@ phone: ""
 author_footnote: "Email: brett.johnson\\@dfo-mpo.gc.ca"
 
 abstract: |
-  This technical report documents updated NuSEDS/New SEDS escapement estimate Type (1--6) classification guidance intended for biologists who upload escapement data and require consistent, transparent interpretation of estimate quality. The update addresses observed operational complications not encoded by table-only guidance (e.g., incomplete run-window coverage, device/site outages, breach/bypass at counting sites, variable visibility, and incomplete documentation). The guidance aligns to Hyatt (1997) by explicitly linking method properties, statistical properties, and documentation in a property-first decision sequence. It separates enumeration (field) methods from estimation (analysis) methods, defines method families, and records explicit qualifier codes for conservative downgrades related to timing, coverage, visibility, documentation, and (where available) quantified uncertainty (e.g., CV/SE). The report recommends additional metadata elements for New SEDS/NuSEDS to make Type assignment interpretable to downstream users and notes that the guidance is implemented in companion software (SMN Escapement Estimates Toolkit; R Shiny application) [@smnToolkitShiny].
+  This technical report documents updated NuSEDS (New Salmon Escapement Database System) escapement estimate Type (1--6) classification guidance intended for biologists who upload escapement data and require consistent, transparent interpretation of estimate quality. The update addresses observed operational complications not encoded by table-only guidance (e.g., incomplete run-window coverage, device/site outages, breach/bypass at counting sites, variable visibility, and incomplete documentation). The guidance aligns to Hyatt (1997) by explicitly linking method properties, statistical properties, and documentation in a property-first decision sequence. It separates enumeration (field) methods from estimation (analysis) methods, defines method families, and records explicit qualifier codes for conservative downgrades related to timing, coverage, visibility, documentation, and (where available) quantified uncertainty (e.g., CV/SE). The report recommends additional metadata elements for NuSEDS to make Type assignment interpretable to downstream users and notes that the guidance is implemented in companion software (SMN Escapement Estimates Toolkit; R Shiny application) [@smnToolkitShiny].
 french_abstract: |
-  French translation pending.
-citation_french: "NuSEDS Escapement Estimates Toolkit Working Group. 2025. Updated Escapement Estimate Type Classification Guidance. Rapp. tech. can. sci. halieut. aquat. draft."
+  English-only release.
+citation_french: "NuSEDS Escapement Estimates Toolkit Working Group. 2025. Updated Escapement Estimate Type Classification Guidance. Rapp. tech. can. sci. halieut. aquat. (to be assigned)."
 show_continued_text: true
 
 output:

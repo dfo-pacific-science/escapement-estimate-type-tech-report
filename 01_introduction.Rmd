@@ -1,8 +1,8 @@
 # Introduction {#sec:introduction}
 
-NuSEDS (National Salmon Escapement Database) stores salmon spawner survey records, spawner abundance estimates, and linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. NuSEDS estimate Types 1--6 are intended to communicate the interpretability of annual escapement estimates for downstream uses such as stock assessment and status evaluation. However, the current table-only guidance is often applied inconsistently and does not explicitly encode common, operational complications that strongly influence interpretation (e.g., incomplete run coverage, breaches/bypass at counting sites, variable visibility, and incomplete documentation).
+The New Salmon Escapement Database System (NuSEDS) stores salmon spawner survey records, spawner abundance estimates, and linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. NuSEDS estimate Types 1--6 are intended to communicate the interpretability of annual escapement estimates for downstream uses such as stock assessment and status evaluation. However, the current table-only guidance is often applied inconsistently and does not explicitly encode common, operational complications that strongly influence interpretation (e.g., incomplete run coverage, breaches/bypass at counting sites, variable visibility, and incomplete documentation).
 
-This report documents an updated, Hyatt-aligned guidance implementation intended for biologists and analysts who upload escapement data to New SEDS/NuSEDS and require a consistent, transparent basis for assigning Types 1--6.
+This report documents an updated, Hyatt-aligned guidance implementation intended for biologists and analysts who upload escapement data to NuSEDS and require a consistent, transparent basis for assigning Types 1--6.
 
 ## Hyatt (1997) intent and foundation
 
@@ -65,7 +65,7 @@ In operational datasets, the same nominal estimate Type can be assigned to metho
 - **Combined-method workflows**: multi-component estimates (e.g., sonar combined with tributary visual apportionment; fences supplemented during breach periods) require explicit component recording to avoid concealing a weaker component [@parsonsSkalski2010escTechniques].
 - **Downstream filtering sensitivity**: estimate Types are used as data-quality filters in Wild Salmon Policy (WSP) rapid status workflows; inconsistent assignment can create discontinuities near threshold cutoffs [@holt2009_058].
 
-## How this guidance should be used when uploading to New SEDS/NuSEDS
+## How this guidance should be used when uploading to NuSEDS
 
 This update is intended to support consistent type assignment during data entry and review by making key qualifiers explicit.
 
@@ -84,7 +84,7 @@ This report documents an updated, Hyatt-aligned guidance implementation that:
 - Separates **enumeration methods** (field data collection) from **estimation methods** (analysis and modelling).
 - Uses a property-first decision sequence (data format gate; method-known gate; method-family checks; final documentation and uncertainty checks).
 - Records qualifier codes for common downgrade causes (e.g., breaches/bypass, coverage/uptime, timing/visibility, documentation).
-- Identifies recommended metadata additions for New SEDS/NuSEDS and notes that these additions are implemented in supporting software (see Methods).
+- Identifies recommended metadata additions for NuSEDS and notes that these additions are implemented in supporting software (see Methods).
 
 ## Scope
 

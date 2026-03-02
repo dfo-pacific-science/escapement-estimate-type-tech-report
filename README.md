@@ -46,7 +46,7 @@ The narrative in this report references implementation artifacts maintained in:
 
 - `https://github.com/dfo-pacific-science/smn-escapement-estimates-toolkit`
 
-Current draft alignment is to toolkit commit `8eda70f` (classification key YAML, classification engine, Shiny app flow, and path tests).
+Current alignment is to toolkit release `v0.1.0` (classification key YAML, classification engine, Shiny app flow, and path tests).
 
 ## Citation
 

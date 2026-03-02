@@ -3,7 +3,74 @@
 
 `r if (knitr::is_latex_output()) "\\\\clearpage"`
 
-# Appendix A: Downgrade criteria codes {#app:downgrade-codes}
+# Appendix A: Classification rule summary {#app:classification-rule-summary}
+
+```{r classification-rule-summary-table}
+classification_rule_summary <- data.frame(
+  `Rule stage` = c(
+    "1. Data format gate",
+    "2. Method known gate",
+    "3. Method family assignment",
+    "4. Family-specific checks (counting systems)",
+    "5. Family-specific checks (survey indices)",
+    "6. Combined-method integration rule",
+    "7. Documentation gate",
+    "8. Precision/accuracy gate",
+    "9. Final assignment"
+  ),
+  `Decision / trigger` = c(
+    "Record is non-numeric (presence or not-detected)",
+    "Enumeration and/or estimation method not identified",
+    "Primary method family selected (FS, V, A, S, T, R, P, M)",
+    "Coverage, uptime, bypass/breach, cross-section, and related counting-system checks fail or are incomplete",
+    "Visit effort, timing relative to run, visibility, reach coverage, or related survey checks fail or are incomplete",
+    "Multiple components contribute to final estimate",
+    "Evidence package insufficient for independent interpretation",
+    "Candidate Type requires uncertainty/accuracy evidence that is missing or weak",
+    "All gates evaluated"
+  ),
+  `Classification effect` = c(
+    "Assign Type 6",
+    "Assign provisional Type 5",
+    "Select applicable rule path",
+    "Apply conservative downgrades within selected path",
+    "Apply conservative downgrades within selected path",
+    "Final Type cannot exceed weakest component unless integration method supports stronger classification",
+    "Apply conservative downgrade",
+    "Apply conservative downgrade",
+    "Return final Type plus explicit qualifier codes"
+  ),
+  `Primary qualifier code(s)` = c(
+    "(none)",
+    "METHOD_UNKNOWN",
+    "(path selection step)",
+    "RUN_COVERAGE, UPTIME, BREACH_BYPASS, XSEC_COVERAGE, DEVICE_CONFIG",
+    "VISITS, TIMING, VISIBILITY, REACH_COVERAGE, EFF_STD, DETECTABILITY",
+    "INFILL_METHOD (as relevant), component-level qualifiers",
+    "DOC",
+    "PRECISION_ACCURACY",
+    "All triggered qualifiers retained as audit trail"
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  classification_rule_summary,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "l", "l", "l"),
+  caption = "Single-table summary of the NuSEDS estimate-type classification rules used for forward implementation."
+) |>
+  csas_colspec(1, width = "3.6cm") |>
+  csas_colspec(2, width = "5.2cm") |>
+  csas_colspec(3, width = "3.4cm") |>
+  csas_colspec(4, width = "3.6cm")
+```
+
+`r if (knitr::is_latex_output()) "\\\\clearpage"`
+
+# Appendix B: Downgrade criteria codes {#app:downgrade-codes}
 
 ```{r downgrade-codes}
 downgrade_codes <- data.frame(
@@ -68,7 +135,7 @@ csas_kable(
 
 `r if (knitr::is_latex_output()) "\\\\clearpage"`
 
-# Appendix B: Glossary {#app:glossary}
+# Appendix C: Glossary {#app:glossary}
 
 ```{r glossary-table}
 glossary <- data.frame(
@@ -119,11 +186,11 @@ csas_kable(
 
 `r if (knitr::is_latex_output()) "\\\\clearpage"`
 
-# Appendix C: NuSEDS data dictionary crosswalk {#app:nuseds-crosswalk}
+# Appendix D: NuSEDS data dictionary crosswalk {#app:nuseds-crosswalk}
 
 This appendix documents how the updated guidance relates to NuSEDS fields and controlled vocabularies (see `docs/context/Data_Dictionary_NuSEDS_EN.csv`).
 
-## C.1 Enumeration method values (ENUMERATION_METHODS)
+## D.1 Enumeration method values (ENUMERATION_METHODS)
 
 ```{r nuseds-enum-crosswalk}
 dd_path <- file.path("docs", "context", "Data_Dictionary_NuSEDS_EN.csv")
@@ -132,7 +199,7 @@ dd_available <- file.exists(dd_path)
 if (!dd_available) {
   dd <- NULL
   knitr::asis_output(
-    "NuSEDS data dictionary CSV not present in this repo. Add it at `docs/context/Data_Dictionary_NuSEDS_EN.csv` to generate the crosswalk tables in Appendix C."
+    "NuSEDS data dictionary CSV not present in this repo. Add it at `docs/context/Data_Dictionary_NuSEDS_EN.csv` to generate the crosswalk tables in Appendix D."
   )
 } else {
   dd <- read.csv(
@@ -212,12 +279,12 @@ csas_kable(
 }
 ```
 
-## C.2 Estimate method values (ESTIMATE_METHOD)
+## D.2 Estimate method values (ESTIMATE_METHOD)
 
 ```{r nuseds-estimate-method-crosswalk}
 if (!exists("dd_available") || !isTRUE(dd_available)) {
   knitr::asis_output(
-    "NuSEDS data dictionary CSV not present in this repo. Add it at `docs/context/Data_Dictionary_NuSEDS_EN.csv` to generate the crosswalk tables in Appendix C."
+    "NuSEDS data dictionary CSV not present in this repo. Add it at `docs/context/Data_Dictionary_NuSEDS_EN.csv` to generate the crosswalk tables in Appendix D."
   )
 } else {
 est_def <- dd[["Field Definition"]][dd[["Field Name"]] == "ESTIMATE_METHOD"]
@@ -308,14 +375,16 @@ est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
   "Unknown Estimate Method",
   "Other Estimate Method",
   "Not Applicable",
-  "Expert Opinion"
+  "Expert Opinion",
+  "Cumulative New"
 )] <- "Method unknown/administrative label"
 est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
   "Insufficient Information",
   "Unknown Estimate Method",
   "Other Estimate Method",
   "Not Applicable",
-  "Expert Opinion"
+  "Expert Opinion",
+  "Cumulative New"
 )] <- "unknown"
 
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Resistivity Counter"] <-
@@ -326,6 +395,19 @@ est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Calibrated Time Series"] <-
   "For interpretability, record calibration source years, diagnostics, and revision history."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Combined Methods"] <-
   "Decompose into components (e.g., sonar + visual apportionment; fence + visual during breach) and apply conservative classification."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Cumulative New"] <-
+  "Legacy dictionary label with no method definition in the source description; treat conservatively as method unknown unless program-specific documentation exists."
+
+# Fail-safe: prevent blank crosswalk rows if new dictionary values appear.
+unmapped_est <- is.na(est_crosswalk[["Guidance interpretation"]]) |
+  is.na(est_crosswalk[["Suggested method family"]])
+if (any(unmapped_est)) {
+  est_crosswalk[["Guidance interpretation"]][unmapped_est] <-
+    "Unmapped dictionary value (conservative handling)"
+  est_crosswalk[["Suggested method family"]][unmapped_est] <- "unknown"
+  est_crosswalk[["Notes"]][unmapped_est & est_crosswalk[["Notes"]] == ""] <-
+    "New value not yet mapped in this report; treat as method unknown until mapping is reviewed."
+}
 
 csas_kable(
   est_crosswalk,
