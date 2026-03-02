@@ -54,6 +54,19 @@ Several metadata items remain valuable but were not fully settled in the corresp
 
 For this report, the implementation priority is therefore: finalize SEN metadata first, keep SIL/CU extensions explicit in backlog, and maintain transparent mapping from stored fields to decision-key qualifiers [@smnToolkitShiny].
 
+## Companion app status: unresolved policy/specification gaps
+
+The current Shiny implementation explicitly surfaces remaining policy and specification gaps that can still affect cross-program consistency if left implicit [@smnToolkitShiny]. The most material items are:
+
+- **Mixed-method estimates**: explicit combination policy is still needed (e.g., conservative minimum-component rule vs. weighted integration with evidence requirements).
+- **Ambiguous threshold language**: terms such as "negligible", "adequate", "fair", and "defensible" still need regionally agreed quantitative thresholds.
+- **Breach severity interpretation**: clearer rules are needed for how breach magnitude/timing (e.g., peak vs early/late-season) should influence downgrades.
+- **Calibration diagnostics standards**: calibrated time-series pathways need explicit minimum diagnostics/validation expectations.
+- **Documentation standardization**: documentation labels are functionally similar but still inconsistently phrased across method pathways.
+- **Type-5 pathway clarity**: practical pathways for low-resolution relative estimates should remain explicit to avoid ad hoc interpretation.
+
+Treating these as tracked implementation backlog (rather than unresolved hidden assumptions) improves transparency and allows prioritized governance updates.
+
 ## Practical implementation monitoring (lightweight)
 
 A full empirical validation program is outside current resourcing. However, NuSEDS stakeholders can still track practical indicators of data completeness and interpretability that are directly tied to the guidance.

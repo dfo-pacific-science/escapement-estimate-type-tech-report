@@ -522,4 +522,43 @@ csas_kable(
 }
 ```
 
+## D.3 Type-to-accuracy/precision lookup used in the companion toolkit
+
+The companion toolkit working guidance includes a compact lookup that can be used when populating legacy-style accuracy/precision class fields alongside estimate Type [@smnToolkitShiny].
+
+```{r type-accuracy-precision-lookup}
+type_lookup <- data.frame(
+  `Estimate Type` = c(1, 2, 3, 4, 5, 6),
+  `accuracy_class` = c(
+    "actual_very_high",
+    "actual_or_assigned_high",
+    "assigned_range_med_high",
+    "unknown_assumed_constant",
+    "unknown_assumed_highly_variable",
+    "medium_to_high"
+  ),
+  `precision_class` = c(
+    "plus_minus_zero",
+    "high_to_moderate",
+    "assigned_med_high",
+    "unknown_assumed_constant",
+    "unknown_assumed_highly_variable",
+    "unknown"
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  type_lookup,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("c", "l", "l"),
+  caption = "Companion-toolkit lookup from estimate Type to legacy-style accuracy/precision class labels."
+) |>
+  csas_colspec(1, width = "2.0cm") |>
+  csas_colspec(2, width = "6.5cm") |>
+  csas_colspec(3, width = "6.5cm")
+```
+
 `r if(knitr:::is_latex_output()) '% end csasdown appendix'`

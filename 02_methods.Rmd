@@ -49,6 +49,16 @@ The guidance is implemented in the **SMN Escapement Estimates Toolkit** (R Shiny
 
 In this report, the software is treated as a companion implementation rather than a primary publication artifact. To avoid over-emphasizing engineering details for the intended audience, the implementation is referenced only at a high level.
 
+## Companion implementation status snapshot (current)
+
+A focused implementation-status check was completed against the current toolkit codebase [@smnToolkitShiny] to confirm that report guidance and software behavior remain aligned.
+
+Current snapshot highlights:
+
+- The YAML decision key currently encodes **8 method families** (FS, V, A, S, T, R, P, M), **20 downgrade criteria**, and **6 invariant rules**.
+- The comprehensive path-test suite currently reports **26/26 passing** scenarios across method families, gate behavior, and downgrade pathways.
+- The app's "Known Issues" panel currently flags unresolved policy/specification items (e.g., mixed-method combination policy, quantifiable thresholds for ambiguous terms, and calibration diagnostic standards) that should be treated as active implementation backlog rather than closed guidance questions.
+
 ## Handling common operational complications
 
 The updated guidance treats several recurring complications as explicit qualifiers rather than implicit judgement calls.
