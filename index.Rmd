@@ -170,6 +170,8 @@ if (knitr::is_latex_output()) {
 
 # Overview {-}
 
-This report documents the updated NuSEDS escapement estimate Type (1--6) classification guidance and the property-first decision key used to assign types consistently.
+NuSEDS estimate Types 1--6 are widely used as data-quality signals, but practical application has varied across programs and areas. This report responds to that gap with updated, Hyatt-aligned guidance that replaces table-only interpretation with an explicit, property-first decision key.
+
+The update was advanced through Pacific Region discussions (including the Pacific Salmon Data Community of Practice and a Regional Escapement Data Task Team) to improve consistency in how estimate types are assigned and interpreted. The report provides implementation-ready guidance for uploads and review, including explicit downgrade qualifiers and prioritized NuSEDS metadata additions.
 
 `r if (knitr::is_latex_output()) "\\\\clearpage"`

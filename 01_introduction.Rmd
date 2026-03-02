@@ -1,8 +1,10 @@
 # Introduction {#sec:introduction}
 
-The New Salmon Escapement Database System (NuSEDS) stores salmon spawner survey records, spawner abundance estimates, and linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. NuSEDS estimate Types 1--6 are intended to communicate the interpretability of annual escapement estimates for downstream uses such as stock assessment and status evaluation. However, the current table-only guidance is often applied inconsistently and does not explicitly encode common, operational complications that strongly influence interpretation (e.g., incomplete run coverage, breaches/bypass at counting sites, variable visibility, and incomplete documentation).
+The New Salmon Escapement Database System (NuSEDS) stores salmon spawner survey records, spawner abundance estimates, and linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. NuSEDS estimate Types 1--6 are intended to communicate estimate interpretability for downstream uses such as stock assessment and status evaluation. In practice, however, table-only guidance has been applied unevenly and does not consistently capture common operational complications (e.g., partial run coverage, breaches/bypass, visibility constraints, and incomplete documentation).
 
-This report documents an updated, Hyatt-aligned guidance implementation intended for biologists and analysts who upload escapement data to NuSEDS and require a consistent, transparent basis for assigning Types 1--6.
+The immediate impetus for this update was repeated confusion and discrepancies in estimate-type assignment within a DFO Area across programs, which raised concern that similar inconsistencies were likely present elsewhere in the Pacific Region. This issue was brought to the Pacific Salmon Data Community of Practice and a Regional Escapement Data Task Team was established to improve consistency and transparency in estimate-type application.
+
+This report provides the resulting forward implementation guidance: a Hyatt-aligned, property-first decision key for assigning Types 1--6, explicit downgrade qualifiers, and practical metadata recommendations for NuSEDS uploads [@hyatt1997]. The intended users are biologists and analysts responsible for preparing, uploading, reviewing, and interpreting escapement estimates.
 
 ## Hyatt (1997) intent and foundation
 
