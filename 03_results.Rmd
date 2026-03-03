@@ -1,4 +1,4 @@
-# Guidance updates for forward implementation
+# Applying the guidance in practice
 
 Next we summarize the substantive updates to the Type 1--6 guidance and how it should be applied during NuSEDS data entry and review.
 
@@ -11,6 +11,15 @@ Compared to table-only interpretation, the updated guidance:
 - Applies explicit qualifier codes for conservative downgrades (coverage, timing, visibility, documentation, and method-known gaps).
 - Treats combined-method estimates as component-based workflows so weaker components are not concealed.
 - Encourages recording quantitative uncertainty (CV/SE) where available.
+
+
+## Legacy method vocabulary context
+
+NuSEDS stores historical method terminology across multiple legacy labels. To support implementation planning, we reviewed method distributions in both `ENUMERATION_METHODS` and `ESTIMATE_METHOD` and retained the most frequent terms for interpretability, with longer-tail terms preserved through controlled mapping in Appendix C.
+
+```{r method-field-top-terms, fig.width=6.0, fig.height=5.2, fig.cap="Top 10 method terms in NuSEDS SEN method fields (enumeration and estimate)."}
+knitr::include_graphics("docs/figures/appendix_e_figure2_top_terms_faceted.png")
+```
 
 ## How to apply the guidance moving forward
 

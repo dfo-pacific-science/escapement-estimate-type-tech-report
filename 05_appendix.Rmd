@@ -283,7 +283,7 @@ csas_kable(
 ```
 
 
-```{r nuseds-enum-sankey, fig.cap="Sankey-style summary of how legacy NuSEDS enumeration-method terms converge to canonical parent terms used by the updated guidance.", fig.height=5.4, fig.width=6.8}
+```{r nuseds-enum-sankey, fig.cap="Sankey-style summary of how legacy NuSEDS enumeration-method terms converge to canonical parent terms used by the updated guidance.", fig.height=5.4, fig.width=6.0}
 if (exists("enum_crosswalk")) {
   sank <- enum_crosswalk[, c("NuSEDS ENUMERATION_METHODS value", "Ontology term")]
   names(sank) <- c("source", "target")
@@ -324,8 +324,8 @@ if (exists("enum_crosswalk")) {
     }
 
     # Draw nodes + labels
-    text(x1, y_src, sources, adj = c(1, 0.5), cex = 0.7)
-    text(x2, y_tgt, targets, adj = c(0, 0.5), cex = 0.75)
+    text(x1, y_src, sources, adj = c(1, 0.5), cex = 0.62)
+    text(x2, y_tgt, targets, adj = c(0, 0.5), cex = 0.68)
 
     if (!is.null(main)) {
       title(main = main, cex.main = 0.95)
@@ -528,7 +528,7 @@ csas_kable(
 ```
 
 
-```{r nuseds-estimate-sankey, fig.cap="Sankey-style summary of how legacy NuSEDS estimate-method terms converge to canonical parent terms used by the updated guidance.", fig.height=5.8, fig.width=6.8}
+```{r nuseds-estimate-sankey, fig.cap="Sankey-style summary of how legacy NuSEDS estimate-method terms converge to canonical parent terms used by the updated guidance.", fig.height=5.8, fig.width=6.0}
 if (exists("est_crosswalk")) {
   sank <- est_crosswalk[, c("NuSEDS ESTIMATE_METHOD value", "Ontology term")]
   names(sank) <- c("source", "target")
@@ -565,8 +565,8 @@ if (exists("est_crosswalk")) {
       )
     }
 
-    text(x1, y_src, sources, adj = c(1, 0.5), cex = 0.65)
-    text(x2, y_tgt, targets, adj = c(0, 0.5), cex = 0.72)
+    text(x1, y_src, sources, adj = c(1, 0.5), cex = 0.60)
+    text(x2, y_tgt, targets, adj = c(0, 0.5), cex = 0.66)
 
     if (!is.null(main)) {
       title(main = main, cex.main = 0.95)
@@ -621,14 +621,6 @@ csas_kable(
 
 # Appendix D: NuSEDS method-term summary (SEN exploratory) {#app:nuseds-method-summary}
 
-This appendix reports a quick exploratory check of method terminology in historical NuSEDS SEN records (from the shared `All AREA SEN_Survey_method (1).csv` dataset) and the resulting rollups used to support the method mapping in this guidance.
-
-
-```{r method-term-eda-figures, echo=FALSE, out.width='100%'}
-knitr::include_graphics(c(
-  "docs/figures/appendix_e_figure1_unique_terms_by_year.png",
-  "docs/figures/appendix_e_figure2_top_terms_faceted.png"
-))
-```
+This appendix reports the same method-vocabulary evidence used to build the crosswalk logic in Appendix C. Figure references are shown in the main text.
 
 `r if(knitr:::is_latex_output()) '% end csasdown appendix'`

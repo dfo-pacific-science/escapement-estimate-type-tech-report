@@ -1,4 +1,4 @@
-# Discussion
+# Implications, limitations, and governance
 
 ## Intended use (NuSEDS data entry and review)
 

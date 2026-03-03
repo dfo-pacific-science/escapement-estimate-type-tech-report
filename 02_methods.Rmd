@@ -1,4 +1,4 @@
-# Methods
+# Classification framework and decision key
 
 ## Design principles (Hyatt-aligned)
 
@@ -9,7 +9,7 @@ Practically, classification depends on **two method layers**:
 - **Enumeration method** (field data collection)
 - **Estimation method** (analysis/model that turns observations into an estimate)
 
-```{r method-decomposition-figure, fig.cap="Conceptual decomposition of enumeration (field) methods and estimation (analysis) methods used to assign estimate Types and qualifiers.", fig.height=3.0, fig.width=6.8}
+```{r method-decomposition-figure, fig.cap="Conceptual decomposition of enumeration (field) methods and estimation (analysis) methods used to assign estimate Types and qualifiers.", fig.height=3.0, fig.width=6.0}
 par(mar = c(0, 0, 0.5, 0))
 plot.new()
 plot.window(xlim = c(0, 10), ylim = c(0, 6))
@@ -259,7 +259,7 @@ csas_kable(
   csas_colspec(4, width = "4.2cm")
 ```
 
-Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods), and equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk()` and `nuseds_estimate_method_crosswalk()`) [@metasalmonPackage].
+Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods). Appendix C also includes compact Sankey-style summaries to visualize how legacy NuSEDS method terms converge to the canonical parent terms used by the guidance. Equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk()` and `nuseds_estimate_method_crosswalk()`) [@metasalmonPackage].
 
 Legacy values are not dropped; where a legacy term does not cleanly align to a current method family, it can be represented as inherited contextual guidance via ontology metadata (for example via `rdfs:comment`) while remaining traceable in source records.
 ## NuSEDS data dictionary alignment
