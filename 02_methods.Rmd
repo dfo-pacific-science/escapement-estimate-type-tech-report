@@ -4,34 +4,48 @@
 
 Hyatt (1997) intended estimate-type assignment to reflect (i) method properties, (ii) statistical properties, and (iii) documentation [@hyatt1997]. The updated guidance encodes these dimensions explicitly as decision gates, method-family checks, and final evidence requirements.
 
-```{r hyatt-mapping-table}
-hyatt_mapping <- data.frame(
-  `Hyatt (1997) dimension` = c(
-    "Method properties (survey + analysis)",
-    "Statistical properties (units, accuracy, precision)",
-    "Documentation"
-  ),
-  `How the updated guidance encodes it` = c(
-    "Method families + property checks (coverage, effort, timing, visibility, cross-section coverage)",
-    "Type eligibility by method family and a final precision/accuracy gate (supports CV/SE where available)",
-    "Documentation qualifier + final documentation enforcement"
-  ),
-  check.names = FALSE
-)
+A practical implication of this structure is that classification depends on **two distinct method layers**:
 
-csas_kable(
-  hyatt_mapping,
-  escape = TRUE,
-  bold_header = FALSE,
-  font_size = 9,
-  align = c("l", "l"),
-  caption = "Mapping of Hyatt (1997) intent to the updated, property-first guidance implementation."
-) |>
-  csas_colspec(1, width = "5.0cm") |>
-  csas_colspec(2, width = "10.0cm")
+- **Enumeration method** (field data collection), and
+- **Estimation method** (analysis/model that turns observations into an estimate).
+
+```{r method-decomposition-figure, fig.cap="Conceptual decomposition of enumeration (field) methods and estimation (analysis) methods used to assign estimate Types and qualifiers.", fig.height=3.0, fig.width=6.8}
+par(mar = c(0, 0, 0.5, 0))
+plot.new()
+plot.window(xlim = c(0, 10), ylim = c(0, 6))
+
+box <- function(x1, y1, x2, y2, label) {
+  rect(x1, y1, x2, y2, col = "white", border = "black")
+  text((x1 + x2) / 2, (y1 + y2) / 2, label, cex = 0.9)
+}
+
+box(0.5, 3.8, 4.2, 5.4, "Enumeration
+(field method)
+(e.g., fence,
+visual, aerial)")
+box(0.5, 1.0, 4.2, 2.6, "Evidence / qualifiers
+(coverage, uptime,
+breach/bypass,
+timing, visibility,
+documentation)")
+box(5.8, 3.8, 9.5, 5.4, "Estimation
+(analysis method)
+(e.g., mark--recapture,
+AUC, modelling)")
+box(5.8, 1.0, 9.5, 2.6, "Type assignment
+(1--6) +
+qualifier codes")
+
+arrows(4.2, 4.6, 5.8, 4.6, length = 0.08)
+arrows(4.2, 1.8, 5.8, 1.8, length = 0.08)
+arrows(2.4, 3.8, 2.4, 2.6, length = 0.08)
+arrows(7.6, 3.8, 7.6, 2.6, length = 0.08)
+
+text(5.0, 5.1, "decompose", cex = 0.8)
+text(5.0, 2.3, "apply checks", cex = 0.8)
 ```
 
-## Decision key design
+## Decision key design {#sec:decision-key}
 
 The classification follows a property-first sequence:
 
@@ -43,21 +57,17 @@ The classification follows a property-first sequence:
 
 This structure is intended to reduce subjective table interpretation by turning common qualifiers into explicit questions and recorded qualifier codes.
 
-## Software availability (implementation of the guidance)
+## Companion implementation (informative)
 
-The guidance is implemented in the **SMN Escapement Estimates Toolkit** (R Shiny application) [@smnToolkitShiny]. The toolkit executes one canonical decision key and produces (i) a final estimate Type (1--6) and (ii) explicit qualifier codes explaining conservative downgrades.
+A companion internal implementation (R Shiny application) applies the same decision logic described here and returns both (i) a final estimate Type (1--6) and (ii) explicit qualifier codes explaining any conservative downgrades. The software is a practical companion tool; it is **not** the primary product of this report.
 
-In this report, the software is treated as a companion implementation rather than a primary publication artifact. To avoid over-emphasizing engineering details for the intended audience, the implementation is referenced only at a high level.
+## Guidance-to-implementation outlook
 
-## Companion implementation status snapshot (current)
+Where possible, implementation should align with the guidance and the method-family checks in this report. The priority implementation tasks are to:
 
-A focused implementation-status check was completed against the current toolkit codebase [@smnToolkitShiny] to confirm that report guidance and software behavior remain aligned.
-
-Current snapshot highlights:
-
-- The YAML decision key currently encodes **8 method families** (FS, V, A, S, T, R, P, M), **20 downgrade criteria**, and **6 invariant rules**.
-- The comprehensive path-test suite currently reports **26/26 passing** scenarios across method families, gate behavior, and downgrade pathways.
-- The app's "Known Issues" panel currently flags unresolved policy/specification items (e.g., mixed-method combination policy, quantifiable thresholds for ambiguous terms, and calibration diagnostic standards) that should be treated as active implementation backlog rather than closed guidance questions.
+- capture complete enumeration and estimation methods for each estimate,
+- apply all mandatory qualifiers where applicable,
+- monitor unresolved policy/specification items (for example mixed-method combination handling and ambiguity thresholds) and close them through a controlled revision cycle.
 
 ## Handling common operational complications
 
@@ -65,7 +75,7 @@ The updated guidance treats several recurring complications as explicit qualifie
 
 ### Breaches/bypass and infilling
 
-Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect interpretability unless the magnitude and correction method are documented. The updated guidance treats bypass/breach risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace].
+Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect interpretability unless the magnitude and correction method are documented. The updated guidance treats bypass/breach risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace]. For implementation, the guidance recommends recording explicit coverage/uptime qualifiers (e.g., run-window coverage below 95% of season days; device uptime below 95%) and whether interpolation was required for missing data.
 
 ### Survey timing relative to run timing
 
@@ -83,11 +93,11 @@ Where historical values have been recalibrated or revised, the updated guidance 
 
 Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part by qualified precision (variance evidence) [@hyatt1997]. Where available, reporting quantitative uncertainty (e.g., CV or SE) improves interpretability for downstream use. For example, AUC and peak-count approaches have established approaches for incorporating uncertainty and evaluating sensitivity to survey timing and frequency [@english1992auc; @hilborn1999periodic; @hill1997aerialFrequency; @parken2003aucUncertainty; @millar2012auc]. The updated guidance includes a final precision/accuracy check and recommends capturing quantitative uncertainty when available.
 
-## Recommended metadata elements for NuSEDS
+## Recommended metadata elements for NuSEDS {#sec:metadata}
 
 The updated guidance can be expressed using existing NuSEDS fields in many cases, but several high-value metadata elements are needed to make estimate Types interpretable and reproducible for downstream users.
 
-**Note:** This section distinguishes (i) guidance-level metadata elements and (ii) implementation-aligned NuSEDS fields currently prioritized for SEN uploads. The key point is that these elements are recorded by the guidance as explicit qualifier codes so Type assignment remains transparent to downstream data users.
+**Note:** The table below lists guidance-level metadata elements and the typical qualifier codes they support. Detailed software rollout and database-change logistics are treated as companion implementation work, not as a primary product of this technical report.
 
 ```{r recommended-metadata-table}
 recommended_meta <- data.frame(
@@ -172,83 +182,54 @@ csas_kable(
   csas_colspec(4, width = "2.3cm")
 ```
 
-## Implementation-aligned NuSEDS additions (SEN-first rollout)
+## Method families {#sec:method-families}
 
-Task-team correspondence and implementation notes indicate a near-term SEN-first rollout. The table below captures the specific fields and supporting lookup tables discussed for implementation.
-
-```{r nuseds-additions-implementation-table}
-nuseds_additions <- data.frame(
-  `Field / table` = c(
-    "ESTIMATE_TYPE_CLASS_JUSTIFICATION",
-    "DOWNGRADE_CRITERIA",
-    "UNCERTAINTY_VALUE_TYPE",
-    "UNCERTAINTY_VALUE",
-    "ANALYSIS_EXPLANATION",
-    "DOWNGRADE_CRITERIA_BASE_TABLE",
-    "UNCERTAINTY_VALUE_TYPE_BASE_TABLE",
-    "DOWNGRADE_CRITERIA_COMMENT",
-    "WSP_RAPID_STATUS_YN",
-    "ENHANCEMENT_RANK / POP_CATEGORY / CUMatchVerifiedYN"
+```{r method-family-table}
+method_families <- data.frame(
+  Code = c("FS", "V", "A", "S", "T", "R", "P", "M"),
+  `Method family` = c(
+    "Fixed site census (manual or electronic)",
+    "Visual ground or snorkel count",
+    "Aerial survey count",
+    "Hydroacoustic sonar count (modelled)",
+    "Trap model (non-spanning)",
+    "Redd survey",
+    "Electrofishing CPUE index",
+    "Mark-recapture program"
   ),
-  `Scope` = c(
-    "SEN upload",
-    "SEN upload",
-    "SEN upload",
-    "SEN upload",
-    "SEN upload",
-    "Lookup / controlled values",
-    "Lookup / controlled values",
-    "Lookup table column",
-    "SEN upload (candidate)",
-    "Site/CU metadata (candidate)"
-  ),
-  `Role in guidance` = c(
-    "Documents why a Type was assigned.",
-    "Records explicit downgrade triggers used by the decision key.",
-    "Captures uncertainty metric class (e.g., CV, SE, CI, SD).",
-    "Stores numeric uncertainty value paired to uncertainty type.",
-    "Documents analytical workflow, including modified/combined methods.",
-    "Provides controlled downgrade criteria values for consistent entry.",
-    "Provides controlled uncertainty metric values and definitions.",
-    "Replaces prior IMPACT field with broader comment context.",
-    "Flags rapid-status use; discussed but not fully settled.",
-    "Supports WSP/CU interpretation context; discussed for follow-on integration."
-  ),
-  `Implementation status` = c(
-    "Prioritized for development",
-    "Prioritized for development",
-    "Prioritized for development",
-    "Prioritized for development",
-    "Prioritized for development",
-    "Created in Dev",
-    "Created in Dev",
-    "Renamed from DOWNGRADE_CRITERIA_IMPACT",
-    "Under discussion",
-    "Under discussion"
-  ),
+  `Best attainable type` = c("1", "2", "3", "2", "2", "2", "3", "2"),
   check.names = FALSE
 )
 
 csas_kable(
-  nuseds_additions,
+  method_families,
   escape = TRUE,
   bold_header = FALSE,
-  font_size = 8,
-  align = c("l", "l", "l", "l"),
-  caption = "Implementation-aligned NuSEDS field additions discussed for estimate-type guidance rollout."
+  font_size = 9,
+  align = c("c", "l", "c"),
+  caption = "Method families encoded in the property-first guidance and the best attainable Type before conservative downgrades."
 ) |>
-  csas_colspec(1, width = "3.8cm") |>
-  csas_colspec(2, width = "2.8cm") |>
-  csas_colspec(3, width = "6.0cm") |>
-  csas_colspec(4, width = "2.4cm")
+  csas_colspec(1, width = "1.2cm") |>
+  csas_colspec(2, width = "10.8cm") |>
+  csas_colspec(3, width = "2.5cm")
 ```
+
+## How this will proceed
+
+Near-term implementation will proceed in a narrow order so the guidance can be applied consistently before extending scope:
+
+- prioritize SEN-only fields needed to operationalize transparent Type assignment and conservative downgrades,
+- finalize controlled lookup tables for those fields so downstream implementation can remain interoperable,
+- defer broader SIL/CU enhancements to a later governance cycle.
+
+In practical terms, this keeps this technical report focused on interpretability and leaves software rollout details to companion implementation tracks.
 
 ## Ontology linkages for methods and downgrade criteria
 
-To support interoperable interpretation, the SEN implementation fields are linked to the published DFO Salmon Ontology concept schemes and term pages (WIDOCO documentation):
+To support consistent interpretation (including cross-program interoperability), these NuSEDS elements can be linked to published DFO Salmon Ontology concept schemes and term pages:
 
 - ontology entrypoint: <https://w3id.org/gcdfo/salmon>
-- WIDOCO documentation (latest): <https://dfo-pacific-science.github.io/dfo-salmon-ontology/>
+- human-readable term documentation: <https://dfo-pacific-science.github.io/dfo-salmon-ontology/>
 
 ```{r ontology-linkage-schemes-table}
 ontology_schemes <- data.frame(
@@ -302,11 +283,7 @@ wanted_fields <- c(
   "ESTIMATE_CLASSIFICATION",
   "ENUMERATION_METHODS",
   "ESTIMATE_METHOD",
-  "ADULT_PRESENCE",
-  "JACK_PRESENCE",
   "NO_INSPECTIONS_USED",
-  "START_DTT",
-  "RUN_TYPE",
   "INDEX_YN",
   "ACCURACY",
   "PRECISION",
@@ -317,17 +294,13 @@ wanted_fields <- c(
 field_roles <- data.frame(
   `Field Name` = wanted_fields,
   `Role in updated guidance` = c(
-    "Stores Type 1--6 estimate classification (includes some legacy non-Type labels)",
+    "Stores Type 1--6 estimate classification (including legacy non-Type labels where present)",
     "Primary field method (enumeration) used to scope method-family checks",
-    "Primary analysis method (estimation) and special cases (combined, calibrated, unknown)",
-    "Supports presence/not-detected pathways (Type 6 context)",
-    "Supports presence/not-detected pathways (Type 6 context)",
+    "Primary analysis method (estimation), including combined or calibrated special cases",
     "Supports effort/visit thresholds (VISITS and related downgrades)",
-    "Supports timing/coverage interpretation (inspection start date)",
-    "Supports timing context when multiple runs occur in a season",
-    "Flags index (partial coverage) estimates (relative-abundance context)",
-    "Legacy qualitative field; not a substitute for quantified uncertainty metadata",
-    "Legacy qualitative field; not a substitute for quantified uncertainty metadata",
+    "Flags index (partial-coverage) estimates (relative-abundance context)",
+    "Legacy qualitative uncertainty field; not a substitute for quantified metadata",
+    "Legacy qualitative uncertainty field; not a substitute for quantified metadata",
     "Legacy/import field (historical); not consistently present",
     "QA/workflow stage (preliminary/near final/final); not a type determinant"
   ),
@@ -342,20 +315,12 @@ if (file.exists(dd_path)) {
     fileEncoding = "latin1"
   )
 
-  dd_small <- dd[dd[["Field Name"]] %in% wanted_fields, c("Field Name", "Field Definition")]
+  dd_small <- dd[dd[["Field Name"]] %in% wanted_fields, c("Field Name"), drop = FALSE]
   dd_small <- merge(dd_small, field_roles, by = "Field Name", all.x = TRUE)
   dd_small <- dd_small[match(wanted_fields, dd_small[["Field Name"]]), ]
-
-  dd_small[["Field Definition"]] <- gsub("\\s+", " ", dd_small[["Field Definition"]])
-  dd_small[["Field Definition"]] <- ifelse(
-    nchar(dd_small[["Field Definition"]]) > 140,
-    paste0(substr(dd_small[["Field Definition"]], 1, 139), "…"),
-    dd_small[["Field Definition"]]
-  )
 } else {
   dd_small <- data.frame(
     `Field Name` = wanted_fields,
-    `Field Definition` = "(NuSEDS data dictionary CSV not present.)",
     check.names = FALSE
   )
   dd_small <- merge(dd_small, field_roles, by = "Field Name", all.x = TRUE)
@@ -367,43 +332,9 @@ csas_kable(
   escape = TRUE,
   bold_header = FALSE,
   font_size = 8,
-  col_names = c("Field", "Definition (truncated)", "Role in updated guidance"),
-  align = c("l", "l", "l"),
+  align = c("l", "l"),
   caption = "NuSEDS fields relevant to estimate-type classification and how they relate to the updated guidance (see the NuSEDS data dictionary in docs/context/)."
 ) |>
-  csas_colspec(1, width = "2.5cm") |>
-  csas_colspec(2, width = "5.5cm") |>
-  csas_colspec(3, width = "6.5cm")
-```
-
-## Method families
-
-```{r method-family-table}
-method_families <- data.frame(
-  Code = c("FS", "V", "A", "S", "T", "R", "P", "M"),
-  `Method family` = c(
-    "Fixed site census (manual or electronic)",
-    "Visual ground or snorkel count",
-    "Aerial survey count",
-    "Hydroacoustic sonar count (modelled)",
-    "Trap model (non-spanning)",
-    "Redd survey",
-    "Electrofishing CPUE index",
-    "Mark-recapture program"
-  ),
-  `Best attainable type` = c("1", "2", "3", "2", "2", "2", "3", "2"),
-  check.names = FALSE
-)
-
-csas_kable(
-  method_families,
-  escape = TRUE,
-  bold_header = FALSE,
-  font_size = 9,
-  align = c("c", "l", "c"),
-  caption = "Method families encoded in the property-first guidance and the best attainable Type before conservative downgrades."
-) |>
-  csas_colspec(1, width = "1.2cm") |>
-  csas_colspec(2, width = "10.8cm") |>
-  csas_colspec(3, width = "2.5cm")
+  csas_colspec(1, width = "3.5cm") |>
+  csas_colspec(2, width = "10.5cm")
 ```

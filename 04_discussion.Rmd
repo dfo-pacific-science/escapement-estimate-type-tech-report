@@ -52,11 +52,11 @@ Several metadata items remain valuable but were not fully settled in the corresp
 - SIL additions: still less mature than SEN additions and require further prioritization.
 - `ENHANCEMENT_RANK`, `POP_CATEGORY`, and `CUMatchVerifiedYN`: discussed as follow-on site/CU context fields, especially for WSP-oriented interpretation.
 
-For this report, the implementation priority is therefore: finalize SEN metadata first, keep SIL/CU extensions explicit in backlog, and maintain transparent mapping from stored fields to decision-key qualifiers [@smnToolkitShiny].
+For this report, the implementation priority is therefore: finalize SEN metadata first, keep SIL/CU extensions explicit in backlog, and maintain transparent mapping from stored fields to decision-key qualifiers.
 
 ## Companion app status: unresolved policy/specification gaps
 
-The current Shiny implementation explicitly surfaces remaining policy and specification gaps that can still affect cross-program consistency if left implicit [@smnToolkitShiny]. The most material items are:
+A companion internal implementation explicitly surfaces remaining policy and specification gaps that can still affect cross-program consistency if left implicit. The most material items are:
 
 - **Mixed-method estimates**: explicit combination policy is still needed (e.g., conservative minimum-component rule vs. weighted integration with evidence requirements).
 - **Ambiguous threshold language**: terms such as "negligible", "adequate", "fair", and "defensible" still need regionally agreed quantitative thresholds.
@@ -87,6 +87,14 @@ This guidance summarizes interpretability given recorded methods and evidence. I
 ## Governance and change control
 
 Because estimate Types are used as screening tools and can influence downstream inference, any changes to method families, thresholds, or qualifier rules should be versioned and reviewed. Changes should be accompanied by an updated worked example set and regression/path tests in the companion implementation so that behavior changes are deliberate and transparent.
+
+## Conclusion
+
+The updated guidance keeps the familiar Type 1--6 structure but replaces table-only interpretation with explicit, auditable decision logic grounded in Hyatt (1997): method properties, statistical properties, and documentation [@hyatt1997].
+
+For NuSEDS users, the practical change is straightforward: record methods and key qualifiers at upload time so that Types stay interpretable downstream. In particular, run-window coverage, uptime, breach/bypass context, timing/visibility constraints, documentation evidence, and where available quantitative uncertainty (CV/SE) affect how an estimate can be used.
+
+For downstream analysts, the main benefit is transparency. Conservative downgrades are accompanied by explicit qualifier codes, so the reason a stronger Type is not supported is clear, and metadata gaps that would most improve interpretability are visible.
 
 ## Next steps
 

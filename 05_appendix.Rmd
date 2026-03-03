@@ -120,10 +120,10 @@ downgrade_codes <- data.frame(
     "METHOD_UNKNOWN"
   ),
   Description = c(
-    "Run window coverage gaps (missed start or end of run).",
+    "Run window coverage gaps (e.g., <95% of season days).",
     "Too few site visits for the claimed precision tier.",
     "Bypass or breach risk at a counting site.",
-    "Device outages or unobserved intervals.",
+    "Device outages or unobserved intervals (e.g., uptime <95%).",
     "Insufficient review of automated events.",
     "Poor visibility or lighting limits detection.",
     "Intended reaches or segments not surveyed.",
@@ -136,7 +136,7 @@ downgrade_codes <- data.frame(
     "Device settings not documented or unstable.",
     "Environmental conditions bias detection.",
     "Mark-recapture assumption violations.",
-    "Interpolation or infilling not documented.",
+    "Interpolation or infilling used; defensibility must be documented.",
     "Documentation or evidence missing.",
     "Precision or accuracy weaker than candidate Type.",
     "Survey or analysis method not identified."
@@ -524,7 +524,7 @@ csas_kable(
 
 ## D.3 Type-to-accuracy/precision lookup used in the companion toolkit
 
-The companion toolkit working guidance includes a compact lookup that can be used when populating legacy-style accuracy/precision class fields alongside estimate Type [@smnToolkitShiny].
+A companion internal implementation includes a compact lookup that can be used when populating legacy-style accuracy/precision class fields alongside estimate Type.
 
 ```{r type-accuracy-precision-lookup}
 type_lookup <- data.frame(

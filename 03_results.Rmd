@@ -1,6 +1,6 @@
 # Guidance updates for forward implementation
 
-This chapter frames the update as forward-looking classification guidance for NuSEDS data entry and review rather than as an empirical results section.
+This chapter summarizes the substantive updates to the Type 1--6 guidance and how it should be applied during NuSEDS data entry and review.
 
 ## What is new in this guidance
 
@@ -14,7 +14,7 @@ Relative to table-only interpretation, the updated guidance now:
 
 ## How to apply the guidance moving forward
 
-The operational expectation is simple: record enough method and evidence context at upload time so Type assignment is interpretable by downstream users.
+The implementation expectation is that uploads include sufficient method and evidence context for downstream users to interpret both the assigned Type and any conservative qualifiers.
 
 In practice, this means recording:
 
@@ -25,6 +25,6 @@ In practice, this means recording:
 
 A compact, single-table rule summary is provided in Appendix A.
 
-## Companion implementation
+## Companion implementation note
 
-The companion toolkit implementation executes one canonical decision key and returns both (i) a final estimate Type and (ii) explicit qualifier codes explaining conservative downgrades [@smnToolkitShiny]. This report focuses on guidance content and data-entry interpretation, while implementation mechanics remain in the software artifact.
+A companion internal implementation applies the same guidance logic and returns both (i) a final estimate Type and (ii) explicit qualifier codes for conservative downgrades. Implementation mechanics are documented separately; this report focuses on guidance content and data-entry interpretation.
