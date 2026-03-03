@@ -2,12 +2,12 @@
 
 ## Design principles (Hyatt-aligned)
 
-Hyatt (1997) intended estimate-type assignment to reflect (i) method properties, (ii) statistical properties, and (iii) documentation [@hyatt1997]. The updated guidance encodes these dimensions explicitly as decision gates, method-family checks, and final evidence requirements.
+Hyatt (1997) intended estimate-type assignment to reflect (i) method properties, (ii) statistical properties, and (iii) documentation [@hyatt1997]. This report makes those dimensions explicit as decision gates, method-family checks, and final evidence requirements.
 
-A practical implication of this structure is that classification depends on **two distinct method layers**:
+Practically, classification depends on **two method layers**:
 
-- **Enumeration method** (field data collection), and
-- **Estimation method** (analysis/model that turns observations into an estimate).
+- **Enumeration method** (field data collection)
+- **Estimation method** (analysis/model that turns observations into an estimate)
 
 ```{r method-decomposition-figure, fig.cap="Conceptual decomposition of enumeration (field) methods and estimation (analysis) methods used to assign estimate Types and qualifiers.", fig.height=3.0, fig.width=6.8}
 par(mar = c(0, 0, 0.5, 0))
@@ -55,27 +55,27 @@ The classification follows a property-first sequence:
 4. **Method-family checks**: coverage, effort, visibility, timing, and related criteria drive conservative downgrades.
 5. **Final checks**: documentation and uncertainty evidence are evaluated; where evidence is missing, conservative downgrades apply.
 
-This structure is intended to reduce subjective table interpretation by turning common qualifiers into explicit questions and recorded qualifier codes.
+This structure reduces subjective table interpretation by turning common qualifiers into explicit questions and recorded qualifier codes.
 
 ## Companion implementation (informative)
 
-A companion internal implementation (R Shiny application) applies the same decision logic described here and returns both (i) a final estimate Type (1--6) and (ii) explicit qualifier codes explaining any conservative downgrades. The software is a practical companion tool; it is **not** the primary product of this report.
+A companion internal R Shiny application applies this decision logic and returns both (i) a final estimate Type (1--6) and (ii) qualifier codes explaining any conservative downgrades. The software is a companion tool; it is **not** the primary output of this report.
 
 ## Guidance-to-implementation outlook
 
-Where possible, implementation should align with the guidance and the method-family checks in this report. The priority implementation tasks are to:
+Implementation should align with the guidance and method-family checks in this report. Priorities are to:
 
-- capture complete enumeration and estimation methods for each estimate,
-- apply all mandatory qualifiers where applicable,
-- monitor unresolved policy/specification items (for example mixed-method combination handling and ambiguity thresholds) and close them through a controlled revision cycle.
+- capture complete enumeration and estimation methods for each estimate;
+- apply mandatory qualifiers where applicable; and
+- track unresolved policy/specification items (e.g., mixed-method combination handling and ambiguity thresholds) through a controlled revision cycle.
 
 ## Handling common operational complications
 
-The updated guidance treats several recurring complications as explicit qualifiers rather than implicit judgement calls.
+The guidance treats several recurring complications as explicit qualifiers rather than implicit judgement calls.
 
 ### Breaches/bypass and infilling
 
-Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect interpretability unless the magnitude and correction method are documented. The updated guidance treats bypass/breach risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace]. For implementation, the guidance recommends recording explicit coverage/uptime qualifiers (e.g., run-window coverage below 95% of season days; device uptime below 95%) and whether interpolation was required for missing data.
+Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect interpretability unless magnitude and correction methods are documented. The updated guidance treats breach/bypass risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace]. For example, run-window coverage below 95% of season days or device uptime below 95% are treated as explicit qualifiers, and any interpolation used to fill missing data should be recorded.
 
 ### Survey timing relative to run timing
 
@@ -95,9 +95,9 @@ Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part b
 
 ## Recommended metadata elements for NuSEDS {#sec:metadata}
 
-The updated guidance can be expressed using existing NuSEDS fields in many cases, but several high-value metadata elements are needed to make estimate Types interpretable and reproducible for downstream users.
+Most of the guidance can be expressed using existing NuSEDS fields, but several high-value metadata elements are needed to make estimate Types interpretable and reproducible for downstream users.
 
-**Note:** The table below lists guidance-level metadata elements and the typical qualifier codes they support. Detailed software rollout and database-change logistics are treated as companion implementation work, not as a primary product of this technical report.
+The table below lists guidance-level metadata elements and the typical qualifier codes they support; detailed software rollout and database-change logistics are treated as companion implementation work.
 
 ```{r recommended-metadata-table}
 recommended_meta <- data.frame(
@@ -216,13 +216,13 @@ csas_kable(
 
 ## How this will proceed
 
-Near-term implementation will proceed in a narrow order so the guidance can be applied consistently before extending scope:
+Implementation should proceed in stages so the guidance can be applied consistently before extending scope:
 
-- prioritize SEN-only fields needed to operationalize transparent Type assignment and conservative downgrades,
-- finalize controlled lookup tables for those fields so downstream implementation can remain interoperable,
+- prioritize SEN-only fields needed for transparent Type assignment and conservative downgrades;
+- finalize controlled lookup tables for those fields so downstream implementation remains interoperable; and
 - defer broader SIL/CU enhancements to a later governance cycle.
 
-In practical terms, this keeps this technical report focused on interpretability and leaves software rollout details to companion implementation tracks.
+This keeps the technical report focused on interpretability while leaving software rollout details to companion implementation tracks.
 
 ## Ontology linkages for methods and downgrade criteria
 

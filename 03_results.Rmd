@@ -4,27 +4,27 @@ This chapter summarizes the substantive updates to the Type 1--6 guidance and ho
 
 ## What is new in this guidance
 
-Relative to table-only interpretation, the updated guidance now:
+Compared to table-only interpretation, the updated guidance:
 
-- Uses a property-first decision sequence instead of a table lookup.
-- Separates enumeration methods (field data collection) from estimation methods (analysis).
-- Applies explicit qualifier codes for conservative downgrades (e.g., coverage, timing, visibility, documentation, and method-known gaps).
+- Uses a property-first decision sequence (rather than a table lookup).
+- Separates enumeration methods (field) from estimation methods (analysis).
+- Applies explicit qualifier codes for conservative downgrades (coverage, timing, visibility, documentation, and method-known gaps).
 - Treats combined-method estimates as component-based workflows so weaker components are not concealed.
-- Encourages recording quantitative uncertainty (CV/SE) where available to support transparent interpretation of absolute-abundance estimates.
+- Encourages recording quantitative uncertainty (CV/SE) where available.
 
 ## How to apply the guidance moving forward
 
-The implementation expectation is that uploads include sufficient method and evidence context for downstream users to interpret both the assigned Type and any conservative qualifiers.
+Uploads should include enough method and evidence context that downstream users can interpret both the assigned Type and any conservative qualifiers.
 
 In practice, this means recording:
 
-- The primary enumeration and estimation methods.
-- Key qualifiers (coverage, uptime, breach/bypass, timing, visibility, and infilling/interpolation context).
-- Documentation evidence sufficient for independent interpretation.
-- Quantitative uncertainty where available.
+- the primary enumeration and estimation methods;
+- key qualifiers (coverage, uptime, breach/bypass, timing, visibility, and any infilling/interpolation context);
+- documentation evidence sufficient for independent interpretation; and
+- quantitative uncertainty where available.
 
 A compact, single-table rule summary is provided in Appendix A.
 
 ## Companion implementation note
 
-A companion internal implementation applies the same guidance logic and returns both (i) a final estimate Type and (ii) explicit qualifier codes for conservative downgrades. Implementation mechanics are documented separately; this report focuses on guidance content and data-entry interpretation.
+A companion internal implementation applies the same guidance logic and returns both (i) a final estimate Type and (ii) qualifier codes for conservative downgrades. This report focuses on the guidance itself and how it should be applied in data entry and review.

@@ -2,81 +2,81 @@
 
 ## Intended use (NuSEDS data entry and review)
 
-The updated guidance is intended to support consistent estimate-type assignment during data entry and review by:
+This guidance supports consistent estimate-type assignment during data entry and review by:
 
-- Making method and evidence expectations explicit (rather than implicit in a table-only lookup).
-- Recording conservative qualifier codes that explain why a candidate Type cannot be supported.
-- Improving interpretability for downstream users by separating enumeration (field) methods from estimation (analysis) methods.
+- making method and evidence expectations explicit (not implicit in table lookups);
+- recording conservative qualifier codes that explain why a candidate Type is not supported; and
+- improving interpretability by separating enumeration (field) methods from estimation (analysis) methods.
 
-Estimate Types are not a binary "usable/unusable" label. Lower Types may still be informative for specific purposes (e.g., presence/absence, qualitative local context, or within-program indices), but are not interchangeable with census-like or fully qualified absolute-abundance estimates.
+Estimate Types are not a binary "usable/unusable" label. Lower Types may still be fit for specific purposes (e.g., presence/absence, qualitative local context, or within-program indices), but they are not interchangeable with census-like or fully qualified absolute-abundance estimates.
 
 ## Implications for downstream assessments
 
-Estimate Types are commonly used as screening filters in downstream workflows (including WSP rapid status assessments) where method properties and evidence quality affect interpretation [@holt2009_058; @dfo2005wsp]. When Type assignment is inconsistent, threshold-based decisions can become sensitive to classification noise, particularly near cutoffs (e.g., around the Type 4 boundary). More broadly, measurement error in spawner abundance can distort stock--recruit inference and downstream decisions, reinforcing the need to record uncertainty and detectability-related metadata where available [@waltersLudwig1981measurementError].
+Estimate Types are often used as screening filters in downstream workflows (including WSP rapid status assessments) [@holt2009_058; @dfo2005wsp]. When Type assignment is inconsistent, threshold-based decisions can become sensitive to classification noise, particularly near cutoffs (e.g., around the Type 4 boundary). More broadly, measurement error in spawner abundance can distort stock--recruit inference and downstream decisions, reinforcing the value of recording uncertainty and detectability-related metadata where available [@waltersLudwig1981measurementError].
 
-By producing explicit qualifier codes (e.g., missing method identification, timing/coverage gaps, insufficient documentation), the updated guidance makes the reasons for conservative classification transparent and enables targeted improvements in metadata capture.
+Because qualifier codes are explicit (e.g., missing method identification, timing/coverage gaps, insufficient documentation), conservative classifications become interpretable and metadata improvements can be targeted.
 
 ## Recommended metadata additions (schema) and implementation status
 
-A central finding of this update is that the current Type table alone cannot communicate the information required for consistent interpretation of real-world escapement estimates. Several recurring qualifiers are better represented as explicit metadata elements rather than as new public estimate Types.
+A central finding of this update is that the Type table alone cannot communicate the information required for consistent interpretation of real-world estimates. Several recurring qualifiers are better represented as explicit metadata elements rather than as new public estimate Types.
 
-Using the PSDCoP estimate-type presentation and the attached implementation correspondence, the near-term rollout is best framed as **SEN-first** with controlled vocabularies.
+Based on working-group implementation notes, near-term rollout is best framed as **SEN-first** with controlled vocabularies.
 
 ### SEN fields prioritized for implementation
 
-The following SEN fields are the clearest implementation priorities for aligning NuSEDS uploads with the updated guidance:
+The following SEN fields are the clearest priorities for aligning NuSEDS uploads with the updated guidance:
 
-- `ESTIMATE_TYPE_CLASS_JUSTIFICATION`: records why a given Type assignment was made.
-- `DOWNGRADE_CRITERIA`: records which downgrade trigger(s) were applied.
-- `UNCERTAINTY_VALUE_TYPE`: records the uncertainty metric class (e.g., CV, SE, CI, SD).
-- `UNCERTAINTY_VALUE`: records the corresponding numeric uncertainty value.
-- `ANALYSIS_EXPLANATION`: records analysis details, including modified or combined methods.
+- `ESTIMATE_TYPE_CLASS_JUSTIFICATION`: basis for the Type assignment.
+- `DOWNGRADE_CRITERIA`: which downgrade trigger(s) were applied.
+- `UNCERTAINTY_VALUE_TYPE`: uncertainty metric class (e.g., CV, SE, CI, SD).
+- `UNCERTAINTY_VALUE`: corresponding numeric uncertainty value.
+- `ANALYSIS_EXPLANATION`: analysis details, including modified or combined methods.
 
-Collectively, these fields operationalize key qualifiers already used by the decision key (method clarity, downgrade rationale, and uncertainty transparency).
+Together, these fields operationalize core qualifiers in the decision key: method clarity, downgrade rationale, and uncertainty transparency.
 
 ### Supporting lookup tables and naming updates
 
-Implementation notes indicate the following supporting structures are already partway through rollout:
+Supporting structures already partway through rollout include:
 
 - `DOWNGRADE_CRITERIA_BASE_TABLE`: controlled values for downgrade criteria.
 - `UNCERTAINTY_VALUE_TYPE_BASE_TABLE`: controlled values/definitions for uncertainty metric types.
 - `DOWNGRADE_CRITERIA_IMPACT` renamed to `DOWNGRADE_CRITERIA_COMMENT` to support broader explanatory context.
 
-These controls reduce ambiguity and help keep entries consistent across areas and programs.
+Controlled values reduce ambiguity and help keep entries consistent across areas and programs.
 
 ### Items still under discussion
 
-Several metadata items remain valuable but were not fully settled in the correspondence reviewed for this update:
+Several metadata items remain valuable but require further specification/governance:
 
-- `WSP_RAPID_STATUS_YN` (candidate SEN field): useful for screening workflows, but maintainability and interpretation details need clearer governance.
-- SIL additions: still less mature than SEN additions and require further prioritization.
-- `ENHANCEMENT_RANK`, `POP_CATEGORY`, and `CUMatchVerifiedYN`: discussed as follow-on site/CU context fields, especially for WSP-oriented interpretation.
+- `WSP_RAPID_STATUS_YN` (candidate SEN field): potentially useful for screening workflows, but requires clearer governance for interpretation and maintenance.
+- SIL additions: less mature than SEN additions and require further prioritization.
+- `ENHANCEMENT_RANK`, `POP_CATEGORY`, and `CUMatchVerifiedYN`: follow-on site/CU context fields discussed for WSP-oriented interpretation.
 
-For this report, the implementation priority is therefore: finalize SEN metadata first, keep SIL/CU extensions explicit in backlog, and maintain transparent mapping from stored fields to decision-key qualifiers.
+For this report, the implementation priority is therefore: finalize SEN metadata first, keep SIL/CU extensions explicit as backlog, and maintain a transparent mapping from stored fields to decision-key qualifiers.
 
-## Companion app status: unresolved policy/specification gaps
+## Companion implementation: unresolved policy/specification gaps
 
-A companion internal implementation explicitly surfaces remaining policy and specification gaps that can still affect cross-program consistency if left implicit. The most material items are:
+The companion implementation surfaces policy/specification gaps that can still affect cross-program consistency if left implicit. The most material items are:
 
-- **Mixed-method estimates**: explicit combination policy is still needed (e.g., conservative minimum-component rule vs. weighted integration with evidence requirements).
-- **Ambiguous threshold language**: terms such as "negligible", "adequate", "fair", and "defensible" still need regionally agreed quantitative thresholds.
-- **Breach severity interpretation**: clearer rules are needed for how breach magnitude/timing (e.g., peak vs early/late-season) should influence downgrades.
-- **Calibration diagnostics standards**: calibrated time-series pathways need explicit minimum diagnostics/validation expectations.
-- **Documentation standardization**: documentation labels are functionally similar but still inconsistently phrased across method pathways.
-- **Type-5 pathway clarity**: practical pathways for low-resolution relative estimates should remain explicit to avoid ad hoc interpretation.
+- **Mixed-method estimates:** explicit combination policy is needed (e.g., conservative minimum-component rule vs. weighted integration with evidence requirements).
+- **Ambiguous threshold language:** terms such as "negligible", "adequate", "fair", and "defensible" still need agreed quantitative thresholds.
+- **Breach severity interpretation:** clearer rules are needed for how breach magnitude/timing (e.g., peak vs early/late-season) should influence downgrades.
+- **Calibration diagnostics standards:** calibrated time-series pathways need explicit minimum diagnostics/validation expectations.
+- **Documentation standardization:** documentation labels are functionally similar but still inconsistently phrased across method pathways.
+- **Type-5 pathway clarity:** low-resolution relative-estimate pathways should remain explicit to avoid ad hoc interpretation.
 
-Treating these as tracked implementation backlog (rather than unresolved hidden assumptions) improves transparency and allows prioritized governance updates.
+Treating these as tracked backlog (rather than unresolved hidden assumptions) improves transparency and enables prioritized governance updates.
 
 ## Practical implementation monitoring (lightweight)
 
-A full empirical validation program is outside current resourcing. However, NuSEDS stakeholders can still track practical indicators of data completeness and interpretability that are directly tied to the guidance.
+A full empirical validation program is outside current resourcing. However, stakeholders can still track indicators of data completeness and interpretability that map directly to the guidance.
 
 Suggested monitoring metrics include:
 
-- Proportion of estimates with **METHOD_UNKNOWN**.
-- Proportion of estimates downgraded for **DOC** (insufficient documentation evidence).
-- Frequency of specific qualifiers (e.g., RUN_COVERAGE, UPTIME, BREACH_BYPASS, TIMING, VISIBILITY) by program or time period.
-- Distribution of Types (1--6) over time within programs, to detect abrupt changes driven by metadata practices rather than biology.
+- proportion of estimates with **METHOD_UNKNOWN**;
+- proportion of estimates downgraded for **DOC** (insufficient documentation evidence);
+- frequency of qualifiers (e.g., RUN_COVERAGE, UPTIME, BREACH_BYPASS, TIMING, VISIBILITY) by program or time period; and
+- distribution of Types (1--6) over time within programs, to detect abrupt changes driven by metadata practices rather than biology.
 
 These metrics support targeted improvements (e.g., documenting breach severity more consistently) without requiring a resource-intensive validation study.
 
@@ -86,15 +86,15 @@ This guidance summarizes interpretability given recorded methods and evidence. I
 
 ## Governance and change control
 
-Because estimate Types are used as screening tools and can influence downstream inference, any changes to method families, thresholds, or qualifier rules should be versioned and reviewed. Changes should be accompanied by an updated worked example set and regression/path tests in the companion implementation so that behavior changes are deliberate and transparent.
+Because estimate Types are used as screening tools and can influence downstream inference, changes to method families, thresholds, or qualifier rules should be versioned and reviewed. Updates should be accompanied by worked examples and regression/path tests in the companion implementation so behavior changes are deliberate and transparent.
 
-## Conclusion
+## Conclusion {#sec:conclusion}
 
-The updated guidance keeps the familiar Type 1--6 structure but replaces table-only interpretation with explicit, auditable decision logic grounded in Hyatt (1997): method properties, statistical properties, and documentation [@hyatt1997].
+This report retains the familiar Type 1--6 structure but replaces table-only interpretation with explicit, auditable decision logic grounded in Hyatt (1997): method properties, statistical properties, and documentation [@hyatt1997].
 
-For NuSEDS users, the practical change is straightforward: record methods and key qualifiers at upload time so that Types stay interpretable downstream. In particular, run-window coverage, uptime, breach/bypass context, timing/visibility constraints, documentation evidence, and where available quantitative uncertainty (CV/SE) affect how an estimate can be used.
+For NuSEDS users, the practical change is simple: record methods and key qualifiers at upload time so Types remain interpretable downstream. Run-window coverage, uptime, breach/bypass context, timing/visibility constraints, documentation evidence, and (where available) quantitative uncertainty (CV/SE) affect how an estimate can be used.
 
-For downstream analysts, the main benefit is transparency. Conservative downgrades are accompanied by explicit qualifier codes, so the reason a stronger Type is not supported is clear, and metadata gaps that would most improve interpretability are visible.
+For downstream analysts, the main benefit is transparency: conservative downgrades are accompanied by explicit qualifier codes, making it clear why a stronger Type is not supported and which metadata gaps matter most.
 
 ## Next steps
 
