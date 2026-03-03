@@ -143,7 +143,6 @@ downgrade_codes <- data.frame(
   ),
   `Ontology term` = paste0("gcdfo:", downgrade_code_terms),
   `Ontology IRI` = paste0("https://w3id.org/gcdfo/salmon#", downgrade_code_terms),
-  `WIDOCO term page` = paste0("https://dfo-pacific-science.github.io/dfo-salmon-ontology/#", downgrade_code_terms),
   check.names = FALSE
 )
 
@@ -152,74 +151,56 @@ csas_kable(
   escape = TRUE,
   bold_header = FALSE,
   font_size = 8,
-  align = c("l", "l", "l", "l", "l"),
-  caption = "Downgrade criteria codes used by the classification key, with linkages to published DFO Salmon Ontology terms and WIDOCO pages."
+  align = c("l", "l", "l", "l"),
+  caption = "Downgrade criteria codes used by the classification key, with linkages to published DFO Salmon Ontology terms."
 ) |>
   csas_colspec(1, width = "2.6cm") |>
-  csas_colspec(2, width = "4.6cm") |>
-  csas_colspec(3, width = "2.8cm") |>
-  csas_colspec(4, width = "3.2cm") |>
-  csas_colspec(5, width = "3.2cm")
+  csas_colspec(2, width = "5.6cm") |>
+  csas_colspec(3, width = "3.0cm") |>
+  csas_colspec(4, width = "4.6cm")
 ```
 
-`r if (knitr::is_latex_output()) "\\\\clearpage"`
 
-# Appendix C: Glossary {#app:glossary}
+```{r downgrade-codes-theme-figure, fig.cap="Downgrade criteria codes grouped by interpretation theme.", fig.height=3.2, fig.width=6.8}
+# Summarize Appendix B in a compact visual (counts by theme).
 
-```{r glossary-table}
-glossary <- data.frame(
-  Term = c(
-    "Estimate type",
-    "Enumeration method",
-    "Estimation method",
-    "AUC (area under the curve)",
-    "Method family",
-    "Relative abundance",
-    "WSP (Wild Salmon Policy)",
-    "Breach/bypass",
-    "Infilling/interpolation",
-    "Calibration",
-    "Downgrade flag",
-    "CV (coefficient of variation)",
-    "SE (standard error)"
+downgrade_theme <- data.frame(
+  Code = downgrade_codes$Code,
+  Theme = dplyr::case_when(
+    downgrade_codes$Code %in% c("RUN_COVERAGE", "UPTIME", "XSEC_COVERAGE", "REACH_COVERAGE") ~ "Coverage / uptime",
+    downgrade_codes$Code %in% c("VISITS", "TIMING", "EFF_STD") ~ "Timing / effort",
+    downgrade_codes$Code %in% c("VISIBILITY", "ENV_COND", "DETECTABILITY") ~ "Visibility / detectability",
+    downgrade_codes$Code %in% c("BREACH_BYPASS", "INFILL_METHOD") ~ "Breach / infilling",
+    downgrade_codes$Code %in% c("DOC", "REVIEW_QA") ~ "Documentation / review",
+    downgrade_codes$Code %in% c("METHOD_UNKNOWN", "DEVICE_CONFIG") ~ "Method / configuration",
+    downgrade_codes$Code %in% c("MR_ASSUMP", "TRAP_EFF") ~ "Model assumptions / efficiency",
+    downgrade_codes$Code %in% c("PRECISION_ACCURACY") ~ "Precision / accuracy",
+    downgrade_codes$Code %in% c("CLASSIFICATION") ~ "Classification",
+    TRUE ~ "Other"
   ),
-  Definition = c(
-    "A categorical data-quality class (Types 1-6) intended to summarize reliability and interpretability of an escapement estimate.",
-    "The field observation approach used to collect escapement information (e.g., fixed-site counts, visual surveys, sonar detections).",
-    "The analytical procedure used to convert field observations into an annual estimate (e.g., mark-recapture, AUC, modelling, expansions).",
-    "A method that integrates repeated counts over time to estimate total passage or spawner abundance, typically requiring assumptions about residence time and detectability.",
-    "A grouped survey/estimation class used to scope which property checks apply in the decision key (FS, V, A, S, T, R, P, M).",
-    "A time-series property indicating values are comparable within the same program/method over time, but may not represent a complete census of true abundance.",
-    "A Canadian policy framework that includes rapid status assessments using benchmarks and decision-tree logic applied to salmon Conservation Units.",
-    "Fish bypassing a counting site, or a breach/failure of the counting installation, resulting in missed fish unless corrected.",
-    "A documented method used to estimate unobserved portions of a run due to missed visits or device outages.",
-    "A procedure that adjusts or infers estimates using a relationship to a higher-quality series or method, potentially changing historical values.",
-    "A recorded code explaining why an estimate cannot attain a higher-quality type (e.g., VISITS, TIMING, DOC).",
-    "A standardized uncertainty metric defined as the standard deviation divided by the mean (often reported as a percentage).",
-    "A measure of uncertainty in an estimated quantity; commonly the standard deviation of an estimator under repeated sampling."
-  ),
-  check.names = FALSE
+  stringsAsFactors = FALSE
 )
 
-csas_kable(
-  glossary,
-  escape = TRUE,
-  bold_header = FALSE,
-  font_size = 9,
-  align = c("l", "l"),
-  caption = "Glossary of key terms used in the updated estimate-type guidance."
-) |>
-  csas_colspec(1, width = "4.0cm") |>
-  csas_colspec(2, width = "11.0cm")
+theme_counts <- downgrade_theme |>
+  dplyr::count(Theme, name = "n") |>
+  dplyr::arrange(n)
+
+ggplot2::ggplot(theme_counts, ggplot2::aes(x = n, y = stats::reorder(Theme, n))) +
+  ggplot2::geom_col(fill = "#2C7FB8") +
+  ggplot2::labs(
+    x = "Number of codes",
+    y = NULL
+  ) +
+  ggplot2::theme_minimal(base_size = 11)
 ```
 
 `r if (knitr::is_latex_output()) "\\\\clearpage"`
 
-# Appendix D: NuSEDS data dictionary crosswalk {#app:nuseds-crosswalk}
+# Appendix C: NuSEDS data dictionary crosswalk {#app:nuseds-crosswalk}
 
 This appendix documents how the updated guidance relates to NuSEDS fields and controlled vocabularies (see `docs/context/Data_Dictionary_NuSEDS_EN.csv`).
 
-## D.1 Enumeration method values (ENUMERATION_METHODS)
+## C.1 Enumeration method values (ENUMERATION_METHODS)
 
 ```{r nuseds-enum-crosswalk}
 dd_path <- file.path("docs", "context", "Data_Dictionary_NuSEDS_EN.csv")
@@ -228,7 +209,7 @@ dd_available <- file.exists(dd_path)
 if (!dd_available) {
   dd <- NULL
   knitr::asis_output(
-    "NuSEDS data dictionary CSV not present in this repo. Add it at `docs/context/Data_Dictionary_NuSEDS_EN.csv` to generate the crosswalk tables in Appendix D."
+    "NuSEDS data dictionary CSV not present in this repo. Add it at `docs/context/Data_Dictionary_NuSEDS_EN.csv` to generate the crosswalk tables in Appendix C."
   )
 } else {
   dd <- read.csv(
@@ -334,12 +315,12 @@ csas_kable(
 }
 ```
 
-## D.2 Estimate method values (ESTIMATE_METHOD)
+## C.2 Estimate method values (ESTIMATE_METHOD)
 
 ```{r nuseds-estimate-method-crosswalk}
 if (!exists("dd_available") || !isTRUE(dd_available)) {
   knitr::asis_output(
-    "NuSEDS data dictionary CSV not present in this repo. Add it at `docs/context/Data_Dictionary_NuSEDS_EN.csv` to generate the crosswalk tables in Appendix D."
+    "NuSEDS data dictionary CSV not present in this repo. Add it at `docs/context/Data_Dictionary_NuSEDS_EN.csv` to generate the crosswalk tables in Appendix C."
   )
 } else {
 est_def <- dd[["Field Definition"]][dd[["Field Name"]] == "ESTIMATE_METHOD"]
@@ -522,7 +503,7 @@ csas_kable(
 }
 ```
 
-## D.3 Type-to-accuracy/precision lookup used in the companion toolkit
+## C.3 Type-to-accuracy/precision lookup used in the companion toolkit
 
 A companion internal implementation includes a compact lookup that can be used when populating legacy-style accuracy/precision class fields alongside estimate Type.
 
@@ -559,6 +540,21 @@ csas_kable(
   csas_colspec(1, width = "2.0cm") |>
   csas_colspec(2, width = "6.5cm") |>
   csas_colspec(3, width = "6.5cm")
+```
+
+# Appendix D: NuSEDS method-term summary (SEN exploratory) {#app:nuseds-method-summary}
+
+This appendix reports a quick exploratory check of method terminology in historical NuSEDS SEN records (from the shared `All AREA SEN_Survey_method (1).csv` dataset) and the resulting rollups used to support the method mapping in this guidance.
+
+The figures use `ggplot2` and the two method fields used in this report (`ENUMERATION_METHODS`, `ESTIMATE_METHOD`) as primary inputs.
+
+```{r method-term-eda-figures, echo=FALSE, out.width='100%'}
+knitr::include_graphics(c(
+  "docs/figures/appendix_e_figure1_unique_terms_by_year.png",
+  "docs/figures/appendix_e_figure2_top_terms_faceted.png",
+  "docs/figures/appendix_e_figure3_family_share_over_time.png",
+  "docs/figures/appendix_e_figure5_method_field_coverage.png"
+))
 ```
 
 `r if(knitr:::is_latex_output()) '% end csasdown appendix'`

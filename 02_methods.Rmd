@@ -270,8 +270,9 @@ csas_kable(
   csas_colspec(4, width = "4.2cm")
 ```
 
-Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix D (enumeration and estimate methods).
+Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods), and equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk()` and `nuseds_estimate_method_crosswalk()`) [@metasalmonPackage].
 
+Legacy values are not dropped; where a legacy term does not cleanly align to a current method family, it can be represented as inherited contextual guidance via ontology metadata (for example via `rdfs:comment`) while remaining traceable in source records.
 ## NuSEDS data dictionary alignment
 
 The NuSEDS data dictionary defines the database fields used to store enumeration methods, estimation methods, estimate classification (Types 1--6), and supporting metadata (e.g., inspections/effort and timing fields) [@openCanadaNuSEDSDataDictionary]. The updated guidance is designed to be expressible using existing NuSEDS fields where possible, and to clearly identify gaps where additional metadata would improve interpretation and reproducibility.

@@ -87,17 +87,3 @@ This guidance summarizes interpretability given recorded methods and evidence. I
 ## Governance and change control
 
 Because estimate Types are used as screening tools and can influence downstream inference, changes to method families, thresholds, or qualifier rules should be versioned and reviewed. Updates should be accompanied by worked examples and regression/path tests in the companion implementation so behavior changes are deliberate and transparent.
-
-## Conclusion {#sec:conclusion}
-
-This report retains the familiar Type 1--6 structure but replaces table-only interpretation with explicit, auditable decision logic grounded in Hyatt (1997): method properties, statistical properties, and documentation [@hyatt1997].
-
-For NuSEDS users, the practical change is simple: record methods and key qualifiers at upload time so Types remain interpretable downstream. Run-window coverage, uptime, breach/bypass context, timing/visibility constraints, documentation evidence, and (where available) quantitative uncertainty (CV/SE) affect how an estimate can be used.
-
-For downstream analysts, the main benefit is transparency: conservative downgrades are accompanied by explicit qualifier codes, making it clear why a stronger Type is not supported and which metadata gaps matter most.
-
-## Next steps
-
-- Finalize a minimal, public-facing metadata schema for NuSEDS that supports the guidance (including quantitative uncertainty fields where available).
-- Maintain a small set of worked examples (anonymized as needed) to demonstrate expected behavior on representative cases.
-- Use implementation monitoring metrics (above) to prioritize metadata capture improvements that most strongly affect interpretability.

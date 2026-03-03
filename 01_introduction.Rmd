@@ -6,8 +6,6 @@ In practice, Type assignment has varied across programs and areas because the hi
 
 This update was prompted by inconsistent application across operational teams, which leads to inconsistent reporting in NuSEDS and increases the risk of downstream misinterpretation---especially near screening thresholds used in rapid status workflows [@holt2009_058].
 
-Throughout this report, **SEN** refers to a *Stream Escapement Narrative*: the summary estimate document and associated metadata used to support NuSEDS uploads and review.
-
 ## Purpose and scope
 
 The purpose of this technical report is to provide forward, implementation-ready guidance for assigning NuSEDS estimate Types 1--6 in a way that is reproducible and interpretable to downstream data users.
@@ -15,8 +13,9 @@ The purpose of this technical report is to provide forward, implementation-ready
 This report:
 
 - documents the decision logic for assigning Types 1--6 (including explicit conservative qualifier codes);
-- clarifies evidence expectations for common operational complications; and
-- identifies a minimal set of metadata elements needed for interpretable Type assignment.
+- clarifies evidence expectations for common operational complications;
+- identifies a minimal set of metadata elements needed for interpretable Type assignment, with an emphasis on Stream Escapement Narratives (**SENs**) used to support NuSEDS uploads and review; and
+- provides canonical roll-ups and mapping guidance for enumeration and estimate methods (including legacy-to-canonical term reconciliation) to support consistent use in NuSEDS (Appendix \@ref(app:nuseds-crosswalk)).
 
 This report does **not** re-estimate escapement, evaluate biological status, or replace program-specific expert judgement.
 
@@ -101,7 +100,7 @@ In practice:
 - **Provide documentation evidence** sufficient for independent interpretation (e.g., field logs, methods/QA notes). Where evidence is missing, the guidance applies conservative downgrades.
 - **Report quantitative uncertainty when available** (e.g., CV or SE) to support qualified precision for Type 2 where appropriate (e.g., AUC and mark--recapture uncertainty reporting) [@english1992auc; @schwarz1993markRecapture; @hilborn1999periodic; @parken2003aucUncertainty].
 
-## What this report provides (summary)
+## What this report provides
 
 Relative to table-only interpretation, the updated guidance:
 

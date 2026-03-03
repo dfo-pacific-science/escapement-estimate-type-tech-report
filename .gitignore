@@ -32,3 +32,6 @@ techreport.tex
 *.sty
 *.upa
 *.utf8.md
+
+# Allow versioned figures used by the report
+!docs/figures/*.png
