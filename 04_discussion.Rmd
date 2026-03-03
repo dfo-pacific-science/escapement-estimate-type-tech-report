@@ -54,9 +54,9 @@ Several metadata items remain valuable but require further specification/governa
 
 For this report, the implementation priority is therefore: finalize SEN metadata first, keep SIL/CU extensions explicit as backlog, and maintain a transparent mapping from stored fields to decision-key qualifiers.
 
-## Companion implementation: unresolved policy/specification gaps
+## Escapement Estimate Type Toolkit: unresolved policy/specification gaps
 
-The companion implementation surfaces policy/specification gaps that can still affect cross-program consistency if left implicit. The most material items are:
+The Escapement Estimate Type Toolkit (R Shiny application) surfaces policy/specification gaps that can still affect cross-program consistency if left implicit. The most material items are:
 
 - **Mixed-method estimates:** explicit combination policy is needed (e.g., conservative minimum-component rule vs. weighted integration with evidence requirements).
 - **Ambiguous threshold language:** terms such as "negligible", "adequate", "fair", and "defensible" still need agreed quantitative thresholds.
@@ -65,20 +65,7 @@ The companion implementation surfaces policy/specification gaps that can still a
 - **Documentation standardization:** documentation labels are functionally similar but still inconsistently phrased across method pathways.
 - **Type-5 pathway clarity:** low-resolution relative-estimate pathways should remain explicit to avoid ad hoc interpretation.
 
-Treating these as tracked backlog (rather than unresolved hidden assumptions) improves transparency and enables prioritized governance updates.
-
-## Practical implementation monitoring (lightweight)
-
-A full empirical validation program is outside current resourcing. However, stakeholders can still track indicators of data completeness and interpretability that map directly to the guidance.
-
-Suggested monitoring metrics include:
-
-- proportion of estimates with **METHOD_UNKNOWN**;
-- proportion of estimates downgraded for **DOC** (insufficient documentation evidence);
-- frequency of qualifiers (e.g., RUN_COVERAGE, UPTIME, BREACH_BYPASS, TIMING, VISIBILITY) by program or time period; and
-- distribution of Types (1--6) over time within programs, to detect abrupt changes driven by metadata practices rather than biology.
-
-These metrics support targeted improvements (e.g., documenting breach severity more consistently) without requiring a resource-intensive validation study.
+This backlog reflects remaining work for the Regional Escapement Task Team. Perfect cross-program consistency and zero ambiguity may not be feasible given the diversity of operational contexts; the goal is to keep the most consequential rules explicit, versioned, and reviewable.
 
 ## Limitations
 
@@ -86,4 +73,4 @@ This guidance summarizes interpretability given recorded methods and evidence. I
 
 ## Governance and change control
 
-Because estimate Types are used as screening tools and can influence downstream inference, changes to method families, thresholds, or qualifier rules should be versioned and reviewed. Updates should be accompanied by worked examples and regression/path tests in the companion implementation so behavior changes are deliberate and transparent.
+Because estimate Types are used as screening tools and can influence downstream inference, changes to method families, thresholds, or qualifier rules should be versioned and reviewed. Updates should be accompanied by worked examples and regression/path tests in the Escapement Estimate Type Toolkit so behavior changes are deliberate and transparent.

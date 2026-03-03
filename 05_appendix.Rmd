@@ -161,39 +161,6 @@ csas_kable(
 ```
 
 
-```{r downgrade-codes-theme-figure, fig.cap="Downgrade criteria codes grouped by interpretation theme.", fig.height=3.2, fig.width=6.8}
-# Summarize Appendix B in a compact visual (counts by theme).
-
-downgrade_theme <- data.frame(
-  Code = downgrade_codes$Code,
-  Theme = dplyr::case_when(
-    downgrade_codes$Code %in% c("RUN_COVERAGE", "UPTIME", "XSEC_COVERAGE", "REACH_COVERAGE") ~ "Coverage / uptime",
-    downgrade_codes$Code %in% c("VISITS", "TIMING", "EFF_STD") ~ "Timing / effort",
-    downgrade_codes$Code %in% c("VISIBILITY", "ENV_COND", "DETECTABILITY") ~ "Visibility / detectability",
-    downgrade_codes$Code %in% c("BREACH_BYPASS", "INFILL_METHOD") ~ "Breach / infilling",
-    downgrade_codes$Code %in% c("DOC", "REVIEW_QA") ~ "Documentation / review",
-    downgrade_codes$Code %in% c("METHOD_UNKNOWN", "DEVICE_CONFIG") ~ "Method / configuration",
-    downgrade_codes$Code %in% c("MR_ASSUMP", "TRAP_EFF") ~ "Model assumptions / efficiency",
-    downgrade_codes$Code %in% c("PRECISION_ACCURACY") ~ "Precision / accuracy",
-    downgrade_codes$Code %in% c("CLASSIFICATION") ~ "Classification",
-    TRUE ~ "Other"
-  ),
-  stringsAsFactors = FALSE
-)
-
-theme_counts <- downgrade_theme |>
-  dplyr::count(Theme, name = "n") |>
-  dplyr::arrange(n)
-
-ggplot2::ggplot(theme_counts, ggplot2::aes(x = n, y = stats::reorder(Theme, n))) +
-  ggplot2::geom_col(fill = "#2C7FB8") +
-  ggplot2::labs(
-    x = "Number of codes",
-    y = NULL
-  ) +
-  ggplot2::theme_minimal(base_size = 11)
-```
-
 `r if (knitr::is_latex_output()) "\\\\clearpage"`
 
 # Appendix C: NuSEDS data dictionary crosswalk {#app:nuseds-crosswalk}
@@ -312,6 +279,63 @@ csas_kable(
   csas_colspec(3, width = "2.8cm") |>
   csas_colspec(4, width = "4.0cm") |>
   csas_colspec(5, width = "4.0cm")
+}
+```
+
+
+```{r nuseds-enum-sankey, fig.cap="Sankey-style summary of how legacy NuSEDS enumeration-method terms converge to canonical parent terms used by the updated guidance.", fig.height=5.4, fig.width=6.8}
+if (exists("enum_crosswalk")) {
+  sank <- enum_crosswalk[, c("NuSEDS ENUMERATION_METHODS value", "Ontology term")]
+  names(sank) <- c("source", "target")
+  sank$target[is.na(sank$target) | sank$target == ""] <- "(unmapped / method-unknown)"
+
+  # Order to reduce line crossings: group sources by target.
+  sank <- sank[order(sank$target, sank$source), ]
+
+  plot_sankey_like <- function(df, main = NULL) {
+    src <- df$source
+    tgt <- df$target
+
+    targets <- unique(tgt)
+    sources <- src
+
+    # y-positions
+    y_src <- seq(0.95, 0.05, length.out = length(sources))
+    y_tgt <- seq(0.95, 0.05, length.out = length(targets))
+
+    x1 <- 0.15
+    x2 <- 0.85
+
+    par(mar = c(0.5, 0.5, 2.0, 0.5))
+    plot.new()
+    plot.window(xlim = c(0, 1), ylim = c(0, 1))
+
+    # Draw links
+    for (i in seq_along(sources)) {
+      y1 <- y_src[i]
+      y2 <- y_tgt[match(tgt[i], targets)]
+      xspline(
+        x = c(x1, 0.45, 0.55, x2),
+        y = c(y1, y1, y2, y2),
+        shape = 1,
+        border = grDevices::adjustcolor("#2C7FB8", alpha.f = 0.35),
+        lwd = 1
+      )
+    }
+
+    # Draw nodes + labels
+    text(x1, y_src, sources, adj = c(1, 0.5), cex = 0.7)
+    text(x2, y_tgt, targets, adj = c(0, 0.5), cex = 0.75)
+
+    if (!is.null(main)) {
+      title(main = main, cex.main = 0.95)
+    }
+  }
+
+  plot_sankey_like(sank, main = "Enumeration method terms → canonical parent terms")
+} else {
+  plot.new()
+  text(0.5, 0.5, "NuSEDS data dictionary CSV not available; sankey figure not generated.")
 }
 ```
 
@@ -503,9 +527,62 @@ csas_kable(
 }
 ```
 
-## C.3 Type-to-accuracy/precision lookup used in the companion toolkit
 
-A companion internal implementation includes a compact lookup that can be used when populating legacy-style accuracy/precision class fields alongside estimate Type.
+```{r nuseds-estimate-sankey, fig.cap="Sankey-style summary of how legacy NuSEDS estimate-method terms converge to canonical parent terms used by the updated guidance.", fig.height=5.8, fig.width=6.8}
+if (exists("est_crosswalk")) {
+  sank <- est_crosswalk[, c("NuSEDS ESTIMATE_METHOD value", "Ontology term")]
+  names(sank) <- c("source", "target")
+  sank$target[is.na(sank$target) | sank$target == ""] <- "(unmapped / method-unknown)"
+
+  sank <- sank[order(sank$target, sank$source), ]
+
+  plot_sankey_like <- function(df, main = NULL) {
+    src <- df$source
+    tgt <- df$target
+
+    targets <- unique(tgt)
+    sources <- src
+
+    y_src <- seq(0.95, 0.05, length.out = length(sources))
+    y_tgt <- seq(0.95, 0.05, length.out = length(targets))
+
+    x1 <- 0.15
+    x2 <- 0.85
+
+    par(mar = c(0.5, 0.5, 2.0, 0.5))
+    plot.new()
+    plot.window(xlim = c(0, 1), ylim = c(0, 1))
+
+    for (i in seq_along(sources)) {
+      y1 <- y_src[i]
+      y2 <- y_tgt[match(tgt[i], targets)]
+      xspline(
+        x = c(x1, 0.45, 0.55, x2),
+        y = c(y1, y1, y2, y2),
+        shape = 1,
+        border = grDevices::adjustcolor("#2C7FB8", alpha.f = 0.35),
+        lwd = 1
+      )
+    }
+
+    text(x1, y_src, sources, adj = c(1, 0.5), cex = 0.65)
+    text(x2, y_tgt, targets, adj = c(0, 0.5), cex = 0.72)
+
+    if (!is.null(main)) {
+      title(main = main, cex.main = 0.95)
+    }
+  }
+
+  plot_sankey_like(sank, main = "Estimate method terms → canonical parent terms")
+} else {
+  plot.new()
+  text(0.5, 0.5, "NuSEDS data dictionary CSV not available; sankey figure not generated.")
+}
+```
+
+## C.3 Type-to-accuracy/precision lookup used in the Escapement Estimate Type Toolkit
+
+The Escapement Estimate Type Toolkit includes a compact lookup that can be used when populating legacy-style accuracy/precision class fields alongside estimate Type.
 
 ```{r type-accuracy-precision-lookup}
 type_lookup <- data.frame(
@@ -535,7 +612,7 @@ csas_kable(
   bold_header = FALSE,
   font_size = 8,
   align = c("c", "l", "l"),
-  caption = "Companion-toolkit lookup from estimate Type to legacy-style accuracy/precision class labels."
+  caption = "Escapement Estimate Type Toolkit lookup from estimate Type to legacy-style accuracy/precision class labels."
 ) |>
   csas_colspec(1, width = "2.0cm") |>
   csas_colspec(2, width = "6.5cm") |>
@@ -546,14 +623,11 @@ csas_kable(
 
 This appendix reports a quick exploratory check of method terminology in historical NuSEDS SEN records (from the shared `All AREA SEN_Survey_method (1).csv` dataset) and the resulting rollups used to support the method mapping in this guidance.
 
-The figures use `ggplot2` and the two method fields used in this report (`ENUMERATION_METHODS`, `ESTIMATE_METHOD`) as primary inputs.
 
 ```{r method-term-eda-figures, echo=FALSE, out.width='100%'}
 knitr::include_graphics(c(
   "docs/figures/appendix_e_figure1_unique_terms_by_year.png",
-  "docs/figures/appendix_e_figure2_top_terms_faceted.png",
-  "docs/figures/appendix_e_figure3_family_share_over_time.png",
-  "docs/figures/appendix_e_figure5_method_field_coverage.png"
+  "docs/figures/appendix_e_figure2_top_terms_faceted.png"
 ))
 ```
 

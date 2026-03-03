@@ -57,9 +57,9 @@ The classification follows a property-first sequence:
 
 This structure reduces subjective table interpretation by turning common qualifiers into explicit questions and recorded qualifier codes.
 
-## Companion implementation (informative)
+## Escapement Estimate Type Toolkit (informative)
 
-A companion internal R Shiny application applies this decision logic and returns both (i) a final estimate Type (1--6) and (ii) qualifier codes explaining any conservative downgrades. The software is a companion tool; it is **not** the primary output of this report.
+The Escapement Estimate Type Toolkit (R Shiny application) applies this decision logic and returns both (i) a final estimate Type (1--6) and (ii) qualifier codes explaining any conservative downgrades. The toolkit is a practical companion tool; it is **not** the primary output of this report.
 
 ## Guidance-to-implementation outlook
 
@@ -97,7 +97,7 @@ Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part b
 
 Most of the guidance can be expressed using existing NuSEDS fields, but several high-value metadata elements are needed to make estimate Types interpretable and reproducible for downstream users.
 
-The table below lists guidance-level metadata elements and the typical qualifier codes they support; detailed software rollout and database-change logistics are treated as companion implementation work.
+The table below lists guidance-level metadata elements and the typical qualifier codes they support; detailed software rollout and database-change logistics are treated as implementation work outside the scope of this technical report.
 
 ```{r recommended-metadata-table}
 recommended_meta <- data.frame(
@@ -214,22 +214,11 @@ csas_kable(
   csas_colspec(3, width = "2.5cm")
 ```
 
-## How this will proceed
+## DFO Salmon Data Standards and Controlled Vocabularies linkages for methods and downgrade criteria
 
-Implementation should proceed in stages so the guidance can be applied consistently before extending scope:
+To support consistent interpretation (including cross-program interoperability), these NuSEDS elements can be linked to the DFO Salmon Data Standards and Controlled Vocabularies (DFO Salmon Ontology) term browser and concept schemes:
 
-- prioritize SEN-only fields needed for transparent Type assignment and conservative downgrades;
-- finalize controlled lookup tables for those fields so downstream implementation remains interoperable; and
-- defer broader SIL/CU enhancements to a later governance cycle.
-
-This keeps the technical report focused on interpretability while leaving software rollout details to companion implementation tracks.
-
-## Ontology linkages for methods and downgrade criteria
-
-To support consistent interpretation (including cross-program interoperability), these NuSEDS elements can be linked to published DFO Salmon Ontology concept schemes and term pages:
-
-- ontology entrypoint: <https://w3id.org/gcdfo/salmon>
-- human-readable term documentation: <https://dfo-pacific-science.github.io/dfo-salmon-ontology/>
+- <https://w3id.org/gcdfo/salmon>
 
 ```{r ontology-linkage-schemes-table}
 ontology_schemes <- data.frame(

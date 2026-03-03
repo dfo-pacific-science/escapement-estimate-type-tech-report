@@ -1,6 +1,6 @@
 # Guidance updates for forward implementation
 
-This chapter summarizes the substantive updates to the Type 1--6 guidance and how it should be applied during NuSEDS data entry and review.
+Next we summarize the substantive updates to the Type 1--6 guidance and how it should be applied during NuSEDS data entry and review.
 
 ## What is new in this guidance
 
@@ -14,9 +14,23 @@ Compared to table-only interpretation, the updated guidance:
 
 ## How to apply the guidance moving forward
 
-Uploads should include enough method and evidence context that downstream users can interpret both the assigned Type and any conservative qualifiers.
+For most users, the simplest way to apply this guidance is through the **Escapement Estimate Type Toolkit** (R Shiny application):
 
-In practice, this means recording:
+- <https://dfo-pac-sci-dev.shinyapps.io/smn-escapement-toolkit/>
+
+The toolkit guides users through the same decision sequence described in this report and produces (i) a final estimate Type (1--6) and (ii) explicit qualifier/downgrade codes. Users should copy the toolkit outputs (Type and qualifiers) into their SEN and into the **NuSEDS bulk upload tool** fields used to store estimate-type classification and justification.
+
+### Authoritative decision-key logic and change requests
+
+The authoritative decision-key logic is maintained as a version-controlled YAML file in the toolkit repository:
+
+- <https://github.com/dfo-pacific-science/smn-escapement-estimates-toolkit/blob/main/matrix_key/structured_dichotomous_key.yaml>
+
+Requests to update the logic (new method terms, revised thresholds, clarified combination rules, etc.) should be submitted as a GitHub issue in that repository (preferred) or emailed to **FADSDataStewardship-GestiondesdonneesSFDA@dfo-mpo.gc.ca**.
+
+### What must be recorded
+
+Uploads should include enough method and evidence context that downstream users can interpret both the assigned Type and any conservative qualifiers. In practice, this means recording:
 
 - the primary enumeration and estimation methods;
 - key qualifiers (coverage, uptime, breach/bypass, timing, visibility, and any infilling/interpolation context);
@@ -24,7 +38,3 @@ In practice, this means recording:
 - quantitative uncertainty where available.
 
 A compact, single-table rule summary is provided in Appendix A.
-
-## Companion implementation note
-
-A companion internal implementation applies the same guidance logic and returns both (i) a final estimate Type and (ii) qualifier codes for conservative downgrades. This report focuses on the guidance itself and how it should be applied in data entry and review.
