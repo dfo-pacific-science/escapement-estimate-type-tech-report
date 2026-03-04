@@ -108,7 +108,7 @@ jobs:
           </head>
           <body>
             <h1>Updated Escapement Estimate Type Classification Guidance</h1>
-            <p class="muted">Primary artifact: CSAS-styled technical report PDF. Optional secondary view: web/bookdown rendering.</p>
+            <p class="muted"><strong style="color:#b00020;">DRAFT</strong> — Primary artifact: CSAS-styled technical report PDF. Optional secondary view: web/bookdown rendering.</p>
 
             <p>
               <a class="btn btn-primary" href="./techreport.pdf">Download PDF</a>

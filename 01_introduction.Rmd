@@ -1,5 +1,20 @@
 # Introduction {#sec:introduction}
 
+```{r draft-banner, echo=FALSE, results='asis'}
+if (isTRUE(params$draft)) {
+  label <- params$draft_label
+  if (is.null(label) || !nzchar(label)) {
+    label <- "DRAFT"
+  }
+
+  if (knitr::is_html_output()) {
+    cat(sprintf("<div class=\"draft-banner\">%s</div>\n", label))
+  } else {
+    cat(paste0("**", label, "**\n\n"))
+  }
+}
+```
+
 The New Salmon Escapement Database System (NuSEDS) stores salmon spawner survey records, spawner abundance estimates, and linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. In NuSEDS, estimate Types 1--6 are used as a shorthand indicator of interpretability for downstream uses such as stock assessment and Wild Salmon Policy workflows.
 
 In practice, Type assignment has varied across programs and areas because the historical table-only guidance does not fully specify how to treat incomplete coverage, uncertain methods, and other recurring real-world complications.

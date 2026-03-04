@@ -1,10 +1,10 @@
 ---
 title: |
-  "Updated Escapement Estimate Type Classification Guidance"
+  "DRAFT — Updated Escapement Estimate Type Classification Guidance"
 english_title: |
-  Updated Escapement Estimate Type Classification Guidance
+  DRAFT — Updated Escapement Estimate Type Classification Guidance
 french_title: |
-  Updated Escapement Estimate Type Classification Guidance
+  DRAFT — Updated Escapement Estimate Type Classification Guidance
 
 year: 2025
 report_number: "to be assigned"
@@ -54,10 +54,15 @@ french_abstract: |
 citation_french: "NuSEDS Escapement Estimates Toolkit Working Group. 2025. Updated Escapement Estimate Type Classification Guidance. Rapp. tech. can. sci. halieut. aquat. (to be assigned)."
 show_continued_text: true
 
+params:
+  draft: true
+  draft_label: "DRAFT — Working document (do not cite)"
+
 output:
   csasdown::techreport_docx:
     french: false
   bookdown::gitbook:
+    css: ["draft.css"]
     config:
       toc:
         collapse: section
@@ -167,4 +172,5 @@ if (knitr::is_latex_output()) {
   library(csasdown)
 }
 ```
+
 
