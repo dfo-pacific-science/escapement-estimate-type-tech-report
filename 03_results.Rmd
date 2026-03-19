@@ -29,7 +29,7 @@ For most users, the simplest way to apply this guidance is through the **Escapem
 
 - <https://dfo-pac-sci-dev.shinyapps.io/smn-escapement-toolkit/>
 
-The toolkit guides users through the same decision sequence described in this report and produces (i) a final estimate Type (1--6) and (ii) explicit qualifier/downgrade codes. The report remains the authoritative guidance; the toolkit is the operational companion. For operational entry, users should record the toolkit **Final Type** as the estimate-type classification result, store qualifier codes in `DOWNGRADE_CRITERIA`, and use `ESTIMATE_TYPE_CLASS_JUSTIFICATION` plus `ANALYSIS_EXPLANATION` to capture the rationale and any combined/calibrated method detail. `Max Type`, `Provisional Type`, and `Candidate Type` are toolkit-internal QA trace values and should not be treated as the official uploaded classification.
+The toolkit guides users through the same decision sequence described in this report and produces (i) a **Final Type** (1--6) and (ii) explicit qualifier/downgrade codes. The report remains the authoritative guidance; the toolkit is the operational companion. For operational entry, users should record the toolkit **Final Type** as the estimate-type classification result, store qualifier codes in `DOWNGRADE_CRITERIA`, and use `ESTIMATE_TYPE_CLASS_JUSTIFICATION` plus `ANALYSIS_EXPLANATION` to capture the rationale and any combined/calibrated method detail. `Max Type`, `Provisional Type`, and `Candidate Type` are toolkit-internal QA trace values and should not be treated as the official uploaded classification.
 
 ### Authoritative decision-key logic and change requests
 

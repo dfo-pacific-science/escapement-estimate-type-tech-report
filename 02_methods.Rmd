@@ -59,9 +59,9 @@ This structure reduces subjective table interpretation by turning common qualifi
 
 ## Escapement Estimate Type Toolkit (informative)
 
-An accompanying Escapement Estimate Type Toolkit (R Shiny application) applies the same decision logic described in this report and returns both (i) a final estimate Type (1--6) and (ii) qualifier codes explaining any conservative downgrades. The report remains the authoritative guidance; the toolkit is a practical companion implementation.
+An accompanying Escapement Estimate Type Toolkit (R Shiny application) applies the same decision logic described in this report and returns both (i) a **Final Type** (1--6) and (ii) qualifier codes explaining any conservative downgrades. The report remains the authoritative guidance; the toolkit is a practical companion implementation.
 
-Within the toolkit, three intermediate labels are used for workflow transparency: **provisional type** (the type supported by the method-family path before final gates), **max type** (the upper bound imposed by triggered downgrade rules), and **candidate type** (the type implied after combining the enumeration and estimation steps before final documentation/precision checks). The report is concerned with the **final estimate type** reported after all qualifier enforcement.
+Within the toolkit, three intermediate labels are used for workflow transparency: **Provisional Type** (the type supported by the method-family path before final gates), **Max Type** (the upper bound imposed by triggered downgrade rules), and **Candidate Type** (the type implied after combining the enumeration and estimation steps before final documentation/precision checks). The report is concerned with the **Final Type** reported after all qualifier enforcement.
 
 ## Guidance-to-implementation outlook
 
