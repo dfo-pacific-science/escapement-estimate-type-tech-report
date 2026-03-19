@@ -31,14 +31,14 @@ classification_rule_summary <- data.frame(
   ),
   `Classification effect` = c(
     "Assign Type 6",
-    "Assign provisional Type 5",
+    "Assign Provisional Type 5",
     "Select applicable rule path",
     "Apply conservative downgrades within selected path",
     "Apply conservative downgrades within selected path",
     "Final Type cannot exceed weakest component unless integration method supports stronger classification",
     "Apply conservative downgrade",
     "Apply conservative downgrade",
-    "Return final Type plus explicit qualifier codes"
+    "Return Final Type plus explicit qualifier codes"
   ),
   `Primary qualifier code(s)` = c(
     "(none)",
@@ -71,6 +71,10 @@ csas_kable(
 `r if (knitr::is_latex_output()) "\\\\clearpage"`
 
 # Appendix B: Downgrade criteria codes {#app:downgrade-codes}
+
+The qualifier-code table is formatted for high-density reference use. In PDF output it is rendered on a landscape page to improve line wrapping and scanability; HTML and DOCX outputs retain standard page flow.
+
+`r if (knitr::is_latex_output()) "\\\\begin{landscape}"`
 
 ```{r downgrade-codes}
 downgrade_code_terms <- c(
@@ -154,11 +158,13 @@ csas_kable(
   align = c("l", "l", "l", "l"),
   caption = "Downgrade criteria codes used by the classification key, with linkages to published DFO Salmon Ontology terms."
 ) |>
-  csas_colspec(1, width = "2.6cm") |>
-  csas_colspec(2, width = "5.6cm") |>
-  csas_colspec(3, width = "3.0cm") |>
-  csas_colspec(4, width = "4.6cm")
+  csas_colspec(1, width = "2.8cm") |>
+  csas_colspec(2, width = "8.2cm") |>
+  csas_colspec(3, width = "2.6cm") |>
+  csas_colspec(4, width = "6.0cm")
 ```
+
+`r if (knitr::is_latex_output()) "\\\\end{landscape}"`
 
 
 `r if (knitr::is_latex_output()) "\\\\clearpage"`
@@ -340,6 +346,8 @@ if (exists("enum_crosswalk")) {
 ```
 
 ## C.2 Estimate method values (ESTIMATE_METHOD)
+
+`r if (knitr::is_latex_output()) "\\\\begin{landscape}"`
 
 ```{r nuseds-estimate-method-crosswalk}
 if (!exists("dd_available") || !isTRUE(dd_available)) {
@@ -531,14 +539,16 @@ csas_kable(
   align = c("l", "l", "c", "l", "l", "l"),
   caption = "Suggested interpretation of NuSEDS estimate method values under the updated guidance, with ontology term and WIDOCO linkages. Where 'depends' appears, additional method metadata are required to apply the key cleanly."
 ) |>
-  csas_colspec(1, width = "2.8cm") |>
-  csas_colspec(2, width = "3.2cm") |>
-  csas_colspec(3, width = "1.0cm") |>
-  csas_colspec(4, width = "2.6cm") |>
-  csas_colspec(5, width = "3.0cm") |>
-  csas_colspec(6, width = "3.4cm")
+  csas_colspec(1, width = "3.4cm") |>
+  csas_colspec(2, width = "4.4cm") |>
+  csas_colspec(3, width = "1.4cm") |>
+  csas_colspec(4, width = "3.0cm") |>
+  csas_colspec(5, width = "3.8cm") |>
+  csas_colspec(6, width = "7.2cm")
 }
 ```
+
+`r if (knitr::is_latex_output()) "\\\\end{landscape}"`
 
 
 ```{r nuseds-estimate-sankey, fig.cap="Sankey-style summary of how legacy NuSEDS estimate-method terms converge to canonical parent terms used by the updated guidance.", fig.height=5.8, fig.width=6.0}
