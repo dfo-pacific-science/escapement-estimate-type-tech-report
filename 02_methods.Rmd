@@ -59,7 +59,9 @@ This structure reduces subjective table interpretation by turning common qualifi
 
 ## Escapement Estimate Type Toolkit (informative)
 
-The Escapement Estimate Type Toolkit (R Shiny application) applies this decision logic and returns both (i) a final estimate Type (1--6) and (ii) qualifier codes explaining any conservative downgrades. The toolkit is a practical companion tool; it is **not** the primary output of this report.
+An accompanying Escapement Estimate Type Toolkit (R Shiny application) applies the same decision logic described in this report and returns both (i) a final estimate Type (1--6) and (ii) qualifier codes explaining any conservative downgrades. The report remains the authoritative guidance; the toolkit is a practical companion implementation.
+
+Within the toolkit, three intermediate labels are used for workflow transparency: **provisional type** (the type supported by the method-family path before final gates), **max type** (the upper bound imposed by triggered downgrade rules), and **candidate type** (the type implied after combining the enumeration and estimation steps before final documentation/precision checks). The report is concerned with the **final estimate type** reported after all qualifier enforcement.
 
 ## Guidance-to-implementation outlook
 
@@ -87,7 +89,7 @@ Combined-method workflows (e.g., system-wide sonar with tributary visual apporti
 
 ### Calibration and historical revisions
 
-Where historical values have been recalibrated or revised, the updated guidance treats calibration as an analysis layer that should be captured in metadata (calibration source, diagnostics, and revision history) rather than as a new estimate Type. This supports interpretation of time-series values by downstream users.
+Where historical values have been recalibrated or revised, the updated guidance treats calibration as an analysis layer that should be captured in metadata (calibration source, diagnostics, and revision history) rather than as a new estimate Type. This supports interpretation of time-series values by downstream users, but this report does **not** prescribe automatic reclassification of existing records or a downstream assessment rule for calibrated series.
 
 ### Quantitative uncertainty (CV/SE)
 
@@ -145,9 +147,9 @@ recommended_meta <- data.frame(
     "VISIBILITY / ENV_COND",
     "DOC",
     "PRECISION_ACCURACY",
-    "(varies; conservative component rule)",
-    "(varies)",
-    "(varies)"
+    "Component-level qualifiers + integration rule",
+    "Calibration diagnostics / revision metadata",
+    "Revision metadata / audit trail"
   ),
   `Priority for upload` = c(
     "Required",
@@ -184,11 +186,13 @@ csas_kable(
 
 ## Method families {#sec:method-families}
 
+Families are listed by the short code used throughout the report and toolkit, rather than by attainable Type.
+
 ```{r method-family-table}
 method_families <- data.frame(
   Code = c("FS", "V", "A", "S", "T", "R", "P", "M"),
   `Method family` = c(
-    "Fixed site census (manual or electronic)",
+    "Fixed site census / near-census (manual or validated counter tally)",
     "Visual ground or snorkel count",
     "Aerial survey count",
     "Hydroacoustic sonar count (modelled)",
@@ -197,7 +201,7 @@ method_families <- data.frame(
     "Electrofishing CPUE index",
     "Mark-recapture program"
   ),
-  `Best attainable type` = c("1", "2", "3", "2", "2", "2", "3", "2"),
+  `Best attainable type` = c("1", "2", "3", "2", "2", "3", "3", "2"),
   check.names = FALSE
 )
 
@@ -213,6 +217,12 @@ csas_kable(
   csas_colspec(2, width = "10.8cm") |>
   csas_colspec(3, width = "2.5cm")
 ```
+
+Type 1 retains an interpretive meaning---**absolute abundance from a census / near-census workflow**---rather than serving as a raw method label. In practice, only constrained fixed-site tallies can default to that upper bound under the current guidance.
+
+Analysis labels such as AUC and peak-count do not replace the underlying survey family. Ground/snorkel series analysed with AUC can still support Type 2 under the `V` family, whereas aerial series analysed with AUC or peak-count remain capped by the `A` family ceiling (Type 3) unless a future validated exception is explicitly adopted.
+
+Default redd-count pathways are conservatively capped at Type 3 in this update. Any higher-confidence redd-derived absolute-abundance estimate should be treated as an explicit calibrated/model-based exception rather than as the default redd family interpretation.
 
 ## DFO Salmon Data Standards and Controlled Vocabularies linkages for methods and downgrade criteria
 
@@ -262,7 +272,8 @@ csas_kable(
 Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods). Appendix C also includes compact Sankey-style summaries to visualize how legacy NuSEDS method terms converge to the canonical parent terms used by the guidance. Equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk()` and `nuseds_estimate_method_crosswalk()`) [@metasalmonPackage].
 
 Legacy values are not dropped; where a legacy term does not cleanly align to a current method family, it can be represented as inherited contextual guidance via ontology metadata (for example via `rdfs:comment`) while remaining traceable in source records.
-## NuSEDS data dictionary alignment
+
+## NuSEDS data dictionary alignment (selected fields)
 
 The NuSEDS data dictionary defines the database fields used to store enumeration methods, estimation methods, estimate classification (Types 1--6), and supporting metadata (e.g., inspections/effort and timing fields) [@openCanadaNuSEDSDataDictionary]. The updated guidance is designed to be expressible using existing NuSEDS fields where possible, and to clearly identify gaps where additional metadata would improve interpretation and reproducibility.
 

@@ -303,10 +303,10 @@ if (exists("enum_crosswalk")) {
     y_src <- seq(0.95, 0.05, length.out = length(sources))
     y_tgt <- seq(0.95, 0.05, length.out = length(targets))
 
-    x1 <- 0.15
-    x2 <- 0.85
+    x1 <- 0.26
+    x2 <- 0.74
 
-    par(mar = c(0.5, 0.5, 2.0, 0.5))
+    par(mar = c(0.6, 5.2, 2.0, 5.2), xpd = NA)
     plot.new()
     plot.window(xlim = c(0, 1), ylim = c(0, 1))
 
@@ -324,8 +324,8 @@ if (exists("enum_crosswalk")) {
     }
 
     # Draw nodes + labels
-    text(x1, y_src, sources, adj = c(1, 0.5), cex = 0.62)
-    text(x2, y_tgt, targets, adj = c(0, 0.5), cex = 0.68)
+    text(x1 - 0.02, y_src, sources, adj = c(1, 0.5), cex = 0.62, xpd = NA)
+    text(x2 + 0.02, y_tgt, targets, adj = c(0, 0.5), cex = 0.68, xpd = NA)
 
     if (!is.null(main)) {
       title(main = main, cex.main = 0.95)
@@ -365,7 +365,7 @@ est_crosswalk <- data.frame(
 
 est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
   "Fixed Site Census", "Resistivity Counter", "Video Counter"
-)] <- "Enumeration device/mode (often stored as estimate method)"
+)] <- "Fixed-station tally / counter mode (often stored as estimate method)"
 est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
   "Fixed Site Census", "Resistivity Counter", "Video Counter"
 )] <- "FS"
@@ -393,20 +393,25 @@ est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
 est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
   "Area Under the Curve",
   "Peak Live + Dead",
-  "Peak Live + Cumulative Dead",
-  "(Peak Live+Cum Dead)*Expansion",
-  "Peak Live * Expansion"
-)] <- "Visual-series estimation (AUC/peak variants and expansions)"
+  "Peak Live + Cumulative Dead"
+)] <- "Survey-series estimation (AUC/peak variants; platform-specific ceiling depends on underlying survey family)"
 est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
   "Area Under the Curve",
   "Peak Live + Dead",
-  "Peak Live + Cumulative Dead",
+  "Peak Live + Cumulative Dead"
+)] <- "depends"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
   "(Peak Live+Cum Dead)*Expansion",
   "Peak Live * Expansion"
-)] <- "V"
+)] <- "Survey-series expansion (inherits the underlying survey family and any weaker component)"
+est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
+  "(Peak Live+Cum Dead)*Expansion",
+  "Peak Live * Expansion"
+)] <- "depends"
 
 est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c("Redd Count")] <-
-  "Redd-based estimation (often requires spawners-per-redd conversion)"
+  "Redd-based estimation (default conservative survey/index pathway unless separately calibrated/modelled)"
 est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c("Redd Count")] <- "R"
 
 est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c("Cumulative CPUE")] <-
@@ -487,13 +492,21 @@ est_crosswalk[["WIDOCO term page"]][has_est_term] <-
   paste0(est_widoco_base, sub("^gcdfo:", "", est_crosswalk[["Ontology term"]][has_est_term]))
 
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Resistivity Counter"] <-
-  "Enumerated as a device/mode; ensure bypass/coverage/QA metadata are captured to support Type 1/2 eligibility."
+  "Treat as a fixed-station tally when the installation functions as the primary constrained-opening counter. Record species/event attribution, validation, detection-correction, and bypass/coverage/QA context in the supporting explanation fields; resistivity remains in the FS pathway under the current guidance."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Video Counter"] <-
-  "Enumerated as a device/mode; ensure QA review rate and uptime/coverage metadata are captured."
+  "Treat as a fixed-station tally within FS; ensure QA review rate, attribution logic (if used), and uptime/coverage metadata are captured."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Area Under the Curve"] <-
+  "Treat AUC as an analysis label applied after survey-family selection: ground/snorkel series follow the V-family pathway, while aerial series remain capped by the A-family ceiling (Type 3) under the current conservative guidance."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] %in% c("Peak Live + Dead", "Peak Live + Cumulative Dead")] <-
+  "Peak-count summaries inherit the underlying survey family. Aerial-derived peak summaries remain capped by the A-family ceiling unless a future explicit exception is adopted."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] %in% c("(Peak Live+Cum Dead)*Expansion", "Peak Live * Expansion")] <-
+  "Expansion does not replace the underlying survey family; record the base method and any weaker component explicitly."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Calibrated Time Series"] <-
   "For interpretability, record calibration source years, diagnostics, and revision history."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Combined Methods"] <-
   "Decompose into components (e.g., sonar + visual apportionment; fence + visual during breach) and apply conservative classification."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Redd Count"] <-
+  "Default redd-count interpretation is conservatively capped at Type 3. Any higher-confidence redd-derived absolute-abundance estimate should be handled only as an explicit calibrated/model-based exception with supporting validation and documentation."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Cumulative New"] <-
   "Legacy dictionary label with no method definition in the source description; mapped to PeakCountAnalysis pending local confirmation."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Cumulative CPUE"] <-
@@ -546,10 +559,10 @@ if (exists("est_crosswalk")) {
     y_src <- seq(0.95, 0.05, length.out = length(sources))
     y_tgt <- seq(0.95, 0.05, length.out = length(targets))
 
-    x1 <- 0.15
-    x2 <- 0.85
+    x1 <- 0.26
+    x2 <- 0.74
 
-    par(mar = c(0.5, 0.5, 2.0, 0.5))
+    par(mar = c(0.6, 5.2, 2.0, 5.2), xpd = NA)
     plot.new()
     plot.window(xlim = c(0, 1), ylim = c(0, 1))
 
@@ -565,8 +578,8 @@ if (exists("est_crosswalk")) {
       )
     }
 
-    text(x1, y_src, sources, adj = c(1, 0.5), cex = 0.60)
-    text(x2, y_tgt, targets, adj = c(0, 0.5), cex = 0.66)
+    text(x1 - 0.02, y_src, sources, adj = c(1, 0.5), cex = 0.60, xpd = NA)
+    text(x2 + 0.02, y_tgt, targets, adj = c(0, 0.5), cex = 0.66, xpd = NA)
 
     if (!is.null(main)) {
       title(main = main, cex.main = 0.95)
@@ -582,7 +595,7 @@ if (exists("est_crosswalk")) {
 
 ## C.3 Type-to-accuracy/precision lookup used in the Escapement Estimate Type Toolkit
 
-The Escapement Estimate Type Toolkit includes a compact lookup that can be used when populating legacy-style accuracy/precision class fields alongside estimate Type.
+The Escapement Estimate Type Toolkit includes a compact lookup that can be used when populating legacy-style accuracy/precision class fields alongside estimate Type. This is a compatibility aid for workflows that still carry those legacy labels; it does **not** change the Type assignment itself.
 
 ```{r type-accuracy-precision-lookup}
 type_lookup <- data.frame(
@@ -612,15 +625,54 @@ csas_kable(
   bold_header = FALSE,
   font_size = 8,
   align = c("c", "l", "l"),
-  caption = "Escapement Estimate Type Toolkit lookup from estimate Type to legacy-style accuracy/precision class labels."
+  caption = "Escapement Estimate Type Toolkit lookup from estimate Type to legacy-style accuracy/precision class labels, included as a compatibility aid for workflows that still populate those fields."
 ) |>
   csas_colspec(1, width = "2.0cm") |>
   csas_colspec(2, width = "6.5cm") |>
   csas_colspec(3, width = "6.5cm")
 ```
 
-# Appendix D: NuSEDS method-term summary (SEN exploratory) {#app:nuseds-method-summary}
+# Appendix D: NuSEDS method-term summary provenance (SEN exploratory) {#app:nuseds-method-summary}
 
-This appendix reports the same method-vocabulary evidence used to build the crosswalk logic in Appendix C. Figure references are shown in the main text.
+This appendix documents the exploratory method-vocabulary evidence used to build the crosswalk logic in Appendix C and to interpret the frequency snapshot shown in Figure 2 of the main text.
+
+## D.1 Source and processing notes
+
+The method-term review is intended as implementation context, not as a frozen inventory of future NuSEDS values. The same source and processing notes applied to the Figure 2 frequency summary and to the Appendix C crosswalk review.
+
+```{r method-summary-provenance}
+method_summary_provenance <- data.frame(
+  `Item` = c(
+    "Source extract",
+    "Fields reviewed",
+    "Year filter",
+    "Term handling",
+    "Primary outputs"
+  ),
+  `Details` = c(
+    "All-area SEN method extract assembled for this report.",
+    "`ENUMERATION_METHODS` and `ESTIMATE_METHOD`.",
+    "Records with `ANALYSIS_YR` between 1990 and 2025.",
+    "Multi-valued cells split on semicolons, commas, and slashes; whitespace normalized before counting.",
+    "Figure 2 in the main text (top terms) and the interpretive crosswalk context summarized in Appendix C."
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  method_summary_provenance,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "l"),
+  caption = "Source and processing notes for the exploratory NuSEDS method-term review used in Figure 2 and Appendix C."
+) |>
+  csas_colspec(1, width = "3.2cm") |>
+  csas_colspec(2, width = "11.0cm")
+```
+
+## D.2 Interpretation note
+
+Because these summaries are derived from an exploratory extract rather than from a versioned public release, they should be interpreted as a dated snapshot that helps explain the crosswalk design---not as a guarantee that the same term frequencies will persist as NuSEDS continues to evolve.
 
 `r if(knitr:::is_latex_output()) '% end csasdown appendix'`

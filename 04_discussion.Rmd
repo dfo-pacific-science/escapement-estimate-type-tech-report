@@ -12,7 +12,7 @@ Estimate Types are not a binary "usable/unusable" label. Lower Types may still b
 
 ## Implications for downstream assessments
 
-Estimate Types are often used as screening filters in downstream workflows (including WSP rapid status assessments) [@holt2009_058; @dfo2005wsp]. When Type assignment is inconsistent, threshold-based decisions can become sensitive to classification noise, particularly near cutoffs (e.g., around the Type 4 boundary). More broadly, measurement error in spawner abundance can distort stock--recruit inference and downstream decisions, reinforcing the value of recording uncertainty and detectability-related metadata where available [@waltersLudwig1981measurementError].
+Estimate Types are often used as screening filters in downstream workflows (including WSP rapid status assessments) [@pestal2023stateSalmon; @dfo2024rapidStatus; @dfo2005wsp]. When Type assignment is inconsistent, threshold-based decisions can become sensitive to classification noise, particularly near cutoffs (e.g., around the Type 4 boundary). More broadly, measurement error in spawner abundance can distort stock--recruit inference and downstream decisions, reinforcing the value of recording uncertainty and detectability-related metadata where available [@waltersLudwig1981measurementError].
 
 Because qualifier codes are explicit (e.g., missing method identification, timing/coverage gaps, insufficient documentation), conservative classifications become interpretable and metadata improvements can be targeted.
 
@@ -20,7 +20,7 @@ Because qualifier codes are explicit (e.g., missing method identification, timin
 
 A central finding of this update is that the Type table alone cannot communicate the information required for consistent interpretation of real-world estimates. Several recurring qualifiers are better represented as explicit metadata elements rather than as new public estimate Types.
 
-Based on working-group implementation notes, near-term rollout is best framed as **SEN-first** with controlled vocabularies.
+Based on working-group implementation notes, near-term rollout is best framed as **SEN-first** with controlled vocabularies. Here, **SEN-first** means prioritizing the fields that can already be captured in Stream Escapement Narratives (SENs) and their associated upload templates before extending site-information-layer or CU-context schema.
 
 ### SEN fields prioritized for implementation
 
@@ -32,7 +32,7 @@ The following SEN fields are the clearest priorities for aligning NuSEDS uploads
 - `UNCERTAINTY_VALUE`: corresponding numeric uncertainty value.
 - `ANALYSIS_EXPLANATION`: analysis details, including modified or combined methods.
 
-Together, these fields operationalize core qualifiers in the decision key: method clarity, downgrade rationale, and uncertainty transparency.
+Together, these fields operationalize core qualifiers in the decision key: method clarity, downgrade rationale, and uncertainty transparency. In operational use, the uploaded classification should be the toolkit **Final Type**; `Max Type`, `Provisional Type`, and `Candidate Type` remain internal decision-trace fields for QA rather than official classification values. This report identifies what should be captured for interpretation; analyst-facing availability in downstream exports is an implementation question outside the scope of this report.
 
 ### Supporting lookup tables and naming updates
 
@@ -48,11 +48,11 @@ Controlled values reduce ambiguity and help keep entries consistent across areas
 
 Several metadata items remain valuable but require further specification/governance:
 
-- `WSP_RAPID_STATUS_YN` (candidate SEN field): potentially useful for screening workflows, but requires clearer governance for interpretation and maintenance.
-- SIL additions: less mature than SEN additions and require further prioritization.
-- `ENHANCEMENT_RANK`, `POP_CATEGORY`, and `CUMatchVerifiedYN`: follow-on site/CU context fields discussed for WSP-oriented interpretation.
+- site-information-layer additions are less mature than SEN additions and require further prioritization;
+- `ENHANCEMENT_RANK`, `POP_CATEGORY`, and `CUMatchVerifiedYN` are potential follow-on site/CU context fields for WSP-oriented interpretation; and
+- a dedicated WSP rapid-status flag is **not** recommended in this report because inclusion/exclusion of systems can change over time and would require active governance and maintenance.
 
-For this report, the implementation priority is therefore: finalize SEN metadata first, keep SIL/CU extensions explicit as backlog, and maintain a transparent mapping from stored fields to decision-key qualifiers.
+For this report, the implementation priority is therefore: finalize SEN metadata first, keep site/CU context additions explicit as backlog, and maintain a transparent mapping from stored fields to decision-key qualifiers.
 
 ## Escapement Estimate Type Toolkit: unresolved policy/specification gaps
 
@@ -73,4 +73,4 @@ This guidance summarizes interpretability given recorded methods and evidence. I
 
 ## Governance and change control
 
-Because estimate Types are used as screening tools and can influence downstream inference, changes to method families, thresholds, or qualifier rules should be versioned and reviewed. Updates should be accompanied by worked examples and regression/path tests in the Escapement Estimate Type Toolkit so behavior changes are deliberate and transparent.
+Because estimate Types are used as screening tools and can influence downstream inference, changes to the guidance, method families, thresholds, or qualifier rules should be versioned and reviewed. Updates should be accompanied by worked examples and regression/path tests in the Escapement Estimate Type Toolkit so behavior changes are deliberate and transparent.
