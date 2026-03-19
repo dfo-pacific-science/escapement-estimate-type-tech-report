@@ -32,7 +32,7 @@ The following SEN fields are the clearest priorities for aligning NuSEDS uploads
 - `UNCERTAINTY_VALUE`: corresponding numeric uncertainty value.
 - `ANALYSIS_EXPLANATION`: analysis details, including modified or combined methods.
 
-Together, these fields operationalize core qualifiers in the decision key: method clarity, downgrade rationale, and uncertainty transparency. This report identifies what should be captured for interpretation; analyst-facing availability in downstream exports is an implementation question outside the scope of this report.
+Together, these fields operationalize core qualifiers in the decision key: method clarity, downgrade rationale, and uncertainty transparency. In operational use, the uploaded classification should be the toolkit **Final Type**; `Max Type`, `Provisional Type`, and `Candidate Type` remain internal decision-trace fields for QA rather than official classification values. This report identifies what should be captured for interpretation; analyst-facing availability in downstream exports is an implementation question outside the scope of this report.
 
 ### Supporting lookup tables and naming updates
 

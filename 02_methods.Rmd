@@ -192,7 +192,7 @@ Families are listed by the short code used throughout the report and toolkit, ra
 method_families <- data.frame(
   Code = c("FS", "V", "A", "S", "T", "R", "P", "M"),
   `Method family` = c(
-    "Fixed site census (manual or electronic)",
+    "Fixed site census / near-census (manual or validated counter tally)",
     "Visual ground or snorkel count",
     "Aerial survey count",
     "Hydroacoustic sonar count (modelled)",
@@ -201,7 +201,7 @@ method_families <- data.frame(
     "Electrofishing CPUE index",
     "Mark-recapture program"
   ),
-  `Best attainable type` = c("1", "2", "3", "2", "2", "2", "3", "2"),
+  `Best attainable type` = c("1", "2", "3", "2", "2", "3", "3", "2"),
   check.names = FALSE
 )
 
@@ -218,7 +218,11 @@ csas_kable(
   csas_colspec(3, width = "2.5cm")
 ```
 
-A best attainable Type 2 for redd surveys is only intended where a validated spawners-per-redd conversion supports a qualified absolute-abundance estimate; otherwise the pathway remains relative and is conservatively capped lower.
+Type 1 retains an interpretive meaning---**absolute abundance from a census / near-census workflow**---rather than serving as a raw method label. In practice, only constrained fixed-site tallies can default to that upper bound under the current guidance.
+
+Analysis labels such as AUC and peak-count do not replace the underlying survey family. Ground/snorkel series analysed with AUC can still support Type 2 under the `V` family, whereas aerial series analysed with AUC or peak-count remain capped by the `A` family ceiling (Type 3) unless a future validated exception is explicitly adopted.
+
+Default redd-count pathways are conservatively capped at Type 3 in this update. Any higher-confidence redd-derived absolute-abundance estimate should be treated as an explicit calibrated/model-based exception rather than as the default redd family interpretation.
 
 ## DFO Salmon Data Standards and Controlled Vocabularies linkages for methods and downgrade criteria
 

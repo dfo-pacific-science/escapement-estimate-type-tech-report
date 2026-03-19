@@ -365,7 +365,7 @@ est_crosswalk <- data.frame(
 
 est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
   "Fixed Site Census", "Resistivity Counter", "Video Counter"
-)] <- "Enumeration device/mode (often stored as estimate method)"
+)] <- "Fixed-station tally / counter mode (often stored as estimate method)"
 est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
   "Fixed Site Census", "Resistivity Counter", "Video Counter"
 )] <- "FS"
@@ -393,20 +393,25 @@ est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
 est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
   "Area Under the Curve",
   "Peak Live + Dead",
-  "Peak Live + Cumulative Dead",
-  "(Peak Live+Cum Dead)*Expansion",
-  "Peak Live * Expansion"
-)] <- "Visual-series estimation (AUC/peak variants and expansions)"
+  "Peak Live + Cumulative Dead"
+)] <- "Survey-series estimation (AUC/peak variants; platform-specific ceiling depends on underlying survey family)"
 est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
   "Area Under the Curve",
   "Peak Live + Dead",
-  "Peak Live + Cumulative Dead",
+  "Peak Live + Cumulative Dead"
+)] <- "depends"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
   "(Peak Live+Cum Dead)*Expansion",
   "Peak Live * Expansion"
-)] <- "V"
+)] <- "Survey-series expansion (inherits the underlying survey family and any weaker component)"
+est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
+  "(Peak Live+Cum Dead)*Expansion",
+  "Peak Live * Expansion"
+)] <- "depends"
 
 est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c("Redd Count")] <-
-  "Redd-based estimation (often requires spawners-per-redd conversion)"
+  "Redd-based estimation (default conservative survey/index pathway unless separately calibrated/modelled)"
 est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c("Redd Count")] <- "R"
 
 est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c("Cumulative CPUE")] <-
@@ -487,15 +492,21 @@ est_crosswalk[["WIDOCO term page"]][has_est_term] <-
   paste0(est_widoco_base, sub("^gcdfo:", "", est_crosswalk[["Ontology term"]][has_est_term]))
 
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Resistivity Counter"] <-
-  "Enumerated as a device/mode; ensure bypass/coverage/QA metadata are captured to support Type 1/2 eligibility. Current mapping to a fixed-station tally pathway is provisional and may warrant a dedicated post-processing/validation term in future revisions."
+  "Treat as a fixed-station tally when the installation functions as the primary constrained-opening counter. Record species/event attribution, validation, detection-correction, and bypass/coverage/QA context in the supporting explanation fields; resistivity remains in the FS pathway under the current guidance."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Video Counter"] <-
-  "Enumerated as a device/mode; ensure QA review rate and uptime/coverage metadata are captured."
+  "Treat as a fixed-station tally within FS; ensure QA review rate, attribution logic (if used), and uptime/coverage metadata are captured."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Area Under the Curve"] <-
+  "Treat AUC as an analysis label applied after survey-family selection: ground/snorkel series follow the V-family pathway, while aerial series remain capped by the A-family ceiling (Type 3) under the current conservative guidance."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] %in% c("Peak Live + Dead", "Peak Live + Cumulative Dead")] <-
+  "Peak-count summaries inherit the underlying survey family. Aerial-derived peak summaries remain capped by the A-family ceiling unless a future explicit exception is adopted."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] %in% c("(Peak Live+Cum Dead)*Expansion", "Peak Live * Expansion")] <-
+  "Expansion does not replace the underlying survey family; record the base method and any weaker component explicitly."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Calibrated Time Series"] <-
   "For interpretability, record calibration source years, diagnostics, and revision history."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Combined Methods"] <-
   "Decompose into components (e.g., sonar + visual apportionment; fence + visual during breach) and apply conservative classification."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Redd Count"] <-
-  "Treat as Type 2 only when a validated spawners-per-redd conversion and supporting documentation are available; otherwise cap lower."
+  "Default redd-count interpretation is conservatively capped at Type 3. Any higher-confidence redd-derived absolute-abundance estimate should be handled only as an explicit calibrated/model-based exception with supporting validation and documentation."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Cumulative New"] <-
   "Legacy dictionary label with no method definition in the source description; mapped to PeakCountAnalysis pending local confirmation."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Cumulative CPUE"] <-
