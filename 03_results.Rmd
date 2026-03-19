@@ -17,17 +17,19 @@ Compared to table-only interpretation, the updated guidance:
 
 NuSEDS stores historical method terminology across multiple legacy labels. To support implementation planning, we reviewed method distributions in both `ENUMERATION_METHODS` and `ESTIMATE_METHOD` and retained the most frequent terms for interpretability, with longer-tail terms preserved through controlled mapping in Appendix C.
 
-```{r method-field-top-terms, fig.width=6.0, fig.height=5.2, fig.cap="Top 10 method terms in NuSEDS SEN method fields (enumeration and estimate)."}
+```{r method-field-top-terms, fig.width=6.0, fig.height=5.2, fig.cap="Top 10 method terms in NuSEDS SEN method fields (enumeration and estimate), based on the all-area SEN method extract assembled for this report (analysis years 1990--2025)."}
 knitr::include_graphics("docs/figures/appendix_e_figure2_top_terms_faceted.png")
 ```
 
+These frequencies should be read as a dated implementation snapshot rather than as a stable inventory of all future NuSEDS values. Appendix D summarizes the source and processing notes used for this exploratory method-term review.
+
 ## How to apply the guidance moving forward
 
-For most users, the simplest way to apply this guidance is through the **Escapement Estimate Type Toolkit** (R Shiny application):
+For most users, the simplest way to apply this guidance is through the **Escapement Estimate Type Toolkit** (R Shiny application). A current ShinyApps.io deployment is available at:
 
 - <https://dfo-pac-sci-dev.shinyapps.io/smn-escapement-toolkit/>
 
-The toolkit guides users through the same decision sequence described in this report and produces (i) a final estimate Type (1--6) and (ii) explicit qualifier/downgrade codes. Users should copy the toolkit outputs (Type and qualifiers) into their SEN and into the **NuSEDS bulk upload tool** fields used to store estimate-type classification and justification.
+The toolkit guides users through the same decision sequence described in this report and produces (i) a final estimate Type (1--6) and (ii) explicit qualifier/downgrade codes. The report remains the authoritative guidance; the toolkit is the operational companion. Users should copy the toolkit outputs (estimate Type and qualifiers) into the SEN and, where applicable, into the corresponding fields used by the NuSEDS bulk-upload workflow to store estimate-type classification and justification.
 
 ### Authoritative decision-key logic and change requests
 
@@ -39,7 +41,7 @@ Requests to update the logic (new method terms, revised thresholds, clarified co
 
 ### What must be recorded
 
-Uploads should include enough method and evidence context that downstream users can interpret both the assigned Type and any conservative qualifiers. In practice, this means recording:
+Uploads should include enough method and evidence context that downstream users can interpret both the assigned Type and any conservative qualifiers. For teams that still populate legacy accuracy/precision labels alongside estimate Type, Appendix C.3 documents the compact lookup currently used in the toolkit. In practice, this means recording:
 
 - the primary enumeration and estimation methods;
 - key qualifiers (coverage, uptime, breach/bypass, timing, visibility, and any infilling/interpolation context);
