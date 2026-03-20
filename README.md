@@ -1,6 +1,6 @@
 # Escapement Estimate Type Technical Report
 
-This repository contains the source for the **Updated Escapement Estimate Type Classification Guidance** technical report.
+This repository contains the csasdown source for the **Updated Escapement Estimate Type Classification Guidance** technical report.
 
 The workflow is now **report-first** and uses **`csasdown` directly**.
 
@@ -81,18 +81,14 @@ Some tables auto-populate if this file is present:
 
 If it is absent, the report still renders, but those tables show placeholder text instead of populated definitions/crosswalk values.
 
-## Cross-repo dependency
+## Cross-repo dependencies
 
 The narrative in this report references implementation artifacts maintained in:
 
 - `https://github.com/dfo-pacific-science/smn-escapement-estimates-toolkit`
 
-Current alignment is to toolkit release `v0.1.0`.
+Current alignment is to toolkit release `v0.1.0` (classification key YAML, classification engine, Shiny app flow, and path tests).
 
 ## Citation
 
 A machine-readable citation file is provided as `CITATION.cff`.
-
-## Lightweight adoption tracking
-
-A low-effort monthly tracking template is available at `docs/usage-metrics.md`.
