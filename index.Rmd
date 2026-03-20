@@ -61,11 +61,6 @@ params:
 output:
   csasdown::techreport_docx:
     french: false
-  bookdown::gitbook:
-    css: ["draft.css"]
-    config:
-      toc:
-        collapse: section
 knit: (function(input, ...) csasdown::render())
 
 type:

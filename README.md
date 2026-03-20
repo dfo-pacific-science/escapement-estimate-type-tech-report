@@ -1,52 +1,93 @@
-# Escapement Estimate Type Technical Report (Bookdown)
+# Escapement Estimate Type Technical Report
 
-This repository contains the Bookdown source for the **Updated Escapement Estimate Type Classification Guidance** technical report.
+This repository contains the source for the **Updated Escapement Estimate Type Classification Guidance** technical report.
 
-## Build locally
+The workflow is now **report-first** and uses **`csasdown` directly**.
 
-From the repo root in R:
+## Open in RStudio
+
+1. Open `escapement-estimate-type-tech-report.Rproj`
+2. Install the required packages in the R console:
 
 ```r
-# Install/report dependencies (csasdown is GitHub-only)
 install.packages(c("bookdown", "kableExtra", "remotes"))
 remotes::install_github("pbs-assess/csasdown")
-
-# Optional web version (secondary)
-bookdown::render_book("index.Rmd", output_format = "bookdown::gitbook")
-
-# CSAS technical report source document (DOCX + CSAS front matter)
-csasdown::render(output_format = "csasdown::techreport_docx")
 ```
 
-Then convert the generated DOCX to PDF locally (e.g., LibreOffice) if needed.
+## Build the report locally
 
-- **Web output (secondary)**: `_book/`
-- **DOCX output (primary source artifact)**: `_book/techreport.docx`
-- **PDF output (primary published artifact)**: produced from DOCX conversion
+### Render the technical report DOCX
+
+From the R console in RStudio:
+
+```r
+csasdown::render()
+```
+
+This repo’s `index.Rmd` already uses the `csasdown` knit hook, so the RStudio render/knit flow also goes through `csasdown::render()`.
+
+### Where the rendered files go
+
+The main rendered report file is:
+
+- `_book/techreport.docx`
+
+That is the primary local artifact produced by `csasdown`.
+
+## Create a local PDF from RStudio
+
+On this install, `csasdown` provides `techreport_docx`, but not a `techreport_pdf` output format. So local PDF creation is still a **DOCX -> PDF conversion step** after render.
+
+If LibreOffice is installed, you can run this from the R console in RStudio:
+
+```r
+soffice_bin <- Sys.which("soffice")
+if (!nzchar(soffice_bin) && file.exists("/Applications/LibreOffice.app/Contents/MacOS/soffice")) {
+  soffice_bin <- "/Applications/LibreOffice.app/Contents/MacOS/soffice"
+}
+
+system2(
+  soffice_bin,
+  c(
+    "--headless",
+    "--convert-to", "pdf",
+    "--outdir", "_book",
+    "_book/techreport.docx"
+  )
+)
+```
+
+Expected PDF output:
+
+- `_book/techreport.pdf`
+
+If `soffice` is not installed or not on your path, install LibreOffice first.
 
 ## GitHub Pages
 
-This repo deploys a **PDF-first GitHub Pages site** via GitHub Actions.
+GitHub Pages is now a simple **PDF-first** site.
 
-- Primary artifact: CSAS-styled technical report PDF (generated from `csasdown::techreport_docx` output and converted to PDF).
-- Secondary artifact: optional Bookdown web version under `/web/`.
-- The Pages root (`/`) is a lightweight landing page with a PDF preview + links.
+The workflow there is:
+
+1. render DOCX with `csasdown::render()`
+2. convert `_book/techreport.docx` to PDF with LibreOffice
+3. publish `techreport.pdf`
 
 ## Optional inputs (NuSEDS data dictionary)
 
-Some tables will auto-populate if the NuSEDS data dictionary CSV is present at:
+Some tables auto-populate if this file is present:
 
 - `docs/context/Data_Dictionary_NuSEDS_EN.csv`
 
-If the file is absent, the report will still render, but those tables will show a placeholder note instead of definitions/crosswalk values.
+If it is absent, the report still renders, but those tables show placeholder text instead of populated definitions/crosswalk values.
 
-## Cross-repo dependencies
+## Cross-repo dependency
 
 The narrative in this report references implementation artifacts maintained in:
 
 - `https://github.com/dfo-pacific-science/smn-escapement-estimates-toolkit`
 
-Current alignment is to toolkit release `v0.1.0` (classification key YAML, classification engine, Shiny app flow, and path tests).
+Current alignment is to toolkit release `v0.1.0`.
 
 ## Citation
 
@@ -55,4 +96,3 @@ A machine-readable citation file is provided as `CITATION.cff`.
 ## Lightweight adoption tracking
 
 A low-effort monthly tracking template is available at `docs/usage-metrics.md`.
-

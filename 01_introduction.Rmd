@@ -7,11 +7,7 @@ if (isTRUE(params$draft)) {
     label <- "DRAFT"
   }
 
-  if (knitr::is_html_output()) {
-    cat(sprintf("<div class=\"draft-banner\">%s</div>\n", label))
-  } else {
-    cat(paste0("**", label, "**\n\n"))
-  }
+  cat(paste0("**", label, "**\n\n"))
 }
 ```
 
