@@ -1,6 +1,6 @@
-# Escapement Estimate Type Technical Report (Bookdown)
+# Escapement Estimate Type Technical Report
 
-This repository contains the Bookdown source for the **Updated Escapement Estimate Type Classification Guidance** technical report.
+This repository contains the csasdown source for the **Updated Escapement Estimate Type Classification Guidance** technical report.
 
 ## Build locally
 
@@ -51,8 +51,4 @@ Current alignment is to toolkit release `v0.1.0` (classification key YAML, class
 ## Citation
 
 A machine-readable citation file is provided as `CITATION.cff`.
-
-## Lightweight adoption tracking
-
-A low-effort monthly tracking template is available at `docs/usage-metrics.md`.
 
