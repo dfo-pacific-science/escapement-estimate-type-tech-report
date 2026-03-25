@@ -61,7 +61,7 @@ params:
 output:
   csasdown::techreport_docx:
     french: false
-knit: (function(input, ...) csasdown::render())
+knit: (function(input, ...) { source("scripts/render_root_artifacts.R"); render_root_artifacts() })
 
 type:
   techreport

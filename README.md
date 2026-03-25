@@ -2,7 +2,12 @@
 
 This repository contains the csasdown source for the **Updated Escapement Estimate Type Classification Guidance** technical report.
 
-The workflow is now **report-first** and uses **`csasdown` directly**.
+The workflow is **report-first** and keeps the final rendered artifacts in the **repo root**:
+
+- `techreport.docx`
+- `techreport.pdf`
+
+`_book/` remains the intermediate csasdown/bookdown render directory.
 
 ## Open in RStudio
 
@@ -16,62 +21,52 @@ remotes::install_github("pbs-assess/csasdown")
 
 ## Build the report locally
 
-### Render the technical report DOCX
+### Render the technical report DOCX + PDF to repo root
 
-From the R console in RStudio:
+From the repo root, run:
 
-```r
-csasdown::render()
+```bash
+Rscript render-techreport.R
 ```
 
-This repo’s `index.Rmd` already uses the `csasdown` knit hook, so the RStudio render/knit flow also goes through `csasdown::render()`.
+This wrapper script:
+
+1. runs `csasdown::render()`
+2. copies the rendered DOCX from `_book/techreport.docx` to `./techreport.docx`
+3. converts that root DOCX to `./techreport.pdf` with LibreOffice
+
+The RStudio **Knit** button is also wired to the same root-artifact flow.
 
 ### Where the rendered files go
 
-The main rendered report file is:
+Final tracked artifacts:
+
+- `techreport.docx`
+- `techreport.pdf`
+
+Intermediate render output:
 
 - `_book/techreport.docx`
 
-That is the primary local artifact produced by `csasdown`.
+## LibreOffice requirement for PDF output
 
-## Create a local PDF from RStudio
+This repo still creates the PDF as a **DOCX -> PDF conversion step** after the csasdown DOCX render.
 
-On this install, `csasdown` provides `techreport_docx`, but not a `techreport_pdf` output format. So local PDF creation is still a **DOCX -> PDF conversion step** after render.
+If LibreOffice is installed, the helper script will use either:
 
-If LibreOffice is installed, you can run this from the R console in RStudio:
+- `soffice` on your `PATH`, or
+- `/Applications/LibreOffice.app/Contents/MacOS/soffice` on macOS
 
-```r
-soffice_bin <- Sys.which("soffice")
-if (!nzchar(soffice_bin) && file.exists("/Applications/LibreOffice.app/Contents/MacOS/soffice")) {
-  soffice_bin <- "/Applications/LibreOffice.app/Contents/MacOS/soffice"
-}
+If LibreOffice is missing, the DOCX render will still complete, but PDF creation will fail with a direct error message.
 
-system2(
-  soffice_bin,
-  c(
-    "--headless",
-    "--convert-to", "pdf",
-    "--outdir", "_book",
-    "_book/techreport.docx"
-  )
-)
-```
+## GitHub distribution
 
-Expected PDF output:
+This repo no longer relies on GitHub Pages for a live PDF site.
 
-- `_book/techreport.pdf`
+The intended downloadable artifacts are the root-level tracked files:
 
-If `soffice` is not installed or not on your path, install LibreOffice first.
-
-## GitHub Pages
-
-GitHub Pages is now a simple **PDF-first** site.
-
-The workflow there is:
-
-1. render DOCX with `csasdown::render()`
-2. convert `_book/techreport.docx` to PDF with LibreOffice
-3. publish `techreport.pdf`
+- `techreport.docx`
+- `techreport.pdf`
 
 ## Optional inputs (NuSEDS data dictionary)
 
