@@ -33,5 +33,7 @@ techreport.tex
 *.upa
 *.utf8.md
 
-# Allow versioned figures used by the report
+# Allow versioned report artifacts and figures
+!techreport.docx
+!techreport.pdf
 !docs/figures/*.png

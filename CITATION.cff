@@ -5,7 +5,7 @@ type: report
 authors:
   - name: "NuSEDS Escapement Estimates Toolkit Working Group"
 year: 2025
-url: "https://dfo-pacific-science.github.io/escapement-estimate-type-tech-report/"
+url: "https://github.com/dfo-pacific-science/escapement-estimate-type-tech-report"
 repository-code: "https://github.com/dfo-pacific-science/escapement-estimate-type-tech-report"
 license: "CC-BY-4.0"
 references:
