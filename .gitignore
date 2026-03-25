@@ -35,3 +35,4 @@ techreport.tex
 
 # Allow versioned figures used by the report
 !docs/figures/*.png
+!*.docx
