@@ -2,7 +2,7 @@
 
 This report retains the familiar Type 1--6 structure but replaces table-only interpretation with explicit, auditable decision logic grounded in Hyatt (1997): method properties, statistical properties, and documentation [@hyatt1997].
 
-For NuSEDS users, the practical change is simple: record methods and key qualifiers at upload time so Types remain interpretable downstream. Run-window coverage, uptime, breach/bypass context, timing/visibility constraints, documentation evidence, and (where available) quantitative uncertainty (CV/SE) affect how an estimate can be used.
+For NuSEDS users, the practical change is simple: record methods and key qualifiers at upload time so Types remain transparent and usable downstream. Run-window coverage, uptime, breach/bypass context, timing/visibility constraints, documentation evidence, and (where available) quantitative uncertainty (CV/SE) affect how an estimate can be used.
 
 For downstream analysts, the main benefit is transparency: conservative downgrades are accompanied by explicit qualifier codes, making it clear why a stronger Type is not supported and which metadata gaps matter most.
 

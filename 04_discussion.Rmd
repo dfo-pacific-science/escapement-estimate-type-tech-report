@@ -14,7 +14,7 @@ Estimate Types are not a binary "usable/unusable" label. Lower Types may still b
 
 Estimate Types are often used as screening filters in downstream workflows (including WSP rapid status assessments) [@pestal2023stateSalmon; @dfo2024rapidStatus; @dfo2005wsp]. When Type assignment is inconsistent, threshold-based decisions can become sensitive to classification noise, particularly near cutoffs (e.g., around the Type 4 boundary). More broadly, measurement error in spawner abundance can distort stock--recruit inference and downstream decisions, reinforcing the value of recording uncertainty and detectability-related metadata where available [@waltersLudwig1981measurementError].
 
-Because qualifier codes are explicit (e.g., missing method identification, timing/coverage gaps, insufficient documentation), conservative classifications become interpretable and metadata improvements can be targeted.
+Because qualifier codes are explicit (e.g., missing method identification, timing/coverage gaps, insufficient documentation), conservative classifications become easier to interpret and metadata improvements can be targeted.
 
 ## Recommended metadata additions (schema) and implementation status
 
@@ -69,7 +69,7 @@ This backlog reflects remaining work for the Regional Escapement Task Team. Perf
 
 ## Limitations
 
-This guidance summarizes interpretability given recorded methods and evidence. It does not correct biased inputs, replace program expertise, or guarantee biological accuracy. The most common practical limitation is incomplete metadata: when critical qualifiers are not recorded, the guidance applies conservative classification (often Type 5) to avoid overstating interpretability.
+This guidance summarizes estimate quality given recorded methods and evidence. It does not correct biased inputs, replace program expertise, or guarantee biological accuracy. The most common practical limitation is incomplete metadata: when critical qualifiers are not recorded, the guidance applies conservative classification (often Type 5) to avoid overstating confidence in downstream use.
 
 ## Governance and change control
 

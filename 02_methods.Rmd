@@ -1,6 +1,6 @@
 # Classification framework and decision key
 
-## Design principles (Hyatt-aligned)
+## Design principles
 
 Hyatt (1997) intended estimate-type assignment to reflect (i) method properties, (ii) statistical properties, and (iii) documentation [@hyatt1997]. This report makes those dimensions explicit as decision gates, method-family checks, and final evidence requirements.
 
@@ -77,11 +77,11 @@ The guidance treats several recurring complications as explicit qualifiers rathe
 
 ### Breaches/bypass and infilling
 
-Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect interpretability unless magnitude and correction methods are documented. The updated guidance treats breach/bypass risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace]. For example, run-window coverage below 95% of season days or device uptime below 95% are treated as explicit qualifiers, and any interpolation used to fill missing data should be recorded.
+Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect estimate quality unless magnitude and correction methods are documented. The updated guidance treats breach/bypass risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace]. For example, run-window coverage below 95% of season days or device uptime below 95% are treated as explicit qualifiers, and any interpolation used to fill missing data should be recorded.
 
 ### Survey timing relative to run timing
 
-For survey-based indices, visit count alone is not sufficient: surveys must bracket the period when fish are present, and visibility constraints and observer effects can govern bias and comparability [@holtCox2008visual; @jones1998observer; @korman2002observerEfficiency; @hill1997aerialFrequency]. The updated guidance includes timing and visibility checks within method families where these factors are primary drivers of interpretability.
+For survey-based indices, visit count alone is not sufficient: surveys must bracket the period when fish are present, and visibility constraints and observer effects can govern bias and comparability [@holtCox2008visual; @jones1998observer; @korman2002observerEfficiency; @hill1997aerialFrequency]. The updated guidance includes timing and visibility checks within method families where these factors are primary drivers of data quality and comparability.
 
 ### Combined-method estimates
 
@@ -93,11 +93,11 @@ Where historical values have been recalibrated or revised, the updated guidance 
 
 ### Quantitative uncertainty (CV/SE)
 
-Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part by qualified precision (variance evidence) [@hyatt1997]. Where available, reporting quantitative uncertainty (e.g., CV or SE) improves interpretability for downstream use. For example, AUC and peak-count approaches have established approaches for incorporating uncertainty and evaluating sensitivity to survey timing and frequency [@english1992auc; @hilborn1999periodic; @hill1997aerialFrequency; @parken2003aucUncertainty; @millar2012auc]. The updated guidance includes a final precision/accuracy check and recommends capturing quantitative uncertainty when available.
+Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part by qualified precision (variance evidence) [@hyatt1997]. Where available, reporting quantitative uncertainty (e.g., CV or SE) improves downstream interpretation and use. For example, AUC and peak-count approaches have established approaches for incorporating uncertainty and evaluating sensitivity to survey timing and frequency [@english1992auc; @hilborn1999periodic; @hill1997aerialFrequency; @parken2003aucUncertainty; @millar2012auc]. The updated guidance includes a final precision/accuracy check and recommends capturing quantitative uncertainty when available.
 
 ## Recommended metadata elements for NuSEDS {#sec:metadata}
 
-Most of the guidance can be expressed using existing NuSEDS fields, but several high-value metadata elements are needed to make estimate Types interpretable and reproducible for downstream users.
+Most of the guidance can be expressed using existing NuSEDS fields, but several high-value metadata elements are needed to make estimate Types more transparent and reproducible for downstream users.
 
 The table below lists guidance-level metadata elements and the typical qualifier codes they support; detailed software rollout and database-change logistics are treated as implementation work outside the scope of this technical report.
 
@@ -186,22 +186,22 @@ csas_kable(
 
 ## Method families {#sec:method-families}
 
-Families are listed by the short code used throughout the report and toolkit, rather than by attainable Type.
+Families are ordered by best attainable Type to foreground the upper bound implied by the guidance; short codes are retained for toolkit use.
 
 ```{r method-family-table}
 method_families <- data.frame(
-  Code = c("FS", "V", "A", "S", "T", "R", "P", "M"),
+  Code = c("FS", "V", "S", "T", "M", "A", "R", "P"),
   `Method family` = c(
     "Fixed site census / near-census (manual or validated counter tally)",
     "Visual ground or snorkel count",
-    "Aerial survey count",
     "Hydroacoustic sonar count (modelled)",
     "Trap model (non-spanning)",
+    "Mark-recapture program",
+    "Aerial survey count",
     "Redd survey",
-    "Electrofishing CPUE index",
-    "Mark-recapture program"
+    "Electrofishing CPUE index"
   ),
-  `Best attainable type` = c("1", "2", "3", "2", "2", "3", "3", "2"),
+  `Best attainable type` = c("1", "2", "2", "2", "2", "3", "3", "3"),
   check.names = FALSE
 )
 

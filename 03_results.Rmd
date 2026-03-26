@@ -15,7 +15,7 @@ Compared to table-only interpretation, the updated guidance:
 
 ## Legacy method vocabulary context
 
-NuSEDS stores historical method terminology across multiple legacy labels. To support implementation planning, we reviewed method distributions in both `ENUMERATION_METHODS` and `ESTIMATE_METHOD` and retained the most frequent terms for interpretability, with longer-tail terms preserved through controlled mapping in Appendix C.
+NuSEDS stores historical method terminology across multiple legacy labels. To support implementation planning, we reviewed method distributions in both `ENUMERATION_METHODS` and `ESTIMATE_METHOD` and retained the most frequent terms for review and mapping, with longer-tail terms preserved through controlled mapping in Appendix C.
 
 ```{r method-field-top-terms, fig.width=6.0, fig.height=5.2, fig.cap="Top 10 method terms in NuSEDS SEN method fields (enumeration and estimate), based on the all-area SEN method extract assembled for this report (analysis years 1990--2025)."}
 knitr::include_graphics("docs/figures/appendix_e_figure2_top_terms_faceted.png")

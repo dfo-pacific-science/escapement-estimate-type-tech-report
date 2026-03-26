@@ -171,7 +171,7 @@ csas_kable(
 
 # Appendix C: NuSEDS data dictionary crosswalk {#app:nuseds-crosswalk}
 
-This appendix documents how the updated guidance relates to NuSEDS fields and controlled vocabularies (see `docs/context/Data_Dictionary_NuSEDS_EN.csv`).
+This appendix documents how the updated guidance relates to NuSEDS fields and controlled vocabularies (see `docs/context/Data_Dictionary_NuSEDS_EN.csv`). Where a specific ontology mapping exists, the `Ontology term` entry links directly to the corresponding WIDOCO term page.
 
 ## C.1 Enumeration method values (ENUMERATION_METHODS)
 
@@ -200,7 +200,6 @@ enum_crosswalk <- data.frame(
   `NuSEDS ENUMERATION_METHODS value` = enum_vals,
   `Suggested method family` = NA_character_,
   `Ontology term` = NA_character_,
-  `WIDOCO term page` = NA_character_,
   Notes = "",
   check.names = FALSE
 )
@@ -237,8 +236,6 @@ enum_crosswalk[["Suggested method family"]][enum_crosswalk[[1]] %in% c(
   "Biologist/Working Group", "Other"
 )] <- "unknown"
 
-enum_widoco_base <- "https://dfo-pacific-science.github.io/dfo-salmon-ontology/#"
-
 enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c(
   "Bank Walk", "Stream Walk", "Walk", "Boat", "Float", "Strip Counts", "Spot Checks", "Dead Pitch", "Peak Live and Dead Count"
 )] <- "gcdfo:VisualGroundCount"
@@ -255,10 +252,6 @@ enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Electroshocking")]
 enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Tag Recovery")] <- "gcdfo:MarkRecaptureFieldProgram"
 enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Based on Angling Catch")] <- "gcdfo:EnumerationMethod"
 
-has_enum_term <- !is.na(enum_crosswalk[["Ontology term"]])
-enum_crosswalk[["WIDOCO term page"]][has_enum_term] <-
-  paste0(enum_widoco_base, sub("^gcdfo:", "", enum_crosswalk[["Ontology term"]][has_enum_term]))
-
 enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Peak Live and Dead Count"] <-
   "Value is analysis-like; prefer capturing peak/cumulative variants under ESTIMATE_METHOD."
 enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Dead Pitch"] <-
@@ -272,19 +265,26 @@ enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Biologist/Working Group"] <-
 enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Other"] <-
   "Treat as method-unknown unless a specific field/analysis method is documented elsewhere."
 
+enum_crosswalk_display <- data.frame(
+  `NuSEDS value` = enum_crosswalk[["NuSEDS ENUMERATION_METHODS value"]],
+  Family = enum_crosswalk[["Suggested method family"]],
+  `Ontology term` = widoco_term_link(enum_crosswalk[["Ontology term"]]),
+  Notes = enum_crosswalk[["Notes"]],
+  check.names = FALSE
+)
+
 csas_kable(
-  enum_crosswalk,
-  escape = TRUE,
+  enum_crosswalk_display,
+  escape = FALSE,
   bold_header = FALSE,
   font_size = 8,
-  align = c("l", "c", "l", "l", "l"),
-  caption = "Suggested mapping from NuSEDS enumeration method values to the updated key method families (FS, V, A, S, T, R, P, M), with ontology term and WIDOCO linkages."
+  align = c("l", "c", "l", "l"),
+  caption = "Suggested mapping from NuSEDS enumeration method values to the updated key method families (FS, V, A, S, T, R, P, M). Where an ontology mapping exists, the ontology-term entry links to the corresponding WIDOCO term page."
 ) |>
-  csas_colspec(1, width = "3.7cm") |>
+  csas_colspec(1, width = "4.2cm") |>
   csas_colspec(2, width = "1.2cm") |>
-  csas_colspec(3, width = "2.8cm") |>
-  csas_colspec(4, width = "4.0cm") |>
-  csas_colspec(5, width = "4.0cm")
+  csas_colspec(3, width = "3.0cm") |>
+  csas_colspec(4, width = "8.0cm")
 }
 ```
 
@@ -366,7 +366,6 @@ est_crosswalk <- data.frame(
   `Guidance interpretation` = NA_character_,
   `Suggested method family` = NA_character_,
   `Ontology term` = NA_character_,
-  `WIDOCO term page` = NA_character_,
   Notes = "",
   check.names = FALSE
 )
@@ -462,8 +461,6 @@ est_crosswalk[["Suggested method family"]][est_crosswalk[[1]] %in% c(
   "Cumulative New"
 )] <- "unknown"
 
-est_widoco_base <- "https://dfo-pacific-science.github.io/dfo-salmon-ontology/#"
-
 est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
   "Fixed Site Census", "Resistivity Counter", "Video Counter"
 )] <- "gcdfo:FixedStationTally"
@@ -495,10 +492,6 @@ est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
   "Combined Methods", "Cumulative CPUE"
 )] <- "gcdfo:EstimateMethod"
 
-has_est_term <- !is.na(est_crosswalk[["Ontology term"]])
-est_crosswalk[["WIDOCO term page"]][has_est_term] <-
-  paste0(est_widoco_base, sub("^gcdfo:", "", est_crosswalk[["Ontology term"]][has_est_term]))
-
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Resistivity Counter"] <-
   "Treat as a fixed-station tally when the installation functions as the primary constrained-opening counter. Record species/event attribution, validation, detection-correction, and bypass/coverage/QA context in the supporting explanation fields; resistivity remains in the FS pathway under the current guidance."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Video Counter"] <-
@@ -510,7 +503,7 @@ est_crosswalk[["Notes"]][est_crosswalk[[1]] %in% c("Peak Live + Dead", "Peak Liv
 est_crosswalk[["Notes"]][est_crosswalk[[1]] %in% c("(Peak Live+Cum Dead)*Expansion", "Peak Live * Expansion")] <-
   "Expansion does not replace the underlying survey family; record the base method and any weaker component explicitly."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Calibrated Time Series"] <-
-  "For interpretability, record calibration source years, diagnostics, and revision history."
+  "Record calibration source years, diagnostics, and revision history."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Combined Methods"] <-
   "Decompose into components (e.g., sonar + visual apportionment; fence + visual during breach) and apply conservative classification."
 est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Redd Count"] <-
@@ -531,20 +524,28 @@ if (any(unmapped_est)) {
     "New value not yet mapped in this report; treat as method unknown until mapping is reviewed."
 }
 
+est_crosswalk_display <- data.frame(
+  `NuSEDS value` = est_crosswalk[["NuSEDS ESTIMATE_METHOD value"]],
+  Interpretation = est_crosswalk[["Guidance interpretation"]],
+  Family = est_crosswalk[["Suggested method family"]],
+  `Ontology term` = widoco_term_link(est_crosswalk[["Ontology term"]]),
+  Notes = est_crosswalk[["Notes"]],
+  check.names = FALSE
+)
+
 csas_kable(
-  est_crosswalk,
-  escape = TRUE,
+  est_crosswalk_display,
+  escape = FALSE,
   bold_header = FALSE,
   font_size = 8,
-  align = c("l", "l", "c", "l", "l", "l"),
-  caption = "Suggested interpretation of NuSEDS estimate method values under the updated guidance, with ontology term and WIDOCO linkages. Where 'depends' appears, additional method metadata are required to apply the key cleanly."
+  align = c("l", "l", "c", "l", "l"),
+  caption = "Suggested interpretation of NuSEDS estimate method values under the updated guidance. Where an ontology mapping exists, the ontology-term entry links to the corresponding WIDOCO term page; where 'depends' appears, additional method metadata are required to apply the key cleanly."
 ) |>
-  csas_colspec(1, width = "3.4cm") |>
-  csas_colspec(2, width = "4.4cm") |>
-  csas_colspec(3, width = "1.4cm") |>
-  csas_colspec(4, width = "3.0cm") |>
-  csas_colspec(5, width = "3.8cm") |>
-  csas_colspec(6, width = "7.2cm")
+  csas_colspec(1, width = "3.8cm") |>
+  csas_colspec(2, width = "5.0cm") |>
+  csas_colspec(3, width = "1.2cm") |>
+  csas_colspec(4, width = "2.8cm") |>
+  csas_colspec(5, width = "6.8cm")
 }
 ```
 

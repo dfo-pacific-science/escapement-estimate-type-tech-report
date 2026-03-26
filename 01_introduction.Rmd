@@ -11,7 +11,7 @@ if (isTRUE(params$draft)) {
 }
 ```
 
-The New Salmon Escapement Database System (NuSEDS) stores salmon spawner survey records, spawner abundance estimates, and linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. In NuSEDS, estimate Types 1--6 are used as a shorthand indicator of how interpretable an estimate is for downstream uses such as stock assessment and Wild Salmon Policy workflows.
+The New Salmon Escapement Database System (NuSEDS) stores salmon spawner survey records, spawner abundance estimates, and linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. In NuSEDS, estimate Types 1--6 are used as a shorthand indicator of estimate quality and downstream usability for purposes such as stock assessment and Wild Salmon Policy workflows.
 
 In practice, Type assignment has varied across programs and areas because the historical table-only guidance does not fully specify how to treat incomplete coverage, uncertain methods, and other recurring real-world complications.
 
@@ -19,13 +19,13 @@ This update was prompted by inconsistent application across operational teams, w
 
 ## Purpose and scope
 
-The purpose of this technical report is to provide forward, implementation-ready guidance for assigning NuSEDS estimate Types 1--6 in a way that is reproducible and interpretable to downstream data users.
+The purpose of this technical report is to provide forward, implementation-ready guidance for assigning NuSEDS estimate Types 1--6 in a way that is reproducible and transparent to downstream data users.
 
 This report:
 
 - documents the decision logic for assigning Types 1--6, including standardized qualifier codes that record why an estimate was conservatively downgraded;
 - clarifies evidence expectations for common operational complications;
-- identifies a minimal set of metadata elements needed for interpretable Type assignment, with an emphasis on Stream Escapement Narratives (**SENs**) used to support NuSEDS uploads and review; and
+- identifies a minimal set of metadata elements needed for transparent Type assignment, with an emphasis on Stream Escapement Narratives (**SENs**) used to support NuSEDS uploads and review; and
 - provides canonical roll-ups and mapping guidance for enumeration and estimate methods (including legacy-to-canonical term reconciliation) to support consistent forward use in NuSEDS and clearer interpretation of legacy method terms (Appendix C).
 
 This report does **not** re-estimate escapement, evaluate biological status, or replace program-specific expert judgement.
@@ -38,7 +38,7 @@ Hyatt framed classification around three linked dimensions: (i) properties of th
 
 ## Estimate type summary (Types 1--6)
 
-Table 1 summarizes Types 1--6 for orientation. Types summarize interpretability given method properties, uncertainty evidence, and documentation; they do not guarantee unbiasedness.
+Table 1 summarizes Types 1--6 for orientation. Types summarize estimate quality and downstream usability given method properties, uncertainty evidence, and documentation; they do not guarantee unbiasedness.
 
 ```{r type-summary-table}
 # NOTE: this table is for narrative orientation; the classification logic is defined in Appendix A.
@@ -91,7 +91,7 @@ csas_kable(
 In operational datasets, the same nominal estimate Type can be assigned to methodologically different estimates, and the historical table-only guidance does not encode several recurring qualifiers that affect interpretation. Key drivers include:
 
 - **Modern method coverage:** hydroacoustic imaging sonar approaches (e.g., DIDSON/ARIS) are increasingly used, but are not always clearly represented in table-only guidance [@holmes2005didson].
-- **Coverage/uptime and breach/bypass:** device outages, incomplete run-window coverage, and breach/bypass events can materially affect interpretability unless magnitude and correction methods are documented [@see2021stateSpace].
+- **Coverage/uptime and breach/bypass:** device outages, incomplete run-window coverage, and breach/bypass events can materially affect estimate quality unless magnitude and correction methods are documented [@see2021stateSpace].
 - **Timing, visibility, and effort standardization:** for survey-based indices, timing relative to run timing, observer efficiency, and visibility often govern comparability [@jones1998observer; @korman2002observerEfficiency; @holtCox2008visual].
 - **Combined-method workflows:** multi-component estimates require explicit component recording to avoid concealing a weaker component [@parsonsSkalski2010escTechniques].
 - **Downstream screening sensitivity:** estimate Types are used as data-quality filters in Wild Salmon Policy rapid status workflows; inconsistent assignment can create discontinuities near threshold cutoffs [@pestal2023stateSalmon; @dfo2024rapidStatus].
@@ -115,4 +115,4 @@ Relative to table-only interpretation, the updated guidance:
 2. **Defines method families.** The many enumeration and estimation methods observed in NuSEDS are grouped into a small set of method families to support consistent property-based checks (see the *Method families* section).
 3. **Implements a property-first decision sequence.** In plain language: confirm record type (numeric vs presence/not detected), confirm methods are known, select a method family, apply method-family checks, and then apply final documentation/uncertainty gates (see the *Property-first decision key* section).
 4. **Makes downgrade reasons explicit.** Conservative qualifiers (e.g., coverage/uptime, breach/bypass context, timing/visibility constraints, missing documentation, and quantified uncertainty when available) are recorded as explicit qualifier codes rather than as implicit judgement.
-5. **Recommends minimal metadata for interpretability.** The guidance identifies a minimal set of metadata elements that must be captured for Type assignment to remain interpretable to downstream users (see the *Recommended metadata to record* section).
+5. **Recommends minimal metadata for transparent Type assignment.** The guidance identifies a minimal set of metadata elements that must be captured so downstream users can understand how a Type was assigned (see the *Recommended metadata to record* section).
