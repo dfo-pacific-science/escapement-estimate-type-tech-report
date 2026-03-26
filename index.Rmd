@@ -1,15 +1,14 @@
 ---
 title: |
-  "DRAFT — Updated Escapement Estimate Type Classification Guidance"
+  "Updated Escapement Estimate Type Classification Guidance"
 english_title: |
-  DRAFT — Updated Escapement Estimate Type Classification Guidance
+  Updated Escapement Estimate Type Classification Guidance
 french_title: |
-  DRAFT — Updated Escapement Estimate Type Classification Guidance
+  Updated Escapement Estimate Type Classification Guidance
 
 year: 2025
 report_number: "to be assigned"
-author: |
-  NuSEDS Escapement Estimates Toolkit Working Group^1^
+author: "Brett Johnson, Michael Arbeider, Isabella Borea, Nicholas Brown, Erika Anderson, Regional Escapement Data Task Team"
 author_list: "NuSEDS Escapement Estimates Toolkit Working Group"
 
 english_region: Pacific Region
@@ -36,7 +35,6 @@ french_isbn: "to be assigned"
 english_cat_no: "to be assigned"
 french_cat_no: "to be assigned"
 
-# Legacy aliases retained for compatibility with existing metadata usage.
 region: Pacific Region
 isbn: ""
 report_DOI: ""
@@ -48,14 +46,14 @@ phone: ""
 author_footnote: "Email: brett.johnson\\@dfo-mpo.gc.ca"
 
 abstract: |
-  NuSEDS (New Salmon Escapement Database System) estimate Types 1--6 are used throughout the Pacific Region as a concise indicator of how interpretable a spawner abundance estimate is for downstream uses (e.g., stock assessment and Wild Salmon Policy status workflows). In practice, Type assignment has varied across programs because historical guidance does not explicitly address several common complications such as incomplete run-window coverage, outages and missed observation, breach/bypass at counting sites, visibility constraints, and incomplete documentation. This technical report updates the Type 1--6 guidance by operationalizing the intent of Kim Hyatt's 1997 classification key as a property-first decision sequence. The updated key separates enumeration (field) methods from estimation (analysis) methods, defines method families, and records standardized qualifier codes that document why an estimate was conservatively downgraded (for example because of timing, coverage/uptime, breach/bypass, visibility, documentation, or quantified uncertainty such as CV/SE). The report also identifies a minimal set of metadata elements needed for interpretable Type assignment in NuSEDS, with an emphasis on Stream Escapement Narratives (SENs) and controlled vocabularies for downgrade criteria and uncertainty metrics. Adoption of this guidance is expected to improve cross-program consistency, increase transparency of classification decisions, and support more defensible downstream use of escapement estimates.
+  NuSEDS (New Salmon Escapement Database System) escapement estimate Types 1--6 are used throughout the Pacific Region as a concise indicator of how interpretable a spawner abundance estimate is for downstream uses (e.g., stock assessment and Wild Salmon Policy status workflows). In practice, Type assignment has varied across programs because historical guidance does not explicitly address several common complications such as incomplete run-window coverage, outages and missed observation, breach/bypass at counting sites, visibility constraints, and incomplete documentation. This technical report updates the Type 1--6 guidance by operationalizing the intent of Kim Hyatt's 1997 classification key as a property-first decision sequence. The updated key separates enumeration (field) methods from estimation (analysis) methods, defines method families, and records standardized qualifier codes that document why an estimate was conservatively downgraded (for example because of timing, coverage/uptime, breach/bypass, visibility, documentation, or quantified uncertainty such as CV/SE). The report also identifies a minimal set of metadata elements needed for interpretable Type assignment in NuSEDS, with an emphasis on Stream Escapement Narratives (SENs) and controlled vocabularies for downgrade criteria and uncertainty metrics. Adoption of this guidance is expected to improve cross-program consistency, increase transparency of classification decisions, and support more defensible downstream use of escapement estimates.
 french_abstract: |
   Publication in English only.
-citation_french: "NuSEDS Escapement Estimates Toolkit Working Group. 2025. Updated Escapement Estimate Type Classification Guidance. Rapp. tech. can. sci. halieut. aquat. (to be assigned)."
+citation_french: "NuSEDS Escapement Estimates Toolkit Working Group. 2026. Updated Escapement Estimate Type Classification Guidance. Rapp. tech. can. sci. halieut. aquat. (to be assigned)."
 show_continued_text: true
 
 params:
-  draft: true
+  draft: false
   draft_label: "DRAFT — Working document (do not cite)"
 
 output:
@@ -75,8 +73,8 @@ header-includes:
 ```{r setup, echo=FALSE, cache=FALSE, message=FALSE, results='hide', warning=FALSE}
 library(knitr)
 if (is_latex_output()) {
-  knitr_figs_dir <- "knitr-figs-pdf/"
-  knitr_cache_dir <- "knitr-cache-pdf/"
+  knitr_figs_dir <- "knitr-figs-tex/"
+  knitr_cache_dir <- "knitr-cache-tex/"
   fig_out_type <- "png"
 } else if (is_html_output()) {
   knitr_figs_dir <- "knitr-figs-html/"
@@ -166,6 +164,13 @@ library(kableExtra)
 if (knitr::is_latex_output()) {
   library(csasdown)
 }
+```
+
+# Abstract {-}
+
+```{r abstract-body, echo=FALSE, results='asis'}
+abstract_text <- trimws(rmarkdown::yaml_front_matter("index.Rmd")[["abstract"]])
+cat(abstract_text, "\n")
 ```
 
 

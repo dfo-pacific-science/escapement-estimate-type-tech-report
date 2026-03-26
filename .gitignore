@@ -6,11 +6,10 @@
 _book/
 csas-style
 knitr-cache-docx
-knitr-cache-pdf
 knitr-cache-tex
 knitr-cache-html
 knitr-figs-docx
-knitr-figs-pdf
+knitr-figs-tex
 knitr-figs-html
 reference-materials
 models*
@@ -34,7 +33,5 @@ techreport.tex
 *.utf8.md
 
 # Allow versioned report artifacts and figures
-!techreport.docx
-!techreport.pdf
 !docs/figures/*.png
 !*.docx
