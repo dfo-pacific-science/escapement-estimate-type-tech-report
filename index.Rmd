@@ -8,7 +8,7 @@ french_title: |
 
 year: 2025
 report_number: "to be assigned"
-author: "Brett Johnson, Michael Arbeider, Isabella Borea, Nicholas Brown, Erika Anderson, Regional Escapement Data Task Team"
+author: "Brett Johnson, Isabella Borea, Michael Arbeider, Marissa Glavas, Brian Smith, Nicholas Brown, Erika Anderson, Regional Escapement Data Task Team"
 author_list: "NuSEDS Escapement Estimates Toolkit Working Group"
 
 english_region: Pacific Region
