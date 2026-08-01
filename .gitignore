@@ -35,3 +35,4 @@ techreport.tex
 # Allow versioned report artifacts and figures
 !docs/figures/*.png
 !*.docx
+.positai
