@@ -1,6 +1,6 @@
 # Applying the guidance in practice
 
-Next we summarize the substantive updates to the Type 1--6 guidance and how it should be applied during NuSEDS data entry and review.
+Next, we summarize the substantive updates to the Type 1--6 guidance and how it should be applied during NuSEDS data entry and review.
 
 ## What is new in this guidance
 
