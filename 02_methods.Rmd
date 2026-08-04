@@ -176,7 +176,7 @@ csas_kable(
   bold_header = FALSE,
   font_size = 8,
   align = c("l", "l", "l", "c"),
-  caption = "Recommended metadata elements for NuSEDS uploads to support transparent Type 1--6 assignment and interpretation."
+  caption = "Recommended metadata elements for NuSEDS uploads to support transparent Type 1--6 assignment and interpretation. Some of these are already present in NuSEDS."
 ) |>
   csas_colspec(1, width = "3.7cm") |>
   csas_colspec(2, width = "7.0cm") |>
