@@ -328,6 +328,8 @@ if (file.exists(dd_path)) {
   dd_small <- dd_small[match(wanted_fields, dd_small[["Field Name"]]), ]
 }
 
+rownames(dd_small) <- NULL
+
 csas_kable(
   dd_small,
   escape = TRUE,
