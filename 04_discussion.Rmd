@@ -14,7 +14,7 @@ Estimate Types are not a binary "usable/unusable" label. Lower Types may still b
 
 Estimate Types are often used as screening filters in downstream workflows (including WSP rapid status assessments) [@pestal2023stateSalmon; @dfo2024rapidStatus; @dfo2005wsp]. When Type assignment is inconsistent, threshold-based decisions can become sensitive to classification noise, particularly near cutoffs (e.g., around the Type 4 boundary). More broadly, measurement error in spawner abundance can distort stock--recruit inference and downstream decisions, reinforcing the value of recording uncertainty and detectability-related metadata where available [@waltersLudwig1981measurementError].
 
-Because qualifier codes are explicit (e.g., missing method identification, timing/coverage gaps, insufficient documentation), conservative classifications become easier to interpret and metadata improvements can be targeted.
+Because qualifier codes are explicit (e.g., missing method identification, timing/coverage gaps, insufficient documentation), conservative classifications become easier to interpret, and metadata improvements can be targeted.
 
 ## Recommended metadata additions (schema) and implementation status
 
@@ -32,7 +32,7 @@ The following SEN fields are the clearest priorities for aligning NuSEDS uploads
 - `UNCERTAINTY_VALUE`: corresponding numeric uncertainty value.
 - `ANALYSIS_EXPLANATION`: analysis details, including modified or combined methods.
 
-Together, these fields operationalize core qualifiers in the decision key: method clarity, downgrade rationale, and uncertainty transparency. In operational use, the uploaded classification should be the toolkit **Final Type**; `Max Type`, `Provisional Type`, and `Candidate Type` remain internal decision-trace fields for QA rather than official classification values. This report identifies what should be captured for interpretation; analyst-facing availability in downstream exports is an implementation question outside the scope of this report.
+Together, these fields operationalize core qualifiers in the decision key: method clarity, downgrade rationale, and transparency of uncertainty. In operational use, the uploaded classification should be the toolkit **Final Type**; `Max Type`, `Provisional Type`, and `Candidate Type` remain internal decision-trace fields for QA rather than official classification values. This report identifies what should be captured for interpretation; analyst-facing availability in downstream exports is an implementation question outside the scope of this report.
 
 ### Supporting lookup tables and naming updates
 
@@ -65,7 +65,7 @@ The Escapement Estimate Type Toolkit (R Shiny application) surfaces policy/speci
 - **Documentation standardization:** documentation labels are functionally similar but still inconsistently phrased across method pathways.
 - **Type-5 pathway clarity:** low-resolution relative-estimate pathways should remain explicit to avoid ad hoc interpretation.
 
-This backlog reflects remaining work for the Regional Escapement Task Team. Perfect cross-program consistency and zero ambiguity may not be feasible given the diversity of operational contexts; the goal is to keep the most consequential rules explicit, versioned, and reviewable.
+This backlog reflects remaining work for the Regional Escapement Task Team. Perfect cross-program consistency and zero ambiguity is not feasible given the diversity of operational contexts; the goal is to keep the most consequential rules explicit, versioned, and reviewable.
 
 ## Limitations
 

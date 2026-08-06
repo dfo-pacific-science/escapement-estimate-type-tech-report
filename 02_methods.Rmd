@@ -51,7 +51,7 @@ The classification follows a property-first sequence:
 
 1. **Data format gate**: non-numeric presence/not-detected is classified as Type 6.
 2. **Method known gate**: if survey and analytical methods are not identified, the estimate is provisionally Type 5 and flagged as method-unknown.
-3. **Method family selection**: a primary method family scopes the applicable questions.
+3. **Method-family selection**: a primary method family scopes the applicable questions.
 4. **Method-family checks**: coverage, effort, visibility, timing, and related criteria drive conservative downgrades.
 5. **Final checks**: documentation and uncertainty evidence are evaluated; where evidence is missing, conservative downgrades apply.
 
@@ -93,7 +93,7 @@ Where historical values have been recalibrated or revised, the updated guidance 
 
 ### Quantitative uncertainty (CV/SE)
 
-Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part by qualified precision (variance evidence) [@hyatt1997]. Where available, reporting quantitative uncertainty (e.g., CV or SE) improves downstream interpretation and use. For example, AUC and peak-count approaches have established approaches for incorporating uncertainty and evaluating sensitivity to survey timing and frequency [@english1992auc; @hilborn1999periodic; @hill1997aerialFrequency; @parken2003aucUncertainty; @millar2012auc]. The updated guidance includes a final precision/accuracy check and recommends capturing quantitative uncertainty when available.
+Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part by qualified precision (variance evidence) [@hyatt1997]. Where available, reporting quantitative uncertainty (e.g., CV or SE) improves downstream interpretation and use. For example, AUC and peak-count methods have established approaches for incorporating uncertainty and evaluating sensitivity to survey timing and frequency [@english1992auc; @hilborn1999periodic; @hill1997aerialFrequency; @parken2003aucUncertainty; @millar2012auc]. The updated guidance includes a final precision/accuracy check and recommends capturing quantitative uncertainty when available.
 
 ## Recommended metadata elements for NuSEDS {#sec:metadata}
 
@@ -119,12 +119,12 @@ recommended_meta <- data.frame(
     "Calibration source + diagnostics",
     "Revision history (what changed/when)"
   ),
-  `Why it matters for interpretation` = c(
+  `Implications for Interpretation` = c(
     "Scopes which property checks apply.",
     "Distinguishes analysis pathways (e.g., mark--recapture, AUC, modelling).",
     "Controls eligibility rules and the set of required qualifiers.",
     "Explains conservative downgrades due to missed start/end of run.",
-    "Explains conservative downgrades due to outages/unobserved intervals.",
+    "Explains conservative downgrades due to outages/survey gaps.",
     "Explains conservative downgrades where missed fish are plausible.",
     "Distinguishes defensible correction from undocumented gap-filling.",
     "A core driver of bias and comparability for survey indices.",
@@ -176,7 +176,7 @@ csas_kable(
   bold_header = FALSE,
   font_size = 8,
   align = c("l", "l", "l", "c"),
-  caption = "Recommended metadata elements for NuSEDS uploads to support transparent Type 1--6 assignment and interpretation."
+  caption = "Recommended metadata elements for NuSEDS uploads to support transparent Type 1--6 assignment and interpretation. Some of these are already present in NuSEDS."
 ) |>
   csas_colspec(1, width = "3.7cm") |>
   csas_colspec(2, width = "7.0cm") |>
@@ -269,9 +269,9 @@ csas_kable(
   csas_colspec(4, width = "4.2cm")
 ```
 
-Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods). Appendix C also includes compact Sankey-style summaries to visualize how legacy NuSEDS method terms converge to the canonical parent terms used by the guidance. Equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk()` and `nuseds_estimate_method_crosswalk()`) [@metasalmonPackage].
+Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods). Appendix C also includes compact Sankey-style summaries that illustrate how legacy NuSEDS method terms align with the standardized parent categories used by the updated guidance. Equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk()` and `nuseds_estimate_method_crosswalk()`) [@metasalmonPackage].
 
-Legacy values are not dropped; where a legacy term does not cleanly align to a current method family, it can be represented as inherited contextual guidance via ontology metadata (for example via `rdfs:comment`) while remaining traceable in source records.
+Legacy values are not dropped; where a legacy term does not cleanly align to a current method family, it can be represented as inherited contextual guidance via ontology metadata (for example via `rdfs:comment`) while remaining traceable in source records.  
 
 ## NuSEDS data dictionary alignment (selected fields)
 
