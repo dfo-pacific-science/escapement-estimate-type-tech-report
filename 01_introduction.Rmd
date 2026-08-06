@@ -88,7 +88,7 @@ csas_kable(
 
 ## Why an update is needed
 
-In operational datasets, estimates assigned the same Type classifcation may differ in methods, assumptions, or data limitations, as and the historical table-only guidance does not encode several recurring qualifiers that affect interpretation. Key drivers include:
+In operational data sets, estimates assigned the same Type classification may differ in methods, assumptions, or data limitations, as and the historical table-only guidance does not encode several recurring qualifiers that affect interpretation. Key drivers include:
 
 - **Modern method coverage:** hydroacoustic imaging sonar approaches (e.g., DIDSON/ARIS) are increasingly used, but are not always clearly represented in table-only guidance [@holmes2005didson].
 - **Coverage/uptime and breach/bypass:** device outages, incomplete run-window coverage, and breach/bypass events can materially affect estimate quality unless magnitude and correction methods are documented [@see2021stateSpace].

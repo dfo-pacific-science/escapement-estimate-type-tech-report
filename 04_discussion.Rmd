@@ -50,7 +50,7 @@ Several metadata items remain valuable but require further specification/governa
 
 - site-information-layer additions are less mature than SEN additions and require further prioritization;
 - `ENHANCEMENT_RANK`, `POP_CATEGORY`, and `CUMatchVerifiedYN` are potential follow-on site/CU context fields for WSP-oriented interpretation; and
-- a dedicated WSP rapid-status flag is **not** recommended in this report because inclusion/exclusion of systems can change over time and would require active governance and maintenance.
+- a dedicated WSP rapid-status flag is **not** recommended in this report because inclusion/exclusion of systems can change over time, may be derived from ENHANCEMENT_RANK and POP_CATEGORY, and would require active governance and maintenance.
 
 For this report, the implementation priority is therefore: finalize SEN metadata first, keep site/CU context additions explicit as backlog, and maintain a transparent mapping from stored fields to decision-key qualifiers.
 
