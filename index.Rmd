@@ -8,7 +8,7 @@ french_title: |
 
 year: 2026
 report_number: "to be assigned"
-author: "Brett Johnson^1^, Isabella Borea^2^, Michael Arbeider^3^, Marissa Glavas^2^, Brian Smith^2^, Nicholas Brown^3^, Erika Anderson^3^, Regional Escapement Data Task Team"
+author: "Brett Johnson^1^, Isabella Borea^2^, Marissa Glavas^2^, Brian Smith^2^, Nicholas Brown^3^, Erika Anderson^3^, Regional Escapement Data Task Team"
 author_list: "NuSEDS Escapement Estimates Toolkit Working Group"
 
 english_region: Pacific Region
@@ -19,9 +19,7 @@ english_address: |
      Vancouver, British Columbia, V6E 1B5, Canada  
   ^2^Annacis Island, Fisheries and Oceans Canada, Unit 3\
      100 Annacis Parkway, Delta, British Columbia,V3M 6A2, Canada   
-  ^3^Kamloops Area Office, Fisheries and Oceans Canada\
-     985 McGill Place, Kamloops, British Columbia,V2C 6X6, Canada  
-  ^4^Pacific Biological Station, Fisheries and Oceans Canada\
+  ^3^Pacific Biological Station, Fisheries and Oceans Canada\
      3190 Hammond Bay Road, Nanaimo, British Columbia, V9T 6N7\
      Canada  
 french_address: |
@@ -29,11 +27,9 @@ french_address: |
      Vancouver, British Columbia, V6E 1B5, Canada  
   ^2^Annacis Island, Fisheries and Oceans Canada, Unit 3\
      100 Annacis Parkway, Delta, British Columbia,V3M 6A2, Canada   
-  ^3^Kamloops Area Office, Fisheries and Oceans Canada\
-     985 McGill Place, Kamloops, British Columbia,V2C 6X6, Canada  
-  ^4^Pacific Biological Station, Fisheries and Oceans Canada\
+  ^3^Pacific Biological Station, Fisheries and Oceans Canada\
      3190 Hammond Bay Road, Nanaimo, British Columbia, V9T 6N7\
-     Canada  
+     Canada 
 
 english_preamble_pages: "iv"
 french_preamble_pages: "iv"
@@ -55,9 +51,7 @@ address: |
      Vancouver, British Columbia, V6E 1B5, Canada  
   ^2^Annacis Island, Fisheries and Oceans Canada, Unit 3\
      100 Annacis Parkway, Delta, British Columbia,V3M 6A2, Canada   
-  ^3^Kamloops Area Office, Fisheries and Oceans Canada\
-     985 McGill Place, Kamloops, British Columbia,V2C 6X6, Canada  
-  ^4^Pacific Biological Station, Fisheries and Oceans Canada\
+  ^3^Pacific Biological Station, Fisheries and Oceans Canada\
      3190 Hammond Bay Road, Nanaimo, British Columbia, V9T 6N7\
      Canada  
 phone: ""
