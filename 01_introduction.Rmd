@@ -30,8 +30,8 @@ This report:
 
 This report does not:  
 
-- overwrite existing escapement Type classifications that are currently recorded in NuSEDS,  
-- evaluate biological status of salmon populations, or   
+- overwrite existing escapement Type classifications that are currently recorded in NuSEDS,
+- evaluate biological status of salmon populations, or
 - propose an algorithm to replace program-specific expert judgement.
 
 ## Hyatt (1997) intent and foundation
@@ -82,7 +82,7 @@ csas_kable(
   bold_header = FALSE,
   font_size = 8,
   align = c("c", "l", "l", "l"),
-  caption = "High-level summary of estimate Types 1--6 for orientation. Paraphrased from Hyatt (1997)"
+  caption = "High-level summary of estimate Types 1--6 for orientation. Revised from Hyatt (1997)"
 ) |>
   csas_colspec(1, width = "3.4.0cm") |>
   csas_colspec(2, width = "4.0cm") |>
