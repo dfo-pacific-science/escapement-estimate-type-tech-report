@@ -10,7 +10,7 @@ Compared to table-only interpretation, the updated guidance:
 - Separates enumeration methods (field) from estimation methods (analysis).
 - Applies explicit qualifier codes for conservative downgrades (coverage, timing, visibility, documentation, and method-known gaps).
 - Treats combined-method estimates as component-based workflows so weaker components are not concealed.
-- Encourages recording quantitative uncertainty (CV/SE) where available.
+- Encourages recording quantitative uncertainty where available.
 
 
 ## Legacy method vocabulary context

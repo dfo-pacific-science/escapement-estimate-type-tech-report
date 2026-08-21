@@ -59,7 +59,7 @@ This structure reduces subjective table interpretation by turning common qualifi
 
 ## Escapement Estimate Type Toolkit
 
-An accompanying Escapement Estimate Type Toolkit (R Shiny application) applies the same decision logic described in this report and returns both (i) a **Final Type** (1--6) and (ii) qualifier codes explaining any conservative downgrades. The report remains the authoritative guidance; the toolkit is a practical companion implementation.
+An accompanying Escapement Estimate Type Toolkit (R Shiny application) applies the same decision logic described in this report and returns both (i) a **Final Type** (1--6) and (ii) qualifier codes explaining any conservative downgrades. The present report remains the authoritative guidance; the toolkit is a practical companion for user implementation.
 
 Within the toolkit, three intermediate labels are used for workflow transparency: **Provisional Type** (the type supported by the method-family path before final gates), **Max Type** (the upper bound imposed by triggered downgrade rules), and **Candidate Type** (the type implied after combining the enumeration and estimation steps before final documentation/precision checks). The report is concerned with the **Final Type** reported after all qualifier enforcement.
 
@@ -75,17 +75,17 @@ Implementation should align with the guidance and method-family checks in this r
 
 The guidance treats several recurring complications as explicit qualifiers rather than implicit judgement calls.
 
-### Breaches/bypass and infilling
+### Missed Observations and infilling
 
-Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect estimate quality unless magnitude and correction methods are documented. The updated guidance treats breach/bypass risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace]. For example, run-window coverage below 95% of season days or device uptime below 95% are treated as explicit qualifiers, and any interpolation used to fill missing data should be recorded.
+Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect estimate quality and magnitude and correction methods must be documented. The updated guidance treats breach/bypass risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace]. For example, run-window coverage below 95% of season days or device uptime below 95% are treated as explicit qualifiers, and any interpolation used to fill missing data should be recorded.
 
-### Survey timing relative to run timing
+### Survey timing relative to run timing and bias
 
 For survey-based indices, visit count alone is not sufficient: surveys must bracket the period when fish are present, and visibility constraints and observer effects can govern bias and comparability [@holtCox2008visual; @jones1998observer; @korman2002observerEfficiency; @hill1997aerialFrequency]. The updated guidance includes timing and visibility checks within method families where these factors are primary drivers of data quality and comparability.
 
 ### Combined-method estimates
 
-Combined-method workflows (e.g., system-wide sonar with tributary visual apportionment, or fences supplemented during breach periods) should be recorded as explicit components. The updated guidance applies a conservative rule: where multiple components contribute to the final estimate, the assigned Type should not exceed that implied by the weakest component unless a documented integration method supports a higher classification [@parsonsSkalski2010escTechniques].
+Combined-method workflows (e.g., system-wide sonar with tributary visual apportionment, or fences supplemented during breach periods) should be documented. The updated guidance applies a conservative rule: where multiple components contribute to the final estimate, the assigned Type should not exceed that implied by the weakest component unless a documented integration method supports a higher classification [@parsonsSkalski2010escTechniques].
 
 ### Calibration and historical revisions
 
@@ -213,16 +213,16 @@ csas_kable(
   align = c("c", "l", "c"),
   caption = "Method families encoded in the property-first guidance and the best attainable Type before conservative downgrades."
 ) |>
-  csas_colspec(1, width = "1.2cm") |>
-  csas_colspec(2, width = "10.8cm") |>
+  csas_colspec(1, width = "2.4cm") |>
+  csas_colspec(2, width = "9.6cm") |>
   csas_colspec(3, width = "2.5cm")
 ```
 
-Type 1 retains an interpretive meaning---**absolute abundance from a census / near-census workflow**---rather than serving as a raw method label. In practice, only constrained fixed-site tallies can default to that upper bound under the current guidance.
+Type 1 retains an interpretive meaning---**absolute abundance from a census / near-census program**---rather than serving as a raw method label. In practice, only constrained fixed-site tallies can default to that upper bound under the current guidance.
 
-Analysis labels such as AUC and peak-count do not replace the underlying survey family. Ground/snorkel series analysed with AUC can still support Type 2 under the `V` family, whereas aerial series analysed with AUC or peak-count remain capped by the `A` family ceiling (Type 3) unless a future validated exception is explicitly adopted.
+Estimation method labels such as AUC and peak-count do not replace the underlying survey family. Ground/snorkel series analysed with AUC can still support Type 2 under the `V` family, whereas aerial series analysed with AUC or peak-count remain capped by the `A` family ceiling (Type 3) unless a future validated exception is explicitly adopted.
 
-Default redd-count pathways are conservatively capped at Type 3 in this update. Any higher-confidence redd-derived absolute-abundance estimate should be treated as an explicit calibrated/model-based exception rather than as the default redd family interpretation.
+Default redd-count pathways are conservatively capped at Type 3 in this update. Any higher-confidence redd-derived absolute-abundance estimate should be treated as an explicit calibrated/model-based exception rather than as the default redd survey interpretation.
 
 ## DFO Salmon Data Standards and Controlled Vocabularies linkages for methods and downgrade criteria
 
@@ -269,7 +269,7 @@ csas_kable(
   csas_colspec(4, width = "4.2cm")
 ```
 
-Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods). Appendix C also includes compact Sankey-style summaries that illustrate how legacy NuSEDS method terms align with the standardized parent categories used by the updated guidance. Equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk()` and `nuseds_estimate_method_crosswalk()`) [@metasalmonPackage].
+Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods). Appendix C also includes compact Sankey-style summaries that illustrate how legacy NuSEDS method terms align with the standardized parent categories used by the updated guidance. Equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk` and `nuseds_estimate_method_crosswalk`) [@metasalmonPackage].
 
 Legacy values are not dropped; where a legacy term does not cleanly align to a current method family, it can be represented as inherited contextual guidance via ontology metadata (for example via `rdfs:comment`) while remaining traceable in source records.  
 
