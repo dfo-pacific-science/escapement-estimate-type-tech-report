@@ -186,7 +186,7 @@ csas_kable(
 
 ## Method families {#sec:method-families}
 
-Families are ordered by best attainable Type to foreground the upper bound implied by the guidance; short codes are retained for toolkit use.
+A method family is a broad grouping of enumeration and estimation methods that share the same underlying approach or sampling design. Individual methods within a family may differ in implementation details while maintaining the same fundamental methodology. Families are ordered by best attainable Type to foreground the upper bound implied by the guidance; short codes are retained for toolkit use.
 
 ```{r method-family-table}
 method_families <- data.frame(
