@@ -77,11 +77,11 @@ The guidance treats several recurring complications as explicit qualifiers rathe
 
 ### Missed Observations and infilling
 
-Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect estimate quality and magnitude and correction methods must be documented. The updated guidance treats breach/bypass risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace]. For example, run-window coverage below 95% of season days or device uptime below 95% are treated as explicit qualifiers, and any interpolation used to fill missing data should be recorded.
+Breach/bypass events at counting sites, and periods of missing observation due to outages or missed visits, can materially affect estimate quality and magnitude; therefore, correction methods must be documented. The updated guidance treats breach/bypass risk and incomplete coverage as explicit downgrade triggers and records whether defensible infilling/interpolation was required [@velezEspino2010atnarko; @holmes2005didson; @see2021stateSpace]. For example, run-window coverage below 95% of season days or device uptime below 95% are treated as explicit qualifiers, and any interpolation used to fill missing data should be recorded.
 
 ### Survey timing relative to run timing and bias
 
-For survey-based indices, visit count alone is not sufficient: surveys must bracket the period when fish are present, and visibility constraints and observer effects can govern bias and comparability [@holtCox2008visual; @jones1998observer; @korman2002observerEfficiency; @hill1997aerialFrequency]. The updated guidance includes timing and visibility checks within method families where these factors are primary drivers of data quality and comparability.
+For survey-based indices, the number of visits alone is not sufficient. Surveys must bracket the period when fish are present, and visibility constraints and observer effects can govern bias and comparability [@holtCox2008visual; @jones1998observer; @korman2002observerEfficiency; @hill1997aerialFrequency]. The updated guidance includes timing and visibility checks within method families where these factors are primary drivers of data quality and comparability.
 
 ### Combined-method estimates
 
@@ -89,7 +89,7 @@ Combined-method workflows (e.g., system-wide sonar with tributary visual apporti
 
 ### Calibration and historical revisions
 
-Where historical values have been recalibrated or revised, the updated guidance treats calibration as an analysis layer that should be captured in metadata (calibration source, diagnostics, and revision history) rather than as a new estimate Type. This supports interpretation of time-series values by downstream users, but this report does **not** prescribe automatic reclassification of existing records or a downstream assessment rule for calibrated series.
+Where historical values have been recalibrated or revised, the updated guidance treats calibration as an analysis layer that should be captured in metadata (calibration source, diagnostics, and revision history) rather than as a new estimate Type. This means that the Type classification should generally remain unchanged. This supports interpretation of time-series values by downstream users, but this report does **not** prescribe automatic reclassification of existing records or a downstream assessment rule for calibrated series.
 
 ### Quantitative uncertainty
 

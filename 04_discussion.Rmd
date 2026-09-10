@@ -56,7 +56,7 @@ For this report, the implementation priority is therefore: finalize SEN metadata
 
 ## Escapement Estimate Type Toolkit: unresolved policy/specification gaps
 
-The Escapement Estimate Type Toolkit (R Shiny application) surfaces policy/specification gaps that can still affect cross-program consistency if left implicit. The most material items are:
+The Escapement Estimate Type Toolkit (R Shiny application) surfaces policy/specification gaps that can still affect cross-program consistency if left implicit. The most significant gaps are:
 
 - **Mixed-method estimates:** explicit combination policy is needed (e.g., conservative minimum-component rule vs. weighted integration with evidence requirements).
 - **Ambiguous threshold language:** terms such as "negligible", "adequate", "fair", and "defensible" still need agreed quantitative thresholds.

@@ -26,7 +26,7 @@ This report:
 - documents the decision logic for assigning Types 1--6, including standardized qualifier codes that record why an estimate was conservatively downgraded;
 - clarifies evidence expectations for common operational complications;
 - identifies a minimal set of metadata elements needed for transparent Type assignment, with an emphasis on Stream Escapement Narratives (**SENs**) used to support NuSEDS uploads and review; and
-- provides canonical roll-ups and mapping guidance for enumeration and estimate methods (including legacy-to-canonical term reconciliation) to support consistent forward use in NuSEDS and clearer interpretation of legacy method terms (Appendix C).
+- provides standardized roll-ups and mapping guidance for enumeration and estimate methods (including standardized legacy term) to support consistent forward use in NuSEDS and clearer interpretation of legacy method terms (Appendix C).
 
 This report does not:  
 
@@ -92,12 +92,12 @@ csas_kable(
 
 ## Why an update is needed
 
-In operational data sets, estimates assigned the same Type classification may differ in methods, assumptions, or data limitations, and the historical table-only guidance does not account for several recurring qualifiers that affect interpretation. Key drivers include:
+In operational data sets, estimates assigned the same Type classification may differ in methods, assumptions, or data limitations. The historical guidance focused primarily on the reported table values and did not account for several recurring qualifiers that can affect interpretation. Key drivers include:
 
 - **Modern method coverage:** hydroacoustic imaging sonar approaches (e.g., DIDSON/ARIS) are increasingly used, but are not  clearly represented in table-only guidance [@holmes2005didson].
 - **Coverage/uptime and breach/bypass:** device outages, incomplete migration season coverage, and breach/bypass events can materially affect estimate quality and must therefore be documented [@see2021stateSpace].
 - **Timing, visibility, and effort standardization:** for survey-based indices, survey timing relative to escapement timing, observer efficiency, and visibility often govern comparability [@jones1998observer; @korman2002observerEfficiency; @holtCox2008visual].
-- **Combined-method workflows:** multi-component estimates require explicit documentation of individual components to avoid concealing a methodoloically weaker component [@parsonsSkalski2010escTechniques].
+- **Combined-method workflows:** multi-component estimates require explicit documentation of individual components to avoid concealing a methodologically weaker component [@parsonsSkalski2010escTechniques].
 - **Downstream screening sensitivity:** estimate Types are used as data-quality filters in Wild Salmon Policy rapid status workflows. Inconsistent assignment can create discontinuities near threshold cutoffs [@pestal2023stateSalmon; @dfo2024rapidStatus].
 
 ## How this guidance should be used when uploading to NuSEDS
