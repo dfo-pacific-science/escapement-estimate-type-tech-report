@@ -15,7 +15,7 @@ english_region: Pacific Region
 french_region: "Pacific Region"
 
 english_address: |
-  ^1^Cultus Lake Lab, Fisheries and Oceans Canada, 
+  ^1^Cultus Lake Lab, Fisheries and Oceans Canada\ 
      4222 Columbia Valley Road, Cultus Lake, British Columbia\
      V2R 5B6, Canada  
   ^2^Annacis Island, Fisheries and Oceans Canada, Unit 3\
@@ -26,7 +26,7 @@ english_address: |
   ^4^Kamloops Area Office, Fisheries and Oceans, 985 McGill Place\
      Kamloops, British Columbia, V2C 6X6, Canada  
 french_address: |
-  ^1^Cultus Lake Lab, Fisheries and Oceans Canada, 
+  ^1^Cultus Lake Lab, Fisheries and Oceans Canada\ 
      4222 Columbia Valley Road, Cultus Lake, British Columbia\
      V2R 5B6, Canada  
   ^2^Annacis Island, Fisheries and Oceans Canada, Unit 3\
