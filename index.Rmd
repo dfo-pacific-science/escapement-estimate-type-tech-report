@@ -4,37 +4,43 @@ title: |
 english_title: |
   Updated Escapement Estimate Type Classification Guidance
 french_title: |
-  Updated Escapement Estimate Type Classification Guidance
+  Mise à jour des directives sur la classification des types d’estimations de l’échappée
 
 year: 2026
 report_number: "to be assigned"
-author: "Brett Johnson^1^, Isabella Borea^2^, Marissa Glavas^2^, Brian Smith^2^, Nicholas Brown^3^, Erika Anderson^3^, Regional Escapement Data Task Team"
+author: "Brett Johnson^1^, Isabella Borea^2^, Marissa Glavas^2^, Brian Smith^2^, Nicholas Brown^3^, Daniel Doutaz^4^, Erika Anderson^3^, Regional Escapement Data Task Team"
 author_list: "NuSEDS Escapement Estimates Toolkit Working Group"
 
 english_region: Pacific Region
 french_region: "Pacific Region"
 
 english_address: |
-  ^1^Pacific Salmon Commission, 600–1155 Robson Street\
-     Vancouver, British Columbia, V6E 1B5, Canada  
+  ^1^Cultus Lake Lab, Fisheries and Oceans Canada, 
+     4222 Columbia Valley Road, Cultus Lake, British Columbia\
+     V2R 5B6, Canada  
   ^2^Annacis Island, Fisheries and Oceans Canada, Unit 3\
      100 Annacis Parkway, Delta, British Columbia,V3M 6A2, Canada   
   ^3^Pacific Biological Station, Fisheries and Oceans Canada\
      3190 Hammond Bay Road, Nanaimo, British Columbia, V9T 6N7\
      Canada  
+  ^4^Kamloops Area Office, Fisheries and Oceans, 985 McGill Place\
+     Kamloops, British Columbia, V2C 6X6, Canada  
 french_address: |
-  ^1^Pacific Salmon Commission, 600–1155 Robson Street\
-     Vancouver, British Columbia, V6E 1B5, Canada  
+  ^1^Cultus Lake Lab, Fisheries and Oceans Canada, 
+     4222 Columbia Valley Road, Cultus Lake, British Columbia\
+     V2R 5B6, Canada  
   ^2^Annacis Island, Fisheries and Oceans Canada, Unit 3\
      100 Annacis Parkway, Delta, British Columbia,V3M 6A2, Canada   
   ^3^Pacific Biological Station, Fisheries and Oceans Canada\
      3190 Hammond Bay Road, Nanaimo, British Columbia, V9T 6N7\
-     Canada 
+     Canada  
+  ^4^Kamloops Area Office, Fisheries and Oceans, 985 McGill Place\
+     Kamloops, British Columbia, V2C 6X6, Canada  
 
 english_preamble_pages: "iv"
 french_preamble_pages: "iv"
-english_content_pages: "xx"
-french_content_pages: "xx"
+english_content_pages: "31"
+french_content_pages: "31"
 
 english_doi: "to be assigned"
 french_doi: "to be assigned"
@@ -47,21 +53,24 @@ region: Pacific Region
 isbn: ""
 report_DOI: ""
 address: |
-  ^1^Pacific Salmon Commission, 600–1155 Robson Street\
-     Vancouver, British Columbia, V6E 1B5, Canada  
+  ^1^Cultus Lake Lab, Fisheries and Oceans Canada, 
+     4222 Columbia Valley Road, Cultus Lake, British Columbia\
+     V2R 5B6, Canada  
   ^2^Annacis Island, Fisheries and Oceans Canada, Unit 3\
      100 Annacis Parkway, Delta, British Columbia,V3M 6A2, Canada   
   ^3^Pacific Biological Station, Fisheries and Oceans Canada\
      3190 Hammond Bay Road, Nanaimo, British Columbia, V9T 6N7\
      Canada  
+  ^4^Kamloops Area Office, Fisheries and Oceans, 985 McGill Place\
+     Kamloops, British Columbia, V2C 6X6, Canada 
 phone: ""
-author_footnote: "Email: johnson\\@psc.org"
+author_footnote: "Email: johnson\\@psc.org or Erika.Anderson\\@dfo-mpo.gc.ca"
 
 abstract: |
   The NuSEDS (New Salmon Escapement Database System) Types 1-6 classification system provides a standardized way to describe the  interpretability of salmon escapement estimates and supports the use of  these data in downstream processes in the Pacific Region (e.g., Wild Salmon Policy status and stock assessments). Historically, Type assignment has been inconsistent as currently available guidance does not explicitly address common issues such as incomplete run-window coverage, outages and missed observations, breach and bypass events at counting sites, visibility constraints, and incomplete documentation that can affect estimate interpretation. This technical report introduces a clearer and more structured approach to the  Type 1–6 guidance based on the intent of Hyatt’s (1997) classification key. The revised classification system separates field (enumeration) from analysis (estimation) methods, defines method families, and uses qualifier codes to document factors that estimate quality or require manual classification adjustments related to timing, coverage/uptime, breach/bypass events, visibility, documentation, and quantified uncertainty (e.g., coefficient of variation [CV] and standard error [SE]). The report also identifies the minimum metadata needed for transparent Type assignment in NuSEDS, with an emphasis on Stream Escapement Narratives (SENs) and standard terminology for uncertainty and downgrade  metrics. Adoption of this guidance is expected to improve consistency transparency and defensibility of classification decisions, and support the downstream use of escapement estimates.
 french_abstract: |
   Publication in English only.
-citation_french: "NuSEDS Escapement Estimates Toolkit Working Group. 2026. Updated Escapement Estimate Type Classification Guidance. Rapp. tech. can. sci. halieut. aquat. (to be assigned)."
+citation_french: "Brett Johnson, Isabella Borea, Marissa Glavas, Brian Smith, Nicholas Brown, Daniel Doutaz, Erika Anderson, Regional Escapement Data Task Team. . 2026. Mise à jour des directives sur la classification des types d’estimations de l’échappée. Rapp. tech. can. sci. halieut. aquat. (to be assigned)."
 show_continued_text: true
 
 params:
