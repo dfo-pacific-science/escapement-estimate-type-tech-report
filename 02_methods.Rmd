@@ -50,7 +50,7 @@ text(5.0, 2.3, "apply checks", cex = 0.8)
 The classification follows a property-first sequence:
 
 1. **Data format gate**: non-numeric presence/not-detected is classified as Type 6.
-2. **Method known gate**: if survey and analytical methods are not identified, the estimate is provisionally Type 5 and flagged as method-unknown.
+2. **Method known gate**: if survey and analytical methods are not known, the estimate is provisionally Type 5 and flagged as method-unknown.
 3. **Method-family selection**: a primary method family scopes the applicable questions.
 4. **Method-family checks**: coverage, effort, visibility, timing, and related criteria drive conservative downgrades.
 5. **Final checks**: documentation and uncertainty evidence are evaluated; where evidence is missing, conservative downgrades apply.
@@ -61,7 +61,7 @@ This structure reduces subjective table interpretation by turning common qualifi
 
 An accompanying Escapement Estimate Type Toolkit (R Shiny application) applies the same decision logic described in this report and returns both (i) a **Final Type** (1--6) and (ii) qualifier codes explaining any conservative downgrades. The present report remains the authoritative guidance; the toolkit is a practical companion for user implementation.
 
-Within the toolkit, three intermediate labels are used for workflow transparency: **Provisional Type** (the type supported by the method-family path before final gates), **Max Type** (the upper bound imposed by triggered downgrade rules), and **Candidate Type** (the type implied after combining the enumeration and estimation steps before final documentation/precision checks). The report is concerned with the **Final Type** reported after all qualifier enforcement.
+Within the toolkit, three intermediate labels are used for workflow transparency: **Provisional Type** (the type supported by the method-family path before final checks), **Max Type** (the upper bound imposed by triggered downgrade rules), and **Candidate Type** (the type implied after combining the enumeration and estimation steps before final documentation/precision checks). The report is concerned with the **Final Type** reported after all qualifier enforcement.
 
 ## Guidance-to-implementation outlook
 
@@ -269,7 +269,7 @@ csas_kable(
   csas_colspec(4, width = "4.2cm")
 ```
 
-Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods). Appendix C also includes compact Sankey-style summaries that illustrate how legacy NuSEDS method terms align with the standardized parent categories used by the updated guidance. Equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk` and `nuseds_estimate_method_crosswalk`) [@metasalmonPackage].
+Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods). Appendix C also includes compact summaries that illustrate how legacy NuSEDS method terms align with the standardized parent categories used by the updated guidance. Equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk` and `nuseds_estimate_method_crosswalk`) [@metasalmonPackage].
 
 Legacy values are not dropped; where a legacy term does not cleanly align to a current method family, it can be represented as inherited contextual guidance via ontology metadata (for example via `rdfs:comment`) while remaining traceable in source records.  
 
