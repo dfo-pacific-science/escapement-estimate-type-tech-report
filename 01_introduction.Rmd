@@ -11,24 +11,24 @@ if (isTRUE(params$draft)) {
 }
 ```
 
-The New Salmon Escapement Database System (NuSEDS) stores salmon spawner survey records, spawner abundance estimates, and linkages between them for Pacific Region salmon populations [@openCanadaNuSEDS]. In NuSEDS, estimate Types 1--6 represent a hierarchical data quality and method classification that provides a shorthand indicator of estimate quality and downstream usability for purposes such as stock assessment and Wild Salmon Policy workflows. Type assignment incorporates multiple factors related to estimate reliability, including survey design, data completeness and survey coverage, methodological considerations and other supporting documentation.
+The New Salmon Escapement Database System (NuSEDS) stores salmon spawner survey records, spawner abundance estimates, and linkages among these for Pacific Region salmon populations [@openCanadaNuSEDS]. In NuSEDS, the six estimate categories (Types 1--6) represent a hierarchical data quality and method classification that provides a shorthand indicator of estimation quality and suitability for purposes such as stock assessment, fishery management and Wild Salmon Policy evaluations. Type assignment incorporates multiple factors related to estimate reliability, including survey design, data completeness and survey coverage, methodological considerations and other supporting documentation.
 
-The current guidance used to inform Type assignment is based on the classification key developed by Hyatt (1997). Since its development, DFO enumeration programs and assessment approaches have evolved, while the original table-based guidance has remained unchanged and provides limited direction on how to evaluate common data limitations. In practice, this has contributed to differences in how Type classifications are applied across programs and areas, particularly when addressing factors such as incomplete coverage, uncertain methods, and other recurring real-world complications.
+The current guidance used to inform Type assignment is based on the classification key developed by Hyatt (1997). Since its development, DFO escapement enumeration programs and assessment approaches have evolved, while the original table-based guidance has remained unchanged and provides limited direction on how to evaluate common data limitations. In practice, this has contributed to differences in how Type classifications are applied across programs and areas, particularly when addressing factors such as incomplete coverage, uncertain methods, and other recurring real-world complications.
 
-This update was prompted by inconsistent application across operational teams, which leads to inconsistent reporting in NuSEDS and increases the risk of downstream misinterpretation---especially near screening thresholds used in rapid status workflows [@pestal2023stateSalmon; @dfo2024rapidStatus].
+This update was prompted by inconsistent application among operational teams, which can lead to inconsistent reporting in NuSEDS and increases the risk of subsequent misinterpretation---especially near screening thresholds used in rapid status workflows [@pestal2023stateSalmon; @dfo2024rapidStatus].
 
 ## Purpose and scope
 
-The purpose of this technical report is to provide forward, implementation-ready guidance for assigning NuSEDS estimate Types 1--6 in a way that is reproducible and transparent to downstream data users.
+The purpose of this technical report is to provide forward, implementation-ready guidance for categorizing NuSEDS escapement estimates as one of Types 1--6 in a way that generates consistent and reproducible estimates with methods used transparent to users.
 
-This report:
+In this report we:
 
-- documents the decision logic for assigning Types 1--6, including standardized qualifier codes that record why an estimate was conservatively downgraded;
-- clarifies evidence expectations for common operational complications;
-- identifies a minimal set of metadata elements needed for transparent Type assignment, with an emphasis on Stream Escapement Narratives (**SENs**) used to support NuSEDS uploads and review; and
-- provides standardized roll-ups and mapping guidance for enumeration and estimate methods (including standardized legacy term) to support consistent forward use in NuSEDS and clearer interpretation of legacy method terms (Appendix C).
+- document the decision logic for assigning Types 1--6, including standardized qualifier codes that record why estimates are conservatively downgraded when this occurs;
+- clarify evidence expectations for common operational complications;
+- identify a minimal set of metadata elements needed for transparent Type assignment, with an emphasis on Stream Escapement Narratives (**SENs**) used to support NuSEDS uploads and review; and
+- provide standardized roll-ups and mapping guidance for field enumeration and subsequent population estimation methods (including database terms) to support consistent forward use in NuSEDS and clear interpretation of legacy method terms (Appendix C).
 
-This report does not:  
+We do not:  
 
 - overwrite existing escapement Type classifications that are currently recorded in NuSEDS,
 - evaluate biological status of salmon populations, or
@@ -36,7 +36,7 @@ This report does not:
 
 ## Hyatt (1997) intent and foundation
 
-Hyatt (1997) developed a draft, hierarchical escapement classification key intended to be "unambiguous, easy to apply and reliable" for both field personnel and informed data users [@hyatt1997]. Hyatt noted that the key should be repeatable among users given the same information, useful both **before** surveys (planning) and **after** surveys (reporting/quality control), and applicable retrospectively to historic estimates stored in the regional database [@hyatt1997].
+Hyatt (1997) developed a draft, hierarchical escapement classification key intended to be "unambiguous, easy to apply and reliable" for both field personnel and informed data users [@hyatt1997]. Hyatt noted that the key should be repeatable among users given the same information, useful both **before** (planning) and **after** surveys (reporting/quality control), and applicable retrospectively to historic estimates stored in the regional database [@hyatt1997].
 
 Hyatt framed classification around three linked dimensions: (i) properties of the survey and analytical methods used, (ii) statistical properties of the resulting estimate (units, accuracy, and precision), and (iii) the level of documentation supporting interpretation [@hyatt1997]. The NuSEDS estimate-type table is derived from this foundation. This report does **not** reproduce Hyatt's original draft key verbatim; instead, it operationalizes Hyatt's intent as a property-first decision sequence that can be applied consistently to contemporary workflows.
 
@@ -66,11 +66,11 @@ type_summary <- data.frame(
     "+ / -"
   ),
   Interpretation = c(
-    "A direct count (or near-census) with high confidence that missed fish are negligible or well constrained.",
-    "A standardized estimation method producing absolute abundance with qualified accuracy and, where available, quantified precision.",
-    "A consistent, high-effort index that supports within-series comparisons; absolute abundance and uncertainty may not be fully quantified.",
+    "A direct count (or nearly complete census) with high confidence that missed fish are few or well constrained.",
+    "A standardized method estimating absolute abundance with qualified accuracy and, where available, quantified precision.",
+    "A consistent, high-effort index that supports within-series (among years for a particular population) comparisons; absolute abundance and uncertainty may not be fully quantified.",
     "A lower-effort index where comparability is more sensitive to timing, visibility, and coverage.",
-    "A numeric estimate where method information, documentation, or key qualifiers are insufficient to support stronger interpretation.",
+    "A numeric estimate where method information, documentation, or key qualifiers are insufficient to support strong interpretation.Accuracy and precision unknown.",
     "A non-numeric record indicating adults present or not detected with reliable species identification."
   ),
   check.names = FALSE
@@ -92,7 +92,7 @@ csas_kable(
 
 ## Why an update is needed
 
-In operational data sets, estimates assigned the same Type classification may differ in methods, assumptions, or data limitations. The historical guidance focused primarily on the reported table values and did not account for several recurring qualifiers that can affect interpretation. Key drivers include:
+In operational data sets, estimates assigned the same Type classification may differ in field methods, analytical assumptions, and/or data limitations. The historical guidance focused primarily on the reported table values and did not account for several recurring qualifiers that can affect interpretation. Key drivers include:
 
 - **Modern method coverage:** hydroacoustic imaging sonar approaches (e.g., DIDSON/ARIS) are increasingly used, but are not  clearly represented in table-only guidance [@holmes2005didson].
 - **Coverage/uptime and breach/bypass:** device outages, incomplete migration season coverage, and breach/bypass events can materially affect estimate quality and must therefore be documented [@see2021stateSpace].
@@ -106,7 +106,7 @@ This update is intended to support consistent Type assignment during data entry 
 
 In practice:
 
-- **Record methods explicitly** (enumeration and estimation). If methods are unknown, the guidance assigns a conservative Type 5 and records a method-unknown qualifier.
+- **Record methods explicitly** (field enumeration and population estimation). If methods are unknown, the guidance assigns a conservative Type 5 and records a method-unknown qualifier.
 - **Record key qualifiers** that affect interpretation (run-window coverage, uptime, breach/bypass context, timing/visibility constraints, and any infilling/interpolation method).
 - **Provide documentation evidence** sufficient for independent interpretation (e.g., field logs, methods/QA notes). Where evidence is missing, the guidance applies conservative downgrades to lower Type classifications.
 - **Report quantitative uncertainty when available** (e.g., CV or SE) to support qualified precision for Type 2 where appropriate (e.g., AUC and mark--recapture uncertainty reporting) [@english1992auc; @schwarz1993markRecapture; @hilborn1999periodic; @parken2003aucUncertainty].
