@@ -10,7 +10,7 @@ This guidance supports consistent estimate-type assignment during data entry and
 
 Estimate Types are not a binary "usable/unusable" label. Lower Types may still be fit for specific purposes (e.g., presence/absence, qualitative local context, or within-program indices), but they are not interchangeable with census-like or fully qualified absolute-abundance estimates.
 
-## Implications for downstream assessments
+## Implications for future assessments
 
 Estimate Types are often used as screening filters in downstream workflows (including WSP rapid status assessments) [@pestal2023stateSalmon; @dfo2024rapidStatus; @dfo2005wsp]. When Type assignment is inconsistent, threshold-based decisions can become sensitive to classification noise, particularly near cutoffs (e.g., around the Type 4 boundary). More broadly, measurement error in spawner abundance can distort stock--recruit inference and downstream decisions, reinforcing the value of recording uncertainty and detectability-related metadata where available [@waltersLudwig1981measurementError].
 
