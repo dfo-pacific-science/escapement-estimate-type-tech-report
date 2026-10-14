@@ -33,11 +33,7 @@ The toolkit guides users through the same decision sequence described in this re
 
 ### Authoritative decision-key logic and change requests
 
-The authoritative decision-key logic is maintained as a version-controlled YAML file in the toolkit repository:
-
-- <https://github.com/dfo-pacific-science/smn-escapement-estimates-toolkit/blob/main/matrix_key/structured_dichotomous_key.yaml>
-
-Requests to update the logic (new method terms, revised thresholds, clarified combination rules, etc.) should be submitted as a GitHub issue in that repository (preferred) or emailed to **FADSDataStewardship-GestiondesdonneesSFDA@dfo-mpo.gc.ca**.
+The authoritative decision-key logic is maintained as a version-controlled YAML file in the private toolkit repository on GitHub. Requests to update the logic (new method terms, revised thresholds, clarified combination rules, etc.) should be submitted as a GitHub issue by contributors or emailed to **FADSDataStewardship-GestiondesdonneesSFDA@dfo-mpo.gc.ca** for other users.
 
 ### What must be recorded
 
