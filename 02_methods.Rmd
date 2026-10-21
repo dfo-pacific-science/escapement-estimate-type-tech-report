@@ -2,7 +2,7 @@
 
 ## Design principles
 
-Hyatt (1997) intended estimate-type assignment to reflect (i) method properties, (ii) statistical properties, and (iii) documentation [@hyatt1997]. This report makes those dimensions explicit as decision gates, method-family checks, and final evidence requirements.
+Hyatt (1997) intended estimate-type assignment to reflect (i) method properties, (ii) statistical properties, and (iii) documentation [@hyatt1997]. This report makes those dimensions explicit as decision gates, method-group checks, and final evidence requirements.
 
 Practically, classification depends on **two method layers**:
 
@@ -51,8 +51,8 @@ The classification follows a property-first sequence:
 
 1. **Data format gate**: non-numeric presence/not-detected is classified as Type 6.
 2. **Method known gate**: if survey and analytical methods are not known, the estimate is provisionally Type 5 and flagged as method-unknown.
-3. **Method-family selection**: a primary method family scopes the applicable questions.
-4. **Method-family checks**: coverage, effort, visibility, timing, and related criteria drive conservative downgrades.
+3. **Method-group selection**: a primary method group scopes the applicable questions.
+4. **Method-group checks**: coverage, effort, visibility, timing, and related criteria drive conservative downgrades.
 5. **Final checks**: documentation and uncertainty evidence are evaluated; where evidence is missing, conservative downgrades apply.
 
 This structure reduces subjective table interpretation by turning common qualifiers into explicit questions and recorded qualifier codes.
@@ -61,11 +61,11 @@ This structure reduces subjective table interpretation by turning common qualifi
 
 An accompanying Escapement Estimate Type Toolkit (R Shiny application) applies the same decision logic described in this report and returns both (i) a **Final Type** (1--6) and (ii) qualifier codes explaining any conservative downgrades. The present report remains the authoritative guidance; the toolkit is a practical companion for user implementation.
 
-Within the toolkit, three intermediate labels are used for workflow transparency: **Provisional Type** (the type supported by the method-family path before final checks), **Max Type** (the upper bound imposed by triggered downgrade rules), and **Candidate Type** (the type implied after combining the enumeration and estimation steps before final documentation/precision checks). The report is concerned with the **Final Type** reported after all qualifier enforcement.
+Within the toolkit, three intermediate labels are used for workflow transparency: **Provisional Type** (the type supported by the method-group path before final checks), **Max Type** (the upper bound imposed by triggered downgrade rules), and **Candidate Type** (the type implied after combining the enumeration and estimation steps before final documentation/precision checks). The report is concerned with the **Final Type** reported after all qualifier enforcement.
 
 ## Guidance-to-implementation outlook
 
-Implementation should align with the guidance and method-family checks in this report. Priorities are to:
+Implementation should align with the guidance and method-group checks in this report. Priorities are to:
 
 - capture complete enumeration and estimation methods for each estimate;
 - apply mandatory qualifiers where applicable; and
@@ -81,7 +81,7 @@ Breach/bypass events at counting sites, and periods of missing observation due t
 
 ### Survey timing relative to run timing and bias
 
-For survey-based indices, the number of visits alone is not sufficient. Surveys must bracket the period when fish are present, and visibility constraints and observer effects can govern bias and comparability [@holtCox2008visual; @jones1998observer; @korman2002observerEfficiency; @hill1997aerialFrequency]. The updated guidance includes timing and visibility checks within method families where these factors are primary drivers of data quality and comparability.
+For survey-based indices, the number of visits alone is not sufficient. Surveys must bracket the period when fish are present, and visibility constraints and observer effects can govern bias and comparability [@holtCox2008visual; @jones1998observer; @korman2002observerEfficiency; @hill1997aerialFrequency]. The updated guidance includes timing and visibility checks within method groups where these factors are primary drivers of data quality and comparability.
 
 ### Combined-method estimates
 
@@ -106,7 +106,7 @@ recommended_meta <- data.frame(
   `Metadata element` = c(
     "Enumeration method (field)",
     "Estimation method (analysis)",
-    "Primary method family (FS/V/A/S/T/R/P/M)",
+    "Primary method group (FS/V/A/S/T/R/P/M)",
     "Run-window coverage evidence",
     "Device/site uptime evidence",
     "Breach/bypass context",
@@ -184,14 +184,14 @@ csas_kable(
   csas_colspec(4, width = "2.3cm")
 ```
 
-## Method families {#sec:method-families}
+## Method Groups {#sec:method-groups}
 
-A method family is a broad grouping of enumeration and estimation methods that share the same underlying approach or sampling design. Individual methods within a family may differ in implementation details while maintaining the same fundamental methodology. Families are ordered by best attainable Type to foreground the upper bound implied by the guidance; short codes are retained for toolkit use.
+A method group is assembly of enumeration and estimation methods that share the same underlying approach or sampling design. Individual methods within a group may differ in implementation details while maintaining the same fundamental methodology. Groups are ordered by best attainable Type to foreground the upper bound implied by the guidance; short codes are retained for toolkit use.
 
-```{r method-family-table}
-method_families <- data.frame(
+```{r method-group-table}
+method_groups <- data.frame(
   Code = c("FS", "V", "S", "T", "M", "A", "R", "P"),
-  `Method family` = c(
+  `Method group` = c(
     "Fixed site census / near-census (manual or validated counter tally)",
     "Visual ground or snorkel count",
     "Hydroacoustic sonar count (modelled)",
@@ -206,12 +206,12 @@ method_families <- data.frame(
 )
 
 csas_kable(
-  method_families,
+  method_groups,
   escape = TRUE,
   bold_header = FALSE,
   font_size = 9,
   align = c("c", "l", "c"),
-  caption = "Method families encoded in the property-first guidance and the best attainable Type before conservative downgrades."
+  caption = "Method groups encoded in the property-first guidance and the best attainable Type before conservative downgrades."
 ) |>
   csas_colspec(1, width = "2.4cm") |>
   csas_colspec(2, width = "9.6cm") |>
@@ -220,7 +220,7 @@ csas_kable(
 
 Type 1 retains an interpretive meaning---**absolute abundance from a census / near-census program**---rather than serving as a raw method label. In practice, only constrained fixed-site tallies can default to that upper bound under the current guidance.
 
-Estimation method labels such as AUC and peak-count do not replace the underlying survey family. Ground/snorkel series analysed with AUC can still support Type 2 under the `V` family, whereas aerial series analysed with AUC or peak-count remain capped by the `A` family ceiling (Type 3) unless a future validated exception is explicitly adopted.
+Estimation method labels such as AUC and peak-count do not replace the underlying survey type. Ground/snorkel series analysed with AUC can still support Type 2 under the `V` method group, whereas aerial series analysed with AUC or peak-count remain capped by the `A` method group ceiling (Type 3) unless a future validated exception is explicitly adopted.
 
 Default redd-count pathways are conservatively capped at Type 3 in this update. Any higher-confidence redd-derived absolute-abundance estimate should be treated as an explicit calibrated/model-based exception rather than as the default redd survey interpretation.
 
@@ -271,7 +271,7 @@ csas_kable(
 
 Detailed term-level crosswalks are provided in Appendix B (downgrade criteria) and Appendix C (enumeration and estimate methods). Appendix C also includes compact summaries that illustrate how legacy NuSEDS method terms align with the standardized parent categories used by the updated guidance. Equivalent lookup helpers are also exposed in the `metasalmon` package (`nuseds_enumeration_method_crosswalk` and `nuseds_estimate_method_crosswalk`) [@metasalmonPackage].
 
-Legacy values are not dropped; where a legacy term does not cleanly align to a current method family, it can be represented as inherited contextual guidance via ontology metadata (for example via `rdfs:comment`) while remaining traceable in source records.  
+Legacy values are not dropped; where a legacy term does not cleanly align to a current method group, it can be represented as inherited contextual guidance via ontology metadata (for example via `rdfs:comment`) while remaining traceable in source records.  
 
 ## NuSEDS data dictionary alignment (selected fields)
 
@@ -296,7 +296,7 @@ field_roles <- data.frame(
   `Field Name` = wanted_fields,
   `Role in updated guidance` = c(
     "Stores Type 1--6 estimate classification (including legacy non-Type labels where present)",
-    "Primary field method (enumeration) used to scope method-family checks",
+    "Primary field method (enumeration) used to scope method-group checks",
     "Primary analysis method (estimation), including combined or calibrated special cases",
     "Supports effort/visit thresholds (VISITS and related downgrades)",
     "Flags index (partial-coverage) estimates (relative-abundance context)",

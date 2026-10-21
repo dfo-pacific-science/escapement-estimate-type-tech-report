@@ -116,7 +116,7 @@ In practice:
 Relative to table-only interpretation, the updated guidance:
 
 1. **Separates enumeration from estimation.** Enumeration methods (field data collection) are recorded distinctly from estimation methods (analysis and modelling), so eligibility rules and qualifiers are applied transparently.
-2. **Defines method families.** The many enumeration and estimation methods observed in NuSEDS are grouped into a small set of method families to support consistent property-based checks (see the *Method families* section).
-3. **Implements a property-first decision sequence.** In plain language: confirm record type (numeric vs presence/not detected), confirm methods are known, select a method family, apply method-family checks, and then apply final documentation/uncertainty gates (see the *Property-first decision key* section).
+2. **Defines method groups** The many enumeration and estimation methods observed in NuSEDS are grouped into a small set of methods to support consistent property-based checks (see the *Method groups* section).
+3. **Implements a property-first decision sequence.** In plain language: confirm record type (numeric vs presence/not detected), confirm methods are known, select a method group, apply method-group checks, and then apply final documentation/uncertainty gates (see the *Property-first decision key* section).
 4. **Makes downgrade reasons explicit.** Conservative qualifiers (e.g., coverage/uptime, breach/bypass context, timing/visibility constraints, missing documentation, and quantified uncertainty when available) are recorded as explicit qualifier codes rather than implicit judgement.
 5. **Recommends minimal metadata for transparent Type assignment.** The guidance identifies a minimal set of metadata elements that must be captured so data users can understand how a Type was assigned (see the *Recommended metadata to record* section).

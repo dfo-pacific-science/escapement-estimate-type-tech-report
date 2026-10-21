@@ -73,4 +73,4 @@ This guidance summarizes estimate quality given recorded methods and evidence. I
 
 ## Governance and change control
 
-Because estimate Types are used as screening tools and can influence user inference, changes to the guidance, method families, thresholds, or qualifier rules should be versioned and reviewed. Updates should be accompanied by worked examples and regression/path tests in the Escapement Estimate Type Toolkit so behavior changes are deliberate and transparent.
+Because estimate Types are used as screening tools and can influence user inference, changes to the guidance, method groupings, thresholds, or qualifier rules should be versioned and reviewed. Updates should be accompanied by worked examples and regression/path tests in the Escapement Estimate Type Toolkit so behavior changes are deliberate and transparent.
