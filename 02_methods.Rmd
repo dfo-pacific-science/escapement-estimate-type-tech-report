@@ -89,15 +89,15 @@ Combined-method workflows (e.g., system-wide sonar with tributary visual apporti
 
 ### Calibration and historical revisions
 
-Where historical values have been recalibrated or revised, the updated guidance treats calibration as an analysis layer that should be captured in metadata (calibration source, diagnostics, and revision history) rather than as a new estimate Type. This means that the Type classification should generally remain unchanged. This supports interpretation of time-series values by downstream users, but this report does **not** prescribe automatic reclassification of existing records or a downstream assessment rule for calibrated series.
+Where historical values have been recalibrated or revised, the updated guidance treats calibration as an analysis layer that should be captured in metadata (calibration source, diagnostics, and revision history) rather than as a new estimate Type. This means that the Type classification should generally remain unchanged. This supports interpretation of time-series values by data users, but this report does **not** prescribe automatic reclassification of existing records or a subsequent assessment rule for calibrated series.
 
 ### Quantitative uncertainty
 
-Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part by qualified precision (variance evidence) [@hyatt1997]. Where available, reporting quantitative uncertainty (e.g., coefficient of variation [CV] and standard error [SE]) improves downstream interpretation and use. For example, AUC and peak-count methods have established approaches for incorporating uncertainty and evaluating sensitivity to survey timing and frequency [@english1992auc; @hilborn1999periodic; @hill1997aerialFrequency; @parken2003aucUncertainty; @millar2012auc]. The updated guidance includes a final precision/accuracy check and recommends capturing quantitative uncertainty when available.
+Hyatt (1997) distinguished higher-quality absolute-abundance estimates in part by qualified precision (variance evidence) [@hyatt1997]. Where available, reporting quantitative uncertainty (e.g., coefficient of variation [CV] and standard error [SE]) improves interpretation and use. For example, AUC and peak-count methods have established approaches for incorporating uncertainty and evaluating sensitivity to survey timing and frequency [@english1992auc; @hilborn1999periodic; @hill1997aerialFrequency; @parken2003aucUncertainty; @millar2012auc]. The updated guidance includes a final precision/accuracy check and recommends capturing quantitative uncertainty when available.
 
 ## Recommended metadata elements for NuSEDS {#sec:metadata}
 
-Most of the guidance can be expressed using existing NuSEDS fields, but several high-value metadata elements are needed to make estimate Types transparent and reproducible for downstream users.
+Most of the guidance can be expressed using existing NuSEDS fields, but several high-value metadata elements are needed to make estimate Types transparent and reproducible for data users.
 
 The table below lists guidance-level metadata elements and the typical qualifier codes they support; detailed software rollout and database-change logistics are treated as implementation work outside the scope of this technical report.
 
@@ -129,7 +129,7 @@ recommended_meta <- data.frame(
     "Distinguishes defensible correction from undocumented gap-filling.",
     "A core driver of bias and comparability for survey indices.",
     "Affects detectability and comparability (especially for visual methods).",
-    "Determines whether a downstream user can independently interpret the estimate.",
+    "Determines whether a data user can independently interpret the estimate.",
     "Supports qualified precision for Type 2 and more transparent uncertainty.",
     "Prevents concealment of a weaker component within an overall estimate.",
     "Supports interpretation of recalibrated time series.",
