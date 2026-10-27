@@ -201,7 +201,7 @@ method_groups <- data.frame(
     "Redd survey",
     "Electrofishing CPUE index"
   ),
-  `Best attainable type` = c("1", "2", "2", "2", "2", "3", "3", "3"),
+  `Best type` = c("1", "2", "2", "2", "2", "3", "3", "3"),
   check.names = FALSE
 )
 
