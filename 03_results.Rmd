@@ -31,6 +31,65 @@ For most users, the simplest way to apply this guidance is through the **Escapem
 
 The toolkit guides users through the same decision sequence described in this report and produces (i) a **Final Type** (1--6) and (ii) explicit qualifier/downgrade codes. The report remains the authoritative guidance; the toolkit is the operational companion. For operational entry, users should record the toolkit **Final Type** as the estimate-type classification result, store qualifier codes in `DOWNGRADE_CRITERIA`, and use `ESTIMATE_TYPE_CLASS_JUSTIFICATION` plus `ANALYSIS_EXPLANATION` to capture the rationale and any combined/calibrated method detail. `Max Type`, `Provisional Type`, and `Candidate Type` are toolkit-internal QA trace values and should not be treated as the official uploaded classification.
 
+### Classification Examples
+
+The following examples illustrate how annual estimates may be classified using the Salmon Escapement Classification Toolkit. These examples represent common scenarios but are not exhaustive. Alternative classification pathways may apply depending on the survey design, estimation methods, data quality, and available documentation.
+
+Example 1: Fixed-site census with a minor breach  
+
+This example is based on a hypothetical fixed-site counting facility that experienced a minor breach during the season. The breach and associated monitoring activities were well documented.
+
+1. Is this a presence/not-detected record? 
+   Answer is No.
+2. Are survey and analytically methods adequately identified? 
+   Answer is Yes
+3. Select your method group from the following: fixed site census (manual or electronic), visual ground/snorkel, aerial survey count, hydro acoustic sonar (modelled count), Trap model (non-spanning), redd survey, electrofishing CPUE index, mark-recapture modelled count.
+   Answer is fixed site census (manual or electronic).
+4. Is the site a constrained opening with negligible bypass paths?
+  Answer is Yes.
+5. Were bypass/breach risks monitored and verified negligible across the run?
+  Answer is No.
+6. Was run-window coverage and counting uptime >= 95%? Answer is Yes.
+7. Is this an automated electronic counter/video/resistivity system?
+  Answer is Yes.
+8. Quality Assurance of automated events documented (review >=10% or >=500 events)? Answer is Yes.
+9. Cross-section fully covered at opening?
+  Answer is Yes.
+10. Documentation present (SIL/SEN logs and methods/QA report)?
+  Answer is Yes.
+11. Estimation method = Fixed-Station Tally?
+  Answer is Yes.
+
+Final classification is Type-2 is absolute abundance (qualified).  
+
+
+Example 2: Visual survey program with moderate coverage
+
+This example is based on a hypothetical visual survey program with multiple surveys conducted throughout the spawning season. Survey timing and viewing conditions were good, but spatial coverage was incomplete.
+
+1. Is this a presence/not-detected record?
+  Answer is No.
+2. Are survey and analytically methods adequately identified? 
+   Answer is Yes.
+3. Select your method group from the following: fixed site census (manual or electronic), visual ground/snorkel, aerial survey count, hydro acoustic sonar (modelled count), Trap model (non-spanning), redd survey, electrofishing CPUE index, mark-recapture modelled count. Answer is visual ground/snorkel.
+4. Greater than 5 visits spanning rise, peak, and tail?
+   Answer is Yes.
+5. Reach coverage >= 80% across the season?
+  Answer is No.
+5. Severe visibility issues or reach coverage < 50%?
+  Answer is No.
+  
+Final classification is Type-3 or Relative abundance (high resolution).
+
+Example 3: Presence of a non-target species in a test fishery
+
+This example is based on a hypothetical observation of a non-target salmon species recorded during a test fishery in a river.
+
+1. Is this a presence/not-detected record?
+  Answer is Yes
+
+Final classification is Type-6 or Presence/Not detected. 
+
 ### Authoritative decision-key logic and change requests
 
 The authoritative decision-key logic is maintained as a version-controlled YAML file in the private toolkit repository on GitHub. Requests to update the logic (new method terms, revised thresholds, clarified combination rules, etc.) should be submitted as a GitHub issue by contributors or emailed to **FADSDataStewardship-GestiondesdonneesSFDA@dfo-mpo.gc.ca** for other users.
