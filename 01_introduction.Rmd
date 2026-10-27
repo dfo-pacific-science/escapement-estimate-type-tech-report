@@ -13,7 +13,7 @@ if (isTRUE(params$draft)) {
 
 The New Salmon Escapement Database System (NuSEDS) stores salmon spawner survey records, spawner abundance estimates, and linkages among these for Pacific Region salmon populations [@openCanadaNuSEDS]. In NuSEDS, the six estimate categories (Types 1--6) represent a hierarchical data quality and method classification that provides a shorthand indicator of estimation quality and suitability for purposes such as stock assessment, fishery management and Wild Salmon Policy evaluations. Type assignment incorporates multiple factors related to estimate reliability, including survey design, data completeness and survey coverage, methodological considerations and other supporting documentation.
 
-The current guidance used to inform Type assignment is based on the classification key developed by Hyatt (1997). Since its development, DFO escapement enumeration programs and assessment approaches have evolved, while the original table-based guidance has remained unchanged and provides limited direction on how to evaluate common data limitations. In practice, this has contributed to differences in how Type classifications are applied across programs and areas, particularly when addressing factors such as incomplete coverage, uncertain methods, and other recurring real-world complications.
+The current guidance used to inform Type assignment is based on the classification key developed by Hyatt (Appendix E). Since its development, DFO escapement enumeration programs and assessment approaches have evolved, while the original table-based guidance has remained unchanged and provides limited direction on how to evaluate common data limitations. In practice, this has contributed to differences in how Type classifications are applied across programs and areas, particularly when addressing factors such as incomplete coverage, uncertain methods, and other recurring real-world complications.
 
 This update was prompted by inconsistent application among operational teams, which can lead to inconsistent reporting in NuSEDS and increases the risk of subsequent misinterpretation---especially near screening thresholds used in rapid status workflows [@pestal2023stateSalmon; @dfo2024rapidStatus].
 
@@ -34,11 +34,11 @@ We do not:
 - evaluate biological status of salmon populations, or
 - propose an algorithm to replace program-specific expert judgement.
 
-## Hyatt (1997) intent and foundation
+## Hyatt's foundation
 
-Hyatt (1997) developed a draft, hierarchical escapement classification key intended to be "unambiguous, easy to apply and reliable" for both field personnel and informed data users [@hyatt1997]. Hyatt noted that the key should be repeatable among users given the same information, useful both **before** (planning) and **after** surveys (reporting/quality control), and applicable retrospectively to historic estimates stored in the regional database [@hyatt1997].
+Hyatt (Appendix E) developed a draft, hierarchical escapement classification key intended to be "unambiguous, easy to apply and reliable" for both field personnel and informed data users. Hyatt noted that the key should be repeatable among users given the same information, useful both **before** (planning) and **after** surveys (reporting/quality control), and applicable retrospectively to historic estimates stored in the regional database.
 
-Hyatt framed classification around three linked dimensions: (i) properties of the survey and analytical methods used, (ii) statistical properties of the resulting estimate (units, accuracy, and precision), and (iii) the level of documentation supporting interpretation [@hyatt1997]. The NuSEDS estimate-type table is derived from this foundation. This report does **not** reproduce Hyatt's original draft key verbatim; instead, it operationalizes Hyatt's intent as a property-first decision sequence that can be applied consistently to contemporary workflows.
+Hyatt framed classification around three linked dimensions: (i) properties of the survey and analytical methods used, (ii) statistical properties of the resulting estimate (units, accuracy, and precision), and (iii) the level of documentation supporting interpretation. The NuSEDS estimate-type table is derived from this foundation. This report includes an excerpt from Hyatt's unpublished original draft (Appendix E). The intent of this report is to operationalize Hyatt's draft guidance as a property-first decision sequence that can be applied consistently to contemporary workflows.
 
 ## Estimate type summary (Types 1--6)
 
@@ -82,7 +82,7 @@ csas_kable(
   bold_header = FALSE,
   font_size = 8,
   align = c("c", "l", "l", "l"),
-  caption = "High-level summary of estimate Types 1--6 for orientation. Revised from Hyatt (1997)"
+  caption = "High-level summary of estimate Types 1--6 for orientation. Revised from Hyatt's draft guidance (Appendix E)"
 ) |>
   csas_colspec(1, width = "3.4.0cm") |>
   csas_colspec(2, width = "4.0cm") |>

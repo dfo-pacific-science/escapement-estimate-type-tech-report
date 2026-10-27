@@ -1,0 +1,694 @@
+`r if(knitr:::is_latex_output()) '% begin csasdown appendix'`
+`r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
+
+`r if (knitr::is_latex_output()) "\\\\clearpage"`
+
+# Appendix A: Classification rule summary {#app:classification-rule-summary}
+
+```{r classification-rule-summary-table}
+classification_rule_summary <- data.frame(
+  `Rule stage` = c(
+    "1. Data format gate",
+    "2. Method known gate",
+    "3. Method group assignment",
+    "4. Group-specific checks (counting systems)",
+    "5. Group-specific checks (survey indices)",
+    "6. Combined-method integration rule",
+    "7. Documentation gate",
+    "8. Precision/accuracy gate",
+    "9. Final assignment"
+  ),
+  `Decision / trigger` = c(
+    "Record is non-numeric (presence or not-detected)",
+    "Enumeration and/or estimation method not identified",
+    "Primary method group selected (FS, V, A, S, T, R, P, M)",
+    "Coverage, uptime, bypass/breach, cross-section, and related counting-system checks fail or are incomplete",
+    "Visit effort, timing relative to run, visibility, reach coverage, or related survey checks fail or are incomplete",
+    "Multiple components contribute to final estimate",
+    "Evidence package insufficient for independent interpretation",
+    "Candidate Type requires uncertainty/accuracy evidence that is missing or weak",
+    "All gates evaluated"
+  ),
+  `Classification effect` = c(
+    "Assign Type 6",
+    "Assign Provisional Type 5",
+    "Select applicable rule path",
+    "Apply conservative downgrades within selected path",
+    "Apply conservative downgrades within selected path",
+    "Final Type cannot exceed weakest component unless integration method supports stronger classification",
+    "Apply conservative downgrade",
+    "Apply conservative downgrade",
+    "Return Final Type plus explicit qualifier codes"
+  ),
+  `Primary qualifier code(s)` = c(
+    "(none)",
+    "METHOD_UNKNOWN",
+    "(path selection step)",
+    "RUN_COVERAGE, UPTIME, BREACH_BYPASS, XSEC_COVERAGE, DEVICE_CONFIG",
+    "VISITS, TIMING, VISIBILITY, REACH_COVERAGE, EFF_STD, DETECTABILITY",
+    "INFILL_METHOD (as relevant), component-level qualifiers",
+    "DOC",
+    "PRECISION_ACCURACY",
+    "All triggered qualifiers retained as audit trail"
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  classification_rule_summary,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "l", "l", "l"),
+  caption = "Single-table summary of the NuSEDS estimate-type classification rules used for forward implementation."
+) |>
+  csas_colspec(1, width = "3.6cm") |>
+  csas_colspec(2, width = "5.2cm") |>
+  csas_colspec(3, width = "3.4cm") |>
+  csas_colspec(4, width = "3.6cm")
+```
+
+`r if (knitr::is_latex_output()) "\\\\clearpage"`
+
+# Appendix B: Downgrade criteria codes {#app:downgrade-codes}
+
+The qualifier-code table is formatted for high-density reference use. In PDF output it is rendered on a landscape page to improve line wrapping and scan ability; HTML and DOCX outputs retain standard page flow.
+
+`r if (knitr::is_latex_output()) "\\\\begin{landscape}"`
+
+```{r downgrade-codes}
+downgrade_code_terms <- c(
+  "RunCoverage",
+  "NumberOfVisits",
+  "BreachBypass",
+  "Uptime",
+  "ReviewQA",
+  "Visibility",
+  "ReachCoverage",
+  "Timing",
+  "EffortStandardization",
+  "CrossSectionCoverage",
+  "Classification",
+  "TrapEfficiency",
+  "Detectability",
+  "DeviceConfiguration",
+  "EnvironmentalConditions",
+  "MarkRecaptureAssumptions",
+  "InfillMethod",
+  "Documentation",
+  "PrecisionAccuracy",
+  "MethodUnknown"
+)
+
+downgrade_codes <- data.frame(
+  Code = c(
+    "RUN_COVERAGE",
+    "VISITS",
+    "BREACH_BYPASS",
+    "UPTIME",
+    "REVIEW_QA",
+    "VISIBILITY",
+    "REACH_COVERAGE",
+    "TIMING",
+    "EFF_STD",
+    "XSEC_COVERAGE",
+    "CLASSIFICATION",
+    "TRAP_EFF",
+    "DETECTABILITY",
+    "DEVICE_CONFIG",
+    "ENV_COND",
+    "MR_ASSUMP",
+    "INFILL_METHOD",
+    "DOC",
+    "PRECISION_ACCURACY",
+    "METHOD_UNKNOWN"
+  ),
+  Description = c(
+    "Run window coverage gaps (e.g., <95% of season days).",
+    "Too few site visits for the claimed precision tier.",
+    "Bypass or breach risk at a counting site.",
+    "Device outages or unobserved intervals (e.g., uptime <95%).",
+    "Insufficient review of automated events.",
+    "Poor visibility or lighting limits detection.",
+    "Intended reaches or segments not surveyed.",
+    "Visits not aligned with migration peak or plateau.",
+    "Inconsistent effort standardization.",
+    "Partial cross-section coverage.",
+    "Species or target classification error.",
+    "Unmeasured or uncertain trap efficiency.",
+    "Redd or carcass detectability bias.",
+    "Device settings not documented or unstable.",
+    "Environmental conditions bias detection.",
+    "Mark-recapture assumption violations.",
+    "Interpolation or infilling used; defensibility must be documented.",
+    "Documentation or evidence missing.",
+    "Precision or accuracy weaker than candidate Type.",
+    "Survey or analysis method not identified."
+  ),
+  `Ontology term` = paste0("gcdfo:", downgrade_code_terms),
+  `Ontology IRI` = paste0("https://w3id.org/gcdfo/salmon#", downgrade_code_terms),
+  check.names = FALSE
+)
+
+csas_kable(
+  downgrade_codes,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "l", "l", "l"),
+  caption = "Downgrade criteria codes used by the classification key, with linkages to published DFO Salmon Ontology terms."
+) |>
+  csas_colspec(1, width = "2.8cm") |>
+  csas_colspec(2, width = "8.2cm") |>
+  csas_colspec(3, width = "2.6cm") |>
+  csas_colspec(4, width = "6.0cm")
+```
+
+`r if (knitr::is_latex_output()) "\\\\end{landscape}"`
+
+
+`r if (knitr::is_latex_output()) "\\\\clearpage"`
+
+# Appendix C: NuSEDS data dictionary crosswalk {#app:nuseds-crosswalk}
+
+This appendix documents how the updated guidance relates to NuSEDS fields and controlled vocabularies (see `docs/context/Data_Dictionary_NuSEDS_EN.csv`). Where a specific ontology mapping exists, the `Ontology term` entry links directly to the corresponding WIDOCO term page.
+
+## C.1 Enumeration method values (ENUMERATION_METHODS)
+
+```{r nuseds-enum-crosswalk}
+dd_path <- file.path("docs", "context", "Data_Dictionary_NuSEDS_EN.csv")
+dd_available <- file.exists(dd_path)
+
+if (!dd_available) {
+  dd <- NULL
+  knitr::asis_output(
+    "NuSEDS data dictionary CSV not present in this repo. Add it at `docs/context/Data_Dictionary_NuSEDS_EN.csv` to generate the crosswalk tables in Appendix C."
+  )
+} else {
+  dd <- read.csv(
+    dd_path,
+    stringsAsFactors = FALSE,
+    check.names = FALSE,
+    fileEncoding = "latin1"
+  )
+
+  enum_def <- dd[["Field Definition"]][dd[["Field Name"]] == "ENUMERATION_METHODS"]
+  enum_vals <- trimws(strsplit(sub(".*Values are:", "", enum_def), ",")[[1]])
+  enum_vals <- sub("\\.$", "", enum_vals)
+
+enum_crosswalk <- data.frame(
+  `NuSEDS ENUMERATION_METHODS value` = enum_vals,
+  `Suggested method group` = NA_character_,
+  `Ontology term` = NA_character_,
+  Notes = "",
+  check.names = FALSE
+)
+
+enum_crosswalk[["Suggested method group"]][enum_crosswalk[[1]] %in% c(
+  "Bank Walk", "Stream Walk", "Walk", "Boat", "Float", "Snorkel", "Strip Counts",
+  "Spot Checks", "Dead Pitch", "Peak Live and Dead Count"
+)] <- "V"
+enum_crosswalk[["Suggested method group"]][enum_crosswalk[[1]] %in% c(
+  "Fence", "Electronic Counters", "Enumeration by Hatchery", "Broodstock Removal"
+)] <- "FS"
+enum_crosswalk[["Suggested method group"]][enum_crosswalk[[1]] %in% c(
+  "Fixed Wing Aircraft", "Helicopter"
+)] <- "A"
+enum_crosswalk[["Suggested method group"]][enum_crosswalk[[1]] %in% c(
+  "Hydroacoustic Station"
+)] <- "S"
+enum_crosswalk[["Suggested method group"]][enum_crosswalk[[1]] %in% c(
+  "Trap"
+)] <- "T"
+enum_crosswalk[["Suggested method group"]][enum_crosswalk[[1]] %in% c(
+  "Redd Counts"
+)] <- "R"
+enum_crosswalk[["Suggested method group"]][enum_crosswalk[[1]] %in% c(
+  "Electroshocking"
+)] <- "P"
+enum_crosswalk[["Suggested method group"]][enum_crosswalk[[1]] %in% c(
+  "Tag Recovery"
+)] <- "M"
+enum_crosswalk[["Suggested method group"]][enum_crosswalk[[1]] %in% c(
+  "Based on Angling Catch"
+)] <- "P"
+enum_crosswalk[["Suggested method group"]][enum_crosswalk[[1]] %in% c(
+  "Biologist/Working Group", "Other"
+)] <- "unknown"
+
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c(
+  "Bank Walk", "Stream Walk", "Walk", "Boat", "Float", "Strip Counts", "Spot Checks", "Dead Pitch", "Peak Live and Dead Count"
+)] <- "gcdfo:VisualGroundCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Snorkel", "Snorkel Swim")] <- "gcdfo:VisualSnorkelCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c(
+  "Fence", "Enumeration by Hatchery", "Broodstock Removal"
+)] <- "gcdfo:FixedSiteCensusManual"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Electronic Counters")] <- "gcdfo:FixedSiteCensusElectronic"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Fixed Wing Aircraft", "Helicopter")] <- "gcdfo:AerialSurveyCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Hydroacoustic Station")] <- "gcdfo:HydroacousticSonarCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Trap")] <- "gcdfo:TrapCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Redd Counts")] <- "gcdfo:ReddCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Electroshocking")] <- "gcdfo:ElectrofishingCount"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Tag Recovery")] <- "gcdfo:MarkRecaptureFieldProgram"
+enum_crosswalk[["Ontology term"]][enum_crosswalk[[1]] %in% c("Based on Angling Catch")] <- "gcdfo:EnumerationMethod"
+
+enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Peak Live and Dead Count"] <-
+  "Value is analysis-like; prefer capturing peak/cumulative variants under ESTIMATE_METHOD."
+enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Dead Pitch"] <-
+  "Carcass-based visual surveys; often paired with peak/cumulative dead estimation methods."
+enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Trap"] <-
+  "If trap is non-spanning or efficiency-corrected, use T; fully constraining traps may behave more like fixed-site counting."
+enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Based on Angling Catch"] <-
+  "Catch-based index; treat as a CPUE-style index unless more detail is provided; ontology linkage is provisional at scheme level."
+enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Biologist/Working Group"] <-
+  "Not a method; treat as method-unknown unless a specific field/analysis method is documented elsewhere."
+enum_crosswalk[["Notes"]][enum_crosswalk[[1]] == "Other"] <-
+  "Treat as method-unknown unless a specific field/analysis method is documented elsewhere."
+
+enum_crosswalk_display <- data.frame(
+  `NuSEDS value` = enum_crosswalk[["NuSEDS ENUMERATION_METHODS value"]],
+  Group = enum_crosswalk[["Suggested method group"]],
+  `Ontology term` = widoco_term_link(enum_crosswalk[["Ontology term"]]),
+  Notes = enum_crosswalk[["Notes"]],
+  check.names = FALSE
+)
+
+csas_kable(
+  enum_crosswalk_display,
+  escape = FALSE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "c", "l", "l"),
+  caption = "Suggested mapping from NuSEDS enumeration method values to the updated key method groupings (FS, V, A, S, T, R, P, M). Where an ontology mapping exists, the ontology-term entry links to the corresponding WIDOCO term page."
+) |>
+  csas_colspec(1, width = "4.2cm") |>
+  csas_colspec(2, width = "1.2cm") |>
+  csas_colspec(3, width = "3.0cm") |>
+  csas_colspec(4, width = "8.0cm")
+}
+```
+
+
+```{r nuseds-enum-sankey, fig.cap="Sankey-style summary of how legacy NuSEDS enumeration-method terms converge to canonical parent terms used by the updated guidance.", fig.height=5.4, fig.width=6.0}
+if (exists("enum_crosswalk")) {
+  sank <- enum_crosswalk[, c("NuSEDS ENUMERATION_METHODS value", "Ontology term")]
+  names(sank) <- c("source", "target")
+  sank$target[is.na(sank$target) | sank$target == ""] <- "(unmapped / method-unknown)"
+
+  # Order to reduce line crossings: group sources by target.
+  sank <- sank[order(sank$target, sank$source), ]
+
+  plot_sankey_like <- function(df, main = NULL) {
+    src <- df$source
+    tgt <- df$target
+
+    targets <- unique(tgt)
+    sources <- src
+
+    # y-positions
+    y_src <- seq(0.95, 0.05, length.out = length(sources))
+    y_tgt <- seq(0.95, 0.05, length.out = length(targets))
+
+    x1 <- 0.26
+    x2 <- 0.74
+
+    par(mar = c(0.6, 5.2, 2.0, 5.2), xpd = NA)
+    plot.new()
+    plot.window(xlim = c(0, 1), ylim = c(0, 1))
+
+    # Draw links
+    for (i in seq_along(sources)) {
+      y1 <- y_src[i]
+      y2 <- y_tgt[match(tgt[i], targets)]
+      xspline(
+        x = c(x1, 0.45, 0.55, x2),
+        y = c(y1, y1, y2, y2),
+        shape = 1,
+        border = grDevices::adjustcolor("#2C7FB8", alpha.f = 0.35),
+        lwd = 1
+      )
+    }
+
+    # Draw nodes + labels
+    text(x1 - 0.02, y_src, sources, adj = c(1, 0.5), cex = 0.62, xpd = NA)
+    text(x2 + 0.02, y_tgt, targets, adj = c(0, 0.5), cex = 0.68, xpd = NA)
+
+    if (!is.null(main)) {
+      title(main = main, cex.main = 0.95)
+    }
+  }
+
+  plot_sankey_like(sank, main = "Enumeration method terms → canonical parent terms")
+} else {
+  plot.new()
+  text(0.5, 0.5, "NuSEDS data dictionary CSV not available; sankey figure not generated.")
+}
+```
+
+## C.2 Estimate method values (ESTIMATE_METHOD)
+
+`r if (knitr::is_latex_output()) "\\\\begin{landscape}"`
+
+```{r nuseds-estimate-method-crosswalk}
+if (!exists("dd_available") || !isTRUE(dd_available)) {
+  knitr::asis_output(
+    "NuSEDS data dictionary CSV not present in this repo. Add it at `docs/context/Data_Dictionary_NuSEDS_EN.csv` to generate the crosswalk tables in Appendix C."
+  )
+} else {
+est_def <- dd[["Field Definition"]][dd[["Field Name"]] == "ESTIMATE_METHOD"]
+est_lines <- unlist(strsplit(est_def, "\\n"))
+est_lines <- trimws(est_lines)
+est_lines <- est_lines[est_lines != "" & !grepl("There are several standard methods", est_lines)]
+est_names <- trimws(sub(" - .*?$", "", est_lines))
+
+est_crosswalk <- data.frame(
+  `NuSEDS ESTIMATE_METHOD value` = est_names,
+  `Guidance interpretation` = NA_character_,
+  `Suggested method group` = NA_character_,
+  `Ontology term` = NA_character_,
+  Notes = "",
+  check.names = FALSE
+)
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
+  "Fixed Site Census", "Resistivity Counter", "Video Counter"
+)] <- "Fixed-station tally / counter mode (often stored as estimate method)"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c(
+  "Fixed Site Census", "Resistivity Counter", "Video Counter"
+)] <- "FS"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
+  "Sonar-ARIS", "Sonar-DIDSON"
+)] <- "Hydroacoustic modelling pipeline"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c(
+  "Sonar-ARIS", "Sonar-DIDSON"
+)] <- "S"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
+  "Mark & Recapture: Petersen",
+  "Mark & Recapture: Jolly-Seber",
+  "Mark & Recapture: Bayesian",
+  "Mark & Recapture: Open Model"
+)] <- "Mark-recapture estimation"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c(
+  "Mark & Recapture: Petersen",
+  "Mark & Recapture: Jolly-Seber",
+  "Mark & Recapture: Bayesian",
+  "Mark & Recapture: Open Model"
+)] <- "M"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
+  "Area Under the Curve",
+  "Peak Live + Dead",
+  "Peak Live + Cumulative Dead"
+)] <- "Survey-series estimation (AUC/peak variants; platform-specific ceiling depends on underlying survey)"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c(
+  "Area Under the Curve",
+  "Peak Live + Dead",
+  "Peak Live + Cumulative Dead"
+)] <- "depends"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
+  "(Peak Live+Cum Dead)*Expansion",
+  "Peak Live * Expansion"
+)] <- "Survey-series expansion (inherits the underlying survey type and any weaker component)"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c(
+  "(Peak Live+Cum Dead)*Expansion",
+  "Peak Live * Expansion"
+)] <- "depends"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c("Redd Count")] <-
+  "Redd-based estimation (default conservative survey/index pathway unless separately calibrated/modelled)"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c("Redd Count")] <- "R"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c("Cumulative CPUE")] <-
+  "CPUE index"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c("Cumulative CPUE")] <- "P"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
+  "Addition/Subtraction",
+  "Multiplication/Division",
+  "Lake Expansion"
+)] <- "Math/expansion operations (depends on base method)"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c(
+  "Addition/Subtraction",
+  "Multiplication/Division",
+  "Lake Expansion"
+)] <- "depends"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c("Calibrated Time Series")] <-
+  "Calibrated time series (requires calibration source + diagnostics)"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c("Calibrated Time Series")] <- "depends"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c("Combined Methods")] <-
+  "Combined-method workflow (requires explicit component listing)"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c("Combined Methods")] <- "depends"
+
+est_crosswalk[["Guidance interpretation"]][est_crosswalk[[1]] %in% c(
+  "Insufficient Information",
+  "Unknown Estimate Method",
+  "Other Estimate Method",
+  "Not Applicable",
+  "Expert Opinion",
+  "Cumulative New"
+)] <- "Method unknown/administrative label"
+est_crosswalk[["Suggested method group"]][est_crosswalk[[1]] %in% c(
+  "Insufficient Information",
+  "Unknown Estimate Method",
+  "Other Estimate Method",
+  "Not Applicable",
+  "Expert Opinion",
+  "Cumulative New"
+)] <- "unknown"
+
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Fixed Site Census", "Resistivity Counter", "Video Counter"
+)] <- "gcdfo:FixedStationTally"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Sonar-ARIS", "Sonar-DIDSON"
+)] <- "gcdfo:HydroacousticModelling"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Mark & Recapture: Petersen",
+  "Mark & Recapture: Jolly-Seber",
+  "Mark & Recapture: Bayesian",
+  "Mark & Recapture: Open Model"
+)] <- "gcdfo:MarkRecaptureAnalysis"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Area Under the Curve"
+)] <- "gcdfo:AreaUnderTheCurve"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Peak Live + Dead", "Peak Live + Cumulative Dead", "Cumulative New"
+)] <- "gcdfo:PeakCountAnalysis"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "(Peak Live+Cum Dead)*Expansion", "Peak Live * Expansion", "Addition/Subtraction", "Multiplication/Division", "Lake Expansion"
+)] <- "gcdfo:ExpansionMathematicalOperations"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Redd Count"
+)] <- "gcdfo:ReddExpansionAnalysis"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Calibrated Time Series"
+)] <- "gcdfo:CalibratedTimeSeries"
+est_crosswalk[["Ontology term"]][est_crosswalk[[1]] %in% c(
+  "Combined Methods", "Cumulative CPUE"
+)] <- "gcdfo:EstimateMethod"
+
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Resistivity Counter"] <-
+  "Treat as a fixed-station tally when the installation functions as the primary constrained-opening counter. Record species/event attribution, validation, detection-correction, and bypass/coverage/QA context in the supporting explanation fields; resistivity remains in the FS pathway under the current guidance."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Video Counter"] <-
+  "Treat as a fixed-station tally within FS; ensure QA review rate, attribution logic (if used), and uptime/coverage metadata are captured."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Area Under the Curve"] <-
+  "Treat AUC as an analysis label applied after survey-type selection: ground/snorkel series follow the V-type pathway, while aerial series remain capped by the A-type ceiling (Type 3) under the current conservative guidance."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] %in% c("Peak Live + Dead", "Peak Live + Cumulative Dead")] <-
+  "Peak-count summaries inherit the underlying survey type. Aerial-derived peak summaries remain capped by the A-type ceiling unless a future explicit exception is adopted."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] %in% c("(Peak Live+Cum Dead)*Expansion", "Peak Live * Expansion")] <-
+  "Expansion does not replace the underlying survey type; record the base method and any weaker component explicitly."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Calibrated Time Series"] <-
+  "Record calibration source years, diagnostics, and revision history."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Combined Methods"] <-
+  "Decompose into components (e.g., sonar + visual apportionment; fence + visual during breach) and apply conservative classification."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Redd Count"] <-
+  "Default redd-count interpretation is conservatively capped at Type 3. Any higher-confidence redd-derived absolute-abundance estimate should be handled only as an explicit calibrated/model-based exception with supporting validation and documentation."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Cumulative New"] <-
+  "Legacy dictionary label with no method definition in the source description; mapped to PeakCountAnalysis pending local confirmation."
+est_crosswalk[["Notes"]][est_crosswalk[[1]] == "Cumulative CPUE"] <-
+  "No specific CPUE estimate concept is currently defined in this scheme; linked at EstimateMethod scheme level."
+
+# Fail-safe: prevent blank crosswalk rows if new dictionary values appear.
+unmapped_est <- is.na(est_crosswalk[["Guidance interpretation"]]) |
+  is.na(est_crosswalk[["Suggested method group"]])
+if (any(unmapped_est)) {
+  est_crosswalk[["Guidance interpretation"]][unmapped_est] <-
+    "Unmapped dictionary value (conservative handling)"
+  est_crosswalk[["Suggested method group"]][unmapped_est] <- "unknown"
+  est_crosswalk[["Notes"]][unmapped_est & est_crosswalk[["Notes"]] == ""] <-
+    "New value not yet mapped in this report; treat as method unknown until mapping is reviewed."
+}
+
+est_crosswalk_display <- data.frame(
+  `NuSEDS value` = est_crosswalk[["NuSEDS ESTIMATE_METHOD value"]],
+  Interpretation = est_crosswalk[["Guidance interpretation"]],
+  Group = est_crosswalk[["Suggested method group"]],
+  `Ontology term` = widoco_term_link(est_crosswalk[["Ontology term"]]),
+  Notes = est_crosswalk[["Notes"]],
+  check.names = FALSE
+)
+
+csas_kable(
+  est_crosswalk_display,
+  escape = FALSE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "l", "c", "l", "l"),
+  caption = "Suggested interpretation of NuSEDS estimate method values under the updated guidance. Where an ontology mapping exists, the ontology-term entry links to the corresponding WIDOCO term page; where 'depends' appears, additional method metadata are required to apply the key cleanly."
+) |>
+  csas_colspec(1, width = "3.8cm") |>
+  csas_colspec(2, width = "5.0cm") |>
+  csas_colspec(3, width = "1.2cm") |>
+  csas_colspec(4, width = "2.8cm") |>
+  csas_colspec(5, width = "6.8cm")
+}
+```
+
+`r if (knitr::is_latex_output()) "\\\\end{landscape}"`
+
+
+```{r nuseds-estimate-sankey, fig.cap="Sankey-style summary of how legacy NuSEDS estimate-method terms converge to canonical parent terms used by the updated guidance.", fig.height=5.8, fig.width=6.0}
+if (exists("est_crosswalk")) {
+  sank <- est_crosswalk[, c("NuSEDS ESTIMATE_METHOD value", "Ontology term")]
+  names(sank) <- c("source", "target")
+  sank$target[is.na(sank$target) | sank$target == ""] <- "(unmapped / method-unknown)"
+
+  sank <- sank[order(sank$target, sank$source), ]
+
+  plot_sankey_like <- function(df, main = NULL) {
+    src <- df$source
+    tgt <- df$target
+
+    targets <- unique(tgt)
+    sources <- src
+
+    y_src <- seq(0.95, 0.05, length.out = length(sources))
+    y_tgt <- seq(0.95, 0.05, length.out = length(targets))
+
+    x1 <- 0.26
+    x2 <- 0.74
+
+    par(mar = c(0.6, 5.2, 2.0, 5.2), xpd = NA)
+    plot.new()
+    plot.window(xlim = c(0, 1), ylim = c(0, 1))
+
+    for (i in seq_along(sources)) {
+      y1 <- y_src[i]
+      y2 <- y_tgt[match(tgt[i], targets)]
+      xspline(
+        x = c(x1, 0.45, 0.55, x2),
+        y = c(y1, y1, y2, y2),
+        shape = 1,
+        border = grDevices::adjustcolor("#2C7FB8", alpha.f = 0.35),
+        lwd = 1
+      )
+    }
+
+    text(x1 - 0.02, y_src, sources, adj = c(1, 0.5), cex = 0.60, xpd = NA)
+    text(x2 + 0.02, y_tgt, targets, adj = c(0, 0.5), cex = 0.66, xpd = NA)
+
+    if (!is.null(main)) {
+      title(main = main, cex.main = 0.95)
+    }
+  }
+
+  plot_sankey_like(sank, main = "Estimate method terms → canonical parent terms")
+} else {
+  plot.new()
+  text(0.5, 0.5, "NuSEDS data dictionary CSV not available; sankey figure not generated.")
+}
+```
+
+## C.3 Type-to-accuracy/precision lookup used in the Escapement Estimate Type Toolkit
+
+The Escapement Estimate Type Toolkit includes a compact lookup that can be used when populating legacy-style accuracy/precision class fields alongside estimate Type. This is a compatibility aid for workflows that still carry those legacy labels; it does **not** change the Type assignment itself.
+
+```{r type-accuracy-precision-lookup}
+type_lookup <- data.frame(
+  `Estimate Type` = c(1, 2, 3, 4, 5, 6),
+  `accuracy_class` = c(
+    "actual_very_high",
+    "actual_or_assigned_high",
+    "assigned_range_med_high",
+    "unknown_assumed_constant",
+    "unknown_assumed_highly_variable",
+    "medium_to_high"
+  ),
+  `precision_class` = c(
+    "plus_minus_zero",
+    "high_to_moderate",
+    "assigned_med_high",
+    "unknown_assumed_constant",
+    "unknown_assumed_highly_variable",
+    "unknown"
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  type_lookup,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("c", "l", "l"),
+  caption = "Escapement Estimate Type Toolkit lookup from estimate Type to legacy-style accuracy/precision class labels, included as a compatibility aid for workflows that still populate those fields."
+) |>
+  csas_colspec(1, width = "2.0cm") |>
+  csas_colspec(2, width = "6.5cm") |>
+  csas_colspec(3, width = "6.5cm")
+```
+
+# Appendix D: NuSEDS method-term summary provenance (SEN exploratory) {#app:nuseds-method-summary}
+
+This appendix documents the exploratory method-vocabulary evidence used to build the crosswalk logic in Appendix C and to interpret the frequency snapshot shown in Figure 2 of the main text.
+
+## D.1 Source and processing notes
+
+The method-term review is intended as implementation context, not as a frozen inventory of future NuSEDS values. The same source and processing notes applied to the Figure 2 frequency summary and to the Appendix C crosswalk review.
+
+```{r method-summary-provenance}
+method_summary_provenance <- data.frame(
+  `Item` = c(
+    "Source extract",
+    "Fields reviewed",
+    "Year filter",
+    "Term handling",
+    "Primary outputs"
+  ),
+  `Details` = c(
+    "All-area SEN method extract assembled for this report.",
+    "`ENUMERATION_METHODS` and `ESTIMATE_METHOD`.",
+    "Records with `ANALYSIS_YR` between 1990 and 2025.",
+    "Multi-valued cells split on semicolons, commas, and slashes; whitespace normalized before counting.",
+    "Figure 2 in the main text (top terms) and the interpretive crosswalk context summarized in Appendix C."
+  ),
+  check.names = FALSE
+)
+
+csas_kable(
+  method_summary_provenance,
+  escape = TRUE,
+  bold_header = FALSE,
+  font_size = 8,
+  align = c("l", "l"),
+  caption = "Source and processing notes for the exploratory NuSEDS method-term review used in Figure 2 and Appendix C."
+) |>
+  csas_colspec(1, width = "3.2cm") |>
+  csas_colspec(2, width = "11.0cm")
+```
+
+## D.2 Interpretation note
+
+Because these summaries are derived from an exploratory extract rather than from a versioned public release, they should be interpreted as a dated snapshot that helps explain the crosswalk design---not as a guarantee that the same term frequencies will persist as NuSEDS continues to evolve.
+
+# Appendix E: Hyatt's Draft Guidance from 1997 {#app:hyatt-excerpt}
+
+This excerpt was scanned from the draft guidance circulated in 1997. Names were removed before publication.
+
+
+`r if(knitr:::is_latex_output()) '% end csasdown appendix'`
